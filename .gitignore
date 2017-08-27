@@ -1,0 +1,29 @@
+# Compiled
+src/app/*.js
+src/app/*.js.map
+src/main.js
+src/main.js.map
+
+# Node
+node_modules/
+
+#https://github.com/github/gitignore/blob/master/Actionscript.gitignore
+
+# Build and Release Folders
+bin-debug/
+bin-release/
+[Oo]bj/
+[Bb]in/
+
+# Other files and folders
+.settings/
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
