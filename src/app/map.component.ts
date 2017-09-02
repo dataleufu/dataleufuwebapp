@@ -1,13 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
-import { ViewChild, ElementRef} from '@angular/core' /*Import View Child*/
+
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { AboutComponent }       from './about.component';
 import { PlaceFormComponent }   from './place-form.component';
 import { PlaceService }            from './place.service';
 import { TestComponent }            from './test.component';
 import { CreatePointComponent }            from './create-point.component';
-import {Input,ComponentFactory,ComponentRef, ComponentFactoryResolver, ViewContainerRef, ChangeDetectorRef, TemplateRef, ViewChild, TemplateRef, Output, EventEmitter} from '@angular/core'
+import {Input,ElementRef, ComponentFactory,ComponentRef, ComponentFactoryResolver, ViewContainerRef, ChangeDetectorRef,  ViewChild, TemplateRef, Output, EventEmitter} from '@angular/core'
 
 declare var Cesium : any;
 
@@ -22,11 +22,11 @@ export class MapComponent implements OnInit {
     selectingPoint: any;
     docElement: any;
 
-    @ViewChild("messageContainer", { read: ViewContainerRef }) messageContainer;
-    messageContainerComponentRef: ComponentRef;
+    @ViewChild("messageContainer", { read: ViewContainerRef }) messageContainer: any;
+    messageComponentRef: any;
 
     constructor(public element: ElementRef, private modalService: NgbModal,
-            private placeService: PlaceService, private popup: PopupService,
+            private placeService: PlaceService,
             private resolver: ComponentFactoryResolver){}
 
     testFlyTo(event: any): void {
@@ -159,11 +159,11 @@ export class MapComponent implements OnInit {
 
         //Creo el punto
         this.messageContainer.clear();
-        const factory: ComponentFactory = this.resolver.resolveComponentFactory(CreatePointComponent);
+        const factory: any = this.resolver.resolveComponentFactory(CreatePointComponent);
         this.messageComponentRef = this.messageContainer.createComponent(factory);
         this.messageComponentRef.instance.viewer = this.viewer;
 
-        this.messageComponentRef.instance.ready.subscribe(event => {
+        this.messageComponentRef.instance.ready.subscribe((event:any) => {
 
             this.messageComponentRef.destroy()
 
@@ -180,7 +180,7 @@ export class MapComponent implements OnInit {
         });
 
 
-        this.messageComponentRef.instance.close.subscribe(event => {
+        this.messageComponentRef.instance.close.subscribe((event:any) => {
             this.messageComponentRef.destroy()
             });
 

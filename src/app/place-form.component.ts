@@ -15,6 +15,7 @@ export class PlaceFormComponent implements OnInit{
     longitude: any;
     latitude: any;
     callback: any;
+    callbackCancel: any;
     categories: Category[];
 
   constructor(public activeModal: NgbActiveModal, private placeService: PlaceService, private categoryService: CategoryService) {
