@@ -16,6 +16,7 @@ import { NgbModule }            from '@ng-bootstrap/ng-bootstrap';
 import { ImageUploadModule }    from "angular2-image-upload"
 import { TestComponent }         from './test.component';
 import { CreatePointComponent }         from './create-point.component';
+import { PlaceDetailComponent }         from './place-detail.component';
 
 
 @NgModule({
@@ -35,12 +36,13 @@ import { CreatePointComponent }         from './create-point.component';
     AboutComponent,
     PlaceFormComponent,
     TestComponent,
-    CreatePointComponent
+    CreatePointComponent,
+    PlaceDetailComponent
   ],
   providers: [ PlaceService, CategoryService ],
   bootstrap: [ AppComponent ],
   exports :   [NgbModule],
-  entryComponents: [PlaceFormComponent, AboutComponent, TestComponent, CreatePointComponent]
+  entryComponents: [PlaceFormComponent, AboutComponent, TestComponent, CreatePointComponent,PlaceDetailComponent]
 
 })
 export class AppModule { }

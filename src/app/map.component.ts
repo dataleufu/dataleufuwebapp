@@ -7,6 +7,7 @@ import { PlaceFormComponent }   from './place-form.component';
 import { PlaceService }            from './place.service';
 import { TestComponent }            from './test.component';
 import { CreatePointComponent }            from './create-point.component';
+import { PlaceDetailComponent }         from './place-detail.component';
 import {Input,ElementRef, ComponentFactory,ComponentRef, ComponentFactoryResolver, ViewContainerRef, ChangeDetectorRef,  ViewChild, TemplateRef, Output, EventEmitter} from '@angular/core'
 
 declare var Cesium : any;
@@ -21,9 +22,13 @@ export class MapComponent implements OnInit {
     currentItem: any;
     selectingPoint: any;
     docElement: any;
+    public isCollapsed = true;
 
     @ViewChild("messageContainer", { read: ViewContainerRef }) messageContainer: any;
     messageComponentRef: any;
+
+    @ViewChild("detailContainer", { read: ViewContainerRef }) detailContainer: any;
+    detailComponentRef: any;
 
     constructor(public element: ElementRef, private modalService: NgbModal,
             private placeService: PlaceService,
@@ -76,18 +81,18 @@ export class MapComponent implements OnInit {
     ngOnInit() {
         Cesium.BingMapsApi.defaultKey = 'ApTt78Y0u6795QNTrQ-9DFWdJxW8THvNVvHF1B19ayEzw1aiRXmunxndbwB_deO_';
         var el = this.element.nativeElement;
-        this.viewer =  new Cesium.Viewer( el);/*, {
+        this.viewer =  new Cesium.Viewer( el, {
               baseLayerPicker: true,
               fullscreenButton: true    ,
               homeButton: true,
               sceneModePicker: true,
-              selectionIndicator: true,
               timeline: false,
               animation: false,
-              geocoder: true
-            });*/
+              geocoder: true,
+              selectionIndicator: true,
+              infoBox: false
+            });
 
-        console.log("Cesium.BingMapsApi.defaultKey" + Cesium.BingMapsApi.defaultKey);
         this.addLayer();
         this.setEvents();
         //setTimeout(this.full3, 3000, this.viewer);
@@ -96,7 +101,6 @@ export class MapComponent implements OnInit {
     about(event: any): void {
         event.preventDefault();
         const modalRef = this.modalService.open(AboutComponent, { windowClass: 'modal-fullscreen' });
-        console.log("about dd modalRef" + modalRef);
     }
 
 
@@ -127,33 +131,19 @@ export class MapComponent implements OnInit {
         });
     }
     setEvents(){
-        var that = this;
-        var handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
-        handler.setInputAction(function(movement:any){
-            var item = false;
-            if (that.viewer.scene.mode !== Cesium.SceneMode.MORPHING) {
-                //var pickedObject = that.viewer.scene.pick(movement.endPosition);
-                var pickedObject = that.viewer.scene.pick(movement.position);
-                if (that.viewer.scene.pickPositionSupported && Cesium.defined(pickedObject) ) {
-                    var cartesian = that.viewer.scene.pickPosition(movement.position);
-                    if (Cesium.defined(cartesian)) {
-                        that.setCurrentItem(pickedObject.id.properties.pk);
-                        item = true;
-                    }
-                }
-            }
-            if (!item){
-                that.setCurrentItem(undefined);
-            }
-
-        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        //Creo el componente de visualización de detalles
+        this.detailContainer.clear();
+        const factory: any = this.resolver.resolveComponentFactory(PlaceDetailComponent);
+        this.detailComponentRef = this.detailContainer.createComponent(factory);
+        this.detailComponentRef.instance.viewer = this.viewer;
     }
+
     ngOnDestroy() {
         this.messageComponentRef.destroy();
+        this.detailComponentRef.destroy();
     }
     addPoint(event:any):void{
         event.preventDefault();
-        console.log("addPoint");
 
         var that = this;
 
@@ -184,63 +174,9 @@ export class MapComponent implements OnInit {
             this.messageComponentRef.destroy()
             });
 
-        //console.log("this.componentRef.instance test " + this.componentRef.instance.test);
-
-        //this.popup.show.next(true);
-
-        /*var that = this;
-        var handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
-        that.selectingPoint = true;
-        handler.setInputAction(function(click:any){
-            var cartesian = that.viewer.camera.pickEllipsoid(click.position, that.viewer.scene.globe.ellipsoid);
-            if (!cartesian) return;
-
-
-            var position = that.viewer.camera.pickEllipsoid(click.position);
-            var cartographicPosition = Cesium.Ellipsoid.WGS84.cartesianToCartographic(position);
-            var id = 'customId' + new Date().getUTCMilliseconds();
-            console.log("id " + id);
-            var newPoint = that.viewer.entities.add({
-                 position: position,
-                 id: id,
-                 name : 'point on surface with outline',
-                 point : {
-                     pixelSize : 50,
-                     outlineWidth : 1,
-                     color :  Cesium.Color.YELLOW.withAlpha(1),
-                     outlineColor :  Cesium.Color.RED.withAlpha(1)
-                },
-            });
-            console.log("newPoint: " + newPoint);
-            console.log("newPoint.id " + newPoint.id);
-            //that.viewer.zoomTo(newPoint);
-
-            const modalRef = that.modalService.open(PlaceFormComponent);
-            modalRef.componentInstance.name = 'PlaceFormComponent';
-            modalRef.componentInstance.longitude = Cesium.Math.toDegrees(cartographicPosition.longitude);
-            modalRef.componentInstance.latitude = Cesium.Math.toDegrees(cartographicPosition.latitude);
-            modalRef.componentInstance.callback = function(){
-                console.log("callback");
-
-                console.log("borrando id " + id);
-                that.viewer.entities.removeById(id);
-                that.addLayer();
-            }
-            handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
-
-            that.selectingPoint = false;
-        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);*/
     }
-     setCurrentItem(id:any):void{
-         console.log("setCurrentItem " + id);
-        if (id){
-            this.placeService
-                .getPlace(+id)
-                    .then(place => this.currentItem = place);
-        }else{
-            this.currentItem = undefined;
-        }
+    collapseLayers(event: any){
+        event.preventDefault();
+        this.isCollapsed = !this.isCollapsed;
     }
-
-
 }

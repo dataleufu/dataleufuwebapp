@@ -1,34 +1,31 @@
 
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top opaque-navbar opaque" >
-      <div class="container">
-        <div class="navbar-collapse hidden-md hidden-lg navbar-nav-xl">
-          <ul class="navbar-nav navbar-nav-xl">
-            <li class="nav-item">
-              <a class="nav-link" href="#" (click)="about($event)">Dataleufu</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" (click)="testFlyTo($event)">Recorridos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" (click)="addPoint($event)" >Agregar</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+<nav class="navbar navbar-expand-lg fixed-top" >
+  <ul class="navbar-nav navbar-nav-xl sidebar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="#" (click)="about($event)">Dataleufu</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#" (click)="testFlyTo($event)">Recorridos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#" (click)="addPoint($event)" >Agregar punto</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#" (click)="collapseLayers($event)"  [attr.aria-expanded]="!isCollapsed" >Capas</a>
+      <ul [ngbCollapse]="isCollapsed">
+        <li class="nav-item"><a class="nav-link" href="#" (click)="addPoint($event)" >Vertederos no autorizados</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" (click)="addPoint($event)" >Micro basurales
+</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" (click)="addPoint($event)" >Capas</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" (click)="addPoint($event)" >Capas</a></li>
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#" (click)="testFlyTo($event)">Recorridos</a>
+    </li>
+
+  </ul>
 </nav>
-<div class="containter pull-right place_card_container place_card_container">
-    <div class="row">
-        <div class="col-12">
-        <div *ngIf="currentItem" class="card place_card" style="width: 20rem;">
-              <img class="card-img-top" [attr.src]="currentItem.image" alt="currentItem.title">
-              <div class="card-body">
-                <h4 class="card-title">{{currentItem.title}}</h4>
-                <p class="card-text">{{currentItem.description}}</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-        </div>
-    </div>
-</div>
 <ng-template #messageContainer></ng-template>
+<ng-template #detailContainer></ng-template>
 

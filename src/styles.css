@@ -70,51 +70,41 @@ section
     position: absolute;
     bottom: 0;
     right: 0;
+    background-color:WHITE;
 }
 /***********************************************************************
-*  OPAQUE NAVBAR SECTION
+*  NAVBAR SECTION
 ***********************************************************************/
-.opaque-navbar {
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    margin-top: 15px;
+    list-style: none;
+    display: block !important;
     background-color: rgba(0,0,0,0) !important;
-  /* Transparent = rgba(0,0,0,0) / Translucent = (0,0,0,0.5)  */
-    height: 60px;
-    border-bottom: 0px;
-    transition: background-color .5s ease 0s;
     max-width: 130px;
 }
 
-.opaque-navbar.opaque {
-    /*background-color: black;*/
-    background-color: rgba(0,0,0,0);
-    height: 60px;
-    transition: background-color .5s ease 0s;
-    max-width: 130px;
+.sidebar-nav li {
+    position: relative;
+    line-height: 20px;
+    display: inline-block;
+    width: 100%;
+    display: inline-block;
+
 }
-.navbar-dark .navbar-nav .nav-link {
+.sidebar-nav .nav-link {
     color: rgba(249, 246, 246, 1) !important;
 }
 
-.navbar-nav-xl{
-    display: inline !important;
-
-    margin-top: 50px;
-}
 ul.dropdown-menu {
     background-color: black;
 }
 
 
 @media (max-width: 992px) {
-  body
-  {
-    background:red;
-  }
-  .opaque-navbar {
-    background-color: black;
-    height: 60px;
-    transition: background-color .5s ease 0s;
-    max-width: 100px;
-}
 
 }
 
