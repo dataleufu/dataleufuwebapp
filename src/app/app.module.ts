@@ -7,12 +7,15 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent }         from './app.component';
 import { PlaceFormComponent }   from './place-form.component';
-import { PlaceService }          from './place.service';
+import { PlaceService }         from './place.service';
+import { CategoryService }      from './category.service';
 import { AboutComponent }       from './about.component';
 import { MainComponent }        from './main.component';
 import { MapComponent }         from './map.component';
 import { NgbModule }            from '@ng-bootstrap/ng-bootstrap';
 import { ImageUploadModule }    from "angular2-image-upload"
+import { TestComponent }         from './test.component';
+import { CreatePointComponent }         from './create-point.component';
 
 
 @NgModule({
@@ -30,12 +33,14 @@ import { ImageUploadModule }    from "angular2-image-upload"
     MainComponent,
     MapComponent,
     AboutComponent,
-    PlaceFormComponent
+    PlaceFormComponent,
+    TestComponent,
+    CreatePointComponent
   ],
-  providers: [ PlaceService ],
+  providers: [ PlaceService, CategoryService ],
   bootstrap: [ AppComponent ],
   exports :   [NgbModule],
-  entryComponents: [PlaceFormComponent, AboutComponent]
+  entryComponents: [PlaceFormComponent, AboutComponent, TestComponent, CreatePointComponent]
 
 })
 export class AppModule { }

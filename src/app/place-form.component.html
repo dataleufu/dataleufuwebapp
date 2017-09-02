@@ -1,63 +1,87 @@
-<div class="modal-header">
-    Header
-</div>
-<div class="modal-body">
-<div class="container">
-  <div [hidden]="submitted">
-    <h1>{{x}}</h1>
-    <form (ngSubmit)="onSubmit()" #placeForm="ngForm">
-      <div class="form-group">
-        <label for="description">Descripción</label>
-        <input type="text" class="form-control" id="name"
-               required
-               [(ngModel)]="model.description" name="description"
-               #description="ngModel">
-        <div [hidden]="description.valid || description.pristine"
-             class="alert alert-danger">
-          description is required
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="description">Título</label>
-        <input type="text" class="form-control" id="title"
-               required
-               [(ngModel)]="model.title" name="title"
-               #title="ngModel">
-        <div [hidden]="title.valid || title.pristine"
-             class="alert alert-danger">
-          title is required
-        </div>
-      </div>
-<image-upload
-  [max]="100"
-
-  [headers]="[
-    {header: 'Authorization', value: 'MyToken'}
-  ]"
-  [buttonCaption]="'Select Images!'"
-  [dropBoxMessage]="'Drop your images here!'"
-  [extensions]="['jpg','png','gif']"
-  (onFileUploadFinish)="imageUploaded($event)"
-  (onRemove)="imageRemoved($event)"
-  (isPending)="disableSendButton($event)"
-></image-upload>
-
-      <button type="submit" class="btn btn-success" [disabled]="!placeForm.form.valid">Submit</button>
-
-    </form>
-  </div>
-
-  <div [hidden]="!submitted">
-    <h2>You submitted the following:</h2>
-    <div class="row">
-      <div class="col-xs-3">description</div>
-      <div class="col-xs-9  pull-left">{{ model.description }}</div>
+<div [hidden]="submitted">
+    <div class="modal-header">
+        <h2>Completá tu informe</h2>
     </div>
 
-    <br>
-    <button class="btn btn-primary" (click)="ok()">Ok</button>
-  </div>
+    <div class="modal-body">
+        <div class="container">
+            <div >
+                <form (ngSubmit)="onSubmit()" #placeForm="ngForm">
+                    <div class="form-group">
+                        <label for="category">Categoría</label>
+                        <select [(ngModel)]="model.category"  id="category" name="category" class="form-control" required>
+                            <option *ngFor="let cat of categories" [ngValue]="cat.pk" >{{cat.name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Título</label>
+                        <input type="text" class="form-control" id="title"
+                           required
+                           [(ngModel)]="model.title" name="title"
+                           #title="ngModel">
+                        <div [hidden]="title.valid || title.pristine"
+                         class="alert alert-danger">
+                        Debe completar el título.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Descripción</label>
+                        <textarea type="text" class="form-control" id="name"
+                           required
+                           [(ngModel)]="model.description" name="description"
+                           #description="ngModel" ></textarea>
+                        <div [hidden]="description.valid || description.pristine"
+                            class="alert alert-danger">
+                        Debe completar la descripción.
+                        </div>
+                    </div>
+
+                    <image-upload
+                      [max]="1"
+
+                      [headers]="[
+                        {header: 'Authorization', value: 'MyToken'}
+                      ]"
+                      [buttonCaption]="'Subí la foto'"
+                      [dropBoxMessage]="'O arrastrá la foto aquí.'"
+                      [extensions]="['jpg','png','gif']"
+                      (onFileUploadFinish)="imageUploaded($event)"
+                      (onRemove)="imageRemoved($event)"
+                      (isPending)="disableSendButton($event)"
+                    ></image-upload>
+
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success" [disabled]="!placeForm.form.valid">Enviar</button>
+                        <button type="submit" (click)="cancel()" class="btn btn-primary">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
-    <div class="modal-footer">
+
+<div [hidden]="!submitted">
+    <div class="modal-header">
+        <h2>¡Gracias por compartir!</h2>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-3">Título: </div>
+                <div class="col-xs-9  pull-left">{{ model.title }}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">Descripción:</div>
+                <div class="col-xs-9  pull-left">{{ model.description }}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <button class="btn btn-primary" (click)="cancel()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -5,6 +5,9 @@ import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { AboutComponent }       from './about.component';
 import { PlaceFormComponent }   from './place-form.component';
 import { PlaceService }            from './place.service';
+import { TestComponent }            from './test.component';
+import { CreatePointComponent }            from './create-point.component';
+import {Input,ComponentFactory,ComponentRef, ComponentFactoryResolver, ViewContainerRef, ChangeDetectorRef, TemplateRef, ViewChild, TemplateRef, Output, EventEmitter} from '@angular/core'
 
 declare var Cesium : any;
 
@@ -14,16 +17,18 @@ declare var Cesium : any;
   templateUrl: './map.component.html',
 })
 export class MapComponent implements OnInit {
-   viewer: any;
-   currentItem: any;
-   selectingPoint: any;
-   docElement: any;
-    constructor(public element: ElementRef, private modalService: NgbModal,
-            private placeService: PlaceService){
-        this.element.nativeElement;
-            this.docElement = element;
+    viewer: any;
+    currentItem: any;
+    selectingPoint: any;
+    docElement: any;
 
-    }
+    @ViewChild("messageContainer", { read: ViewContainerRef }) messageContainer;
+    messageContainerComponentRef: ComponentRef;
+
+    constructor(public element: ElementRef, private modalService: NgbModal,
+            private placeService: PlaceService, private popup: PopupService,
+            private resolver: ComponentFactoryResolver){}
+
     testFlyTo(event: any): void {
         event.preventDefault();
         console.log("start");
@@ -143,17 +148,49 @@ export class MapComponent implements OnInit {
 
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     }
-
+    ngOnDestroy() {
+        this.messageComponentRef.destroy();
+    }
     addPoint(event:any):void{
         event.preventDefault();
+        console.log("addPoint");
+
         var that = this;
+
+        //Creo el punto
+        this.messageContainer.clear();
+        const factory: ComponentFactory = this.resolver.resolveComponentFactory(CreatePointComponent);
+        this.messageComponentRef = this.messageContainer.createComponent(factory);
+        this.messageComponentRef.instance.viewer = this.viewer;
+
+        this.messageComponentRef.instance.ready.subscribe(event => {
+
+            this.messageComponentRef.destroy()
+
+            const modalRef = this.modalService.open(PlaceFormComponent);
+            modalRef.componentInstance.longitude = this.messageComponentRef.instance.lon;
+            modalRef.componentInstance.latitude = this.messageComponentRef.instance.lat;
+            modalRef.componentInstance.callback = function(){
+                that.addLayer();
+                that.viewer.flyTo(that.messageComponentRef.instance.entity);
+            };
+            modalRef.componentInstance.callbackCancel = function(){
+                that.viewer.entities.removeById(that.messageComponentRef.instance.entity.id);
+            };
+        });
+
+
+        this.messageComponentRef.instance.close.subscribe(event => {
+            this.messageComponentRef.destroy()
+            });
+
+        //console.log("this.componentRef.instance test " + this.componentRef.instance.test);
+
+        //this.popup.show.next(true);
+
+        /*var that = this;
         var handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
         that.selectingPoint = true;
-        console.dir(this.element.nativeElement);
-        console.dir(this.element.nativeElement.style);
-        console.log("init this.element.nativeElement.parent.style.cursor " + this.element.nativeElement.style.cursor);
-        this.element.nativeElement.parentElement.style.cursor = 'grabbing';
-        console.log("post this.element.nativeElement.style.cursor " + this.element.nativeElement.style.cursor);
         handler.setInputAction(function(click:any){
             var cartesian = that.viewer.camera.pickEllipsoid(click.position, that.viewer.scene.globe.ellipsoid);
             if (!cartesian) return;
@@ -176,7 +213,7 @@ export class MapComponent implements OnInit {
             });
             console.log("newPoint: " + newPoint);
             console.log("newPoint.id " + newPoint.id);
-            that.viewer.zoomTo(that.viewer.entities);
+            //that.viewer.zoomTo(newPoint);
 
             const modalRef = that.modalService.open(PlaceFormComponent);
             modalRef.componentInstance.name = 'PlaceFormComponent';
@@ -190,9 +227,9 @@ export class MapComponent implements OnInit {
                 that.addLayer();
             }
             handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
-            that.viewer.entities.removeById(id);
+
             that.selectingPoint = false;
-        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);*/
     }
      setCurrentItem(id:any):void{
          console.log("setCurrentItem " + id);
