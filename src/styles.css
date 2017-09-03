@@ -98,6 +98,10 @@ section
 .sidebar-nav .nav-link {
     color: rgba(249, 246, 246, 1) !important;
 }
+.sidebar-submenu {
+    color: rgba(249, 246, 246, 1) !important;
+    padding-left: 15px;
+}
 
 ul.dropdown-menu {
     background-color: black;
