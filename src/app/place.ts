@@ -7,8 +7,35 @@ export class Place {
     public title: string,
     public image: any,
     public created: Date,
-    public point: string
+    public point: string,
+    public category: Category
 
   ) {  }
+}
 
+export class Category {
+
+  constructor(
+    public pk: number,
+    public name: string
+  ) {  }
+}
+
+export const INTERNAL_LAYER = 1;
+export const EXTERNAL_LAYER = 2;
+
+export class Layer {
+
+  public datasource: any;
+
+  constructor(
+    public pk: number,
+    public name: string,
+    public type: number,
+    public url: string,
+    public color: string,
+    public size: number,
+    public category: Category,
+    public visible: boolean
+  ) {  }
 }

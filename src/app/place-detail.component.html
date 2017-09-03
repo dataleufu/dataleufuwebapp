@@ -1,0 +1,15 @@
+<div *ngIf="currentEntity" class="containter pull-right place_card_container place_card_container">
+    <div class="row">
+        <div class="col-12">
+        <div class="card place_card" style="width: 20rem;">
+            <img *ngIf="currentPlace" class="card-img-top" [attr.src]="currentPlace.image">
+              <div class="card-body">
+                <h4 class="card-title">Título: {{currentEntity.properties.title}}</h4>
+                <p class="card-title">Descripción: {{currentEntity.properties.description}}</p>
+                <p class="card-title">Categoría: {{getCategory(currentEntity.properties.category).name}}</p>
+                <button type="button" (click)="flyToEntity()" class="btn btn-primary">Ir</button>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>

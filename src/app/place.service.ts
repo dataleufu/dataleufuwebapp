@@ -4,20 +4,15 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Place } from './place';
+import { API_BASE_URL } from './config';
+
 
 @Injectable()
 export class PlaceService {
 
-  /*private headers = new Headers(
-    { 'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin' : '*',
-      'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT',}
-    );*/
-  //private headers = new Headers({'Content-Type': 'multipart/form-data;boundary=milenaarmada', 'Accept': 'application/json', 'boundary': 'milena'});
   private headers = new Headers({'Content-Type': 'application/json'});
 
-  private placesUrl = 'http://mexico.q123.com.ar:8000/api_places/';  // URL to web api
+  private placesUrl = API_BASE_URL + '/api_places/';  // URL to web api
 
   constructor(private http: Http) { }
 
