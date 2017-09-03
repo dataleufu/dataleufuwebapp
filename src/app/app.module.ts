@@ -17,6 +17,9 @@ import { ImageUploadModule }    from "angular2-image-upload"
 import { TestComponent }         from './test.component';
 import { CreatePointComponent }         from './create-point.component';
 import { PlaceDetailComponent }         from './place-detail.component';
+import { LayerService }         from './layer.service';
+import { LayerComponent }         from './layer.component';
+import { PathComponent }         from './path.component';
 
 
 @NgModule({
@@ -37,12 +40,22 @@ import { PlaceDetailComponent }         from './place-detail.component';
     PlaceFormComponent,
     TestComponent,
     CreatePointComponent,
-    PlaceDetailComponent
+    PlaceDetailComponent,
+    LayerComponent,
+    PathComponent
   ],
-  providers: [ PlaceService, CategoryService ],
+  providers: [ PlaceService, CategoryService, LayerService ],
   bootstrap: [ AppComponent ],
   exports :   [NgbModule],
-  entryComponents: [PlaceFormComponent, AboutComponent, TestComponent, CreatePointComponent,PlaceDetailComponent]
+  entryComponents: [
+    PlaceFormComponent,
+    AboutComponent,
+    TestComponent,
+    CreatePointComponent,
+    PlaceDetailComponent,
+    LayerComponent,
+    PathComponent
+    ]
 
 })
 export class AppModule { }

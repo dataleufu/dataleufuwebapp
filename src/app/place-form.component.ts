@@ -46,7 +46,7 @@ export class PlaceFormComponent implements OnInit{
       .then(place => {
         console.log("onSubmit ok createPlace devuelve place:");
         console.dir(place);
-        this.callback();
+        this.callback(this.model.category);
 
       });
   }

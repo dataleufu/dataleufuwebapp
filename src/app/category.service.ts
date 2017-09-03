@@ -1,21 +1,19 @@
 import { Injectable }    from '@angular/core';
 import { Headers, Http } from '@angular/http';
-
 import 'rxjs/add/operator/toPromise';
-
 import { Category } from './place';
+import { API_BASE_URL } from './config';
 
 @Injectable()
 export class CategoryService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
 
-  private apiUrl = 'http://mexico.q123.com.ar:8000/api_categories/';  // URL to web api
+  private apiUrl = API_BASE_URL + '/api_categories/';
 
   constructor(private http: Http) { }
 
   getCategories(): Promise<Category[]> {
-    console.log("CategoryService getCategories ");
     return this.http.get(this.apiUrl)
                .toPromise()
                .then(response => response.json().results as Category[])

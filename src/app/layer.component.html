@@ -1,0 +1,7 @@
+
+<ul class="sidebar-submenu" [hidden]="!collapsed">
+    <li class="nav-item" *ngFor="let layer of layers">
+        <input #{{layer.pk}}  [checked]="layer.visible" type="checkbox" (change)="checkLayer(layer)">
+            <span>{{layer.name}}</span>
+    </li>
+</ul>
