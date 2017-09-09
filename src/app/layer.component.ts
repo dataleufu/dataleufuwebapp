@@ -31,7 +31,7 @@ export class LayerComponent implements OnInit{
     }
 
     getCategoryLayer(id: number): Layer {
-        return this.layers.find(x => x.category === id );
+        return this.layers.find(x => +x.category === id );
     }
 
     loadLayer(layer:Layer){
