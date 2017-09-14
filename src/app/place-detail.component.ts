@@ -18,25 +18,32 @@ export class PlaceDetailComponent implements OnInit{
     currentEntity: any;
     currentPlace: any;
     categories: Category[];
+    visible: boolean;
 
     constructor(private placeService: PlaceService, private categoryService: CategoryService) {}
 
-    flyToEntity(){
+    flyToEntity(event: any){
+        event.preventDefault();
         console.log("flyToEntity " + this.currentEntity);
         if(this.currentEntity !== undefined){
             this.viewer.flyTo(this.currentEntity, 200);
         }
+    }
+    close(){
+        this.visible = false;
     }
     setCurrentItem(item: any){
         console.log("setCurrentItem item" + item);
         this.currentEntity = item;
         if(item !== undefined){
             var id = item.id;
+            this.visible = true;
             this.placeService
                 .getPlace(+id)
                     .then(place => this.currentPlace = place);
         }else{
             this.currentPlace = undefined;
+            this.visible = false;
         }
         console.log("setCurrentItem currentPlace " + this.currentPlace);
 

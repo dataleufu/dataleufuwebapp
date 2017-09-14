@@ -7,13 +7,8 @@ declare var Cesium : any;
 
 @Component({
     selector: 'create-point',
-    template: `
-    <div class="place_card">
-        <h1>Selecciona un punto en el mapa</h1>
-        <button type="button" (click)="accept()" class="btn btn-success" [disabled]="!lat">Listo</button>
-        <button type="button" (click)="cancel()" class="btn btn-primary">Cancelar</button>
-    </div>
-    `
+    templateUrl: './create-point.component.html'
+
 })
 export class CreatePointComponent implements OnInit{
 

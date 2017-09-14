@@ -1,4 +1,103 @@
-<div *ngIf="currentEntity" class="containter pull-right place_card_container place_card_container">
+<div *ngIf="visible" class="container-fluid place_card_container">
+    <div class="row">
+      <div class="col-12 col-sm-12 col-md-6 ml-auto">
+        <div class="card place_card  over_map">
+            <div class="image_wrapper">
+                <img *ngIf="currentPlace" class="card-img-top" [attr.src]="currentPlace.image">
+
+                 <div class="container social">
+                    <div class="row align-items-end">
+                        <div class="col-md-1 align-items-end">
+
+                          <a href="http://www.twitter.com/mike_youngg" title="Compartir en Twitter"><i class="fa fa-twitter fa-2x"></i></a>
+                          <a href="mailto:michael_y@live.co.uk" title="Compartir en Facebook"><i class="fa fa-facebook fa-2x"></i></a>
+                          <a href="http://www.linkedin.com" title="Compartir por Whatsapp"><i class="fa fa-whatsapp fa-2x"></i></a>
+
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
+            <div class="card-header">
+
+               <button type="button" (click)="flyToEntity($event)" class="pull-rigth fly-to-entity" aria-label="Close">
+                    <span aria-hidden="true"><i class="fa fa-map-marker fa-2x"></i></span>
+                </button>
+                <h4 class="card-title">{{currentEntity.properties.title}}
+
+                </h4>
+                <h6 class="card-subtitle mb-2 text-muted">{{getCategory(currentEntity.properties.category).name}}</h6>
+            </div>
+             <div class="card-body">
+                  <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-md-8 description">
+                             <p class="card-text">{{currentEntity.properties.description}}</p>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <img src="assets/images/emoji.png"/>
+                                    <p class="text-muted">Lo ví, es así</p>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <img src="assets/images/emoji.png"/>
+                                    <p class="text-muted">Lo ví, es así</p>
+                                </div>
+                            </div>
+                               <div class="row">
+                                <div class="col-6 text-center">
+                                    <img src="assets/images/emoji.png"/>
+                                    <p class="text-muted">Lo ví, es así</p>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <img src="assets/images/emoji.png"/>
+                                    <p class="text-muted">Lo ví, es así</p>
+                                </div>
+                            </div>
+
+ <button type="button" (click)="close()" class="close pull-rigth" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--div class="card-footer">
+                <div class="row">
+                    <div class="col-3 text-center">
+                         <img src="assets/images/emoji.png"/>
+                         <p class="text-muted">Lo ví, es así</p>
+                    </div>
+                                        <div class="col-3 text-center">
+                         <img src="assets/images/emoji.png"/>
+                         <p class="text-muted">Lo ví, es así</p>
+                    </div>
+                                        <div class="col-3 text-center" >
+                         <img src="assets/images/emoji.png"/>
+                         <p class="text-muted">Lo ví, es así</p>
+                    </div>
+                                        <div class="col-3 text-center">
+                         <img src="assets/images/emoji.png"/>
+                         <p class="text-muted">Lo ví, es así</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                         <div class="social text-center">
+
+                              <a href="http://www.twitter.com/mike_youngg" title="Compartir en Twitter"><i class="fa fa-twitter fa-2x"></i></a>
+                              <a href="mailto:michael_y@live.co.uk" title="Compartir en Facebook"><i class="fa fa-facebook fa-2x"></i></a>
+                              <a href="http://www.linkedin.com" title="Compartir por Whatsapp"><i class="fa fa-whatsapp fa-2x"></i></a>
+                          </div>
+                    </div>
+                </div>
+            </div-->
+        </div>
+      </div>
+</div>
+<!--div *ngIf="currentEntity" class="containter pull-right place_card_container place_card_container">
     <div class="row">
         <div class="col-12">
         <div class="card place_card" style="width: 20rem;">
@@ -12,4 +111,86 @@
             </div>
         </div>
     </div>
-</div>
+</div-->
+
+
+<!-- Modelo 1 div *ngIf="visible" class="container-fluid place_card_container">
+    <div class="row">
+      <div class="col-12 col-sm-12 col-md-6 ml-auto">
+        <div class="card place_card  over_map">
+            <div class="card-header">
+                <button type="button" (click)="close()" class="close pull-rigth" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="card-title">{{currentEntity.properties.title}}
+
+                </h4>
+                <h6 class="card-subtitle mb-2 text-muted">{{getCategory(currentEntity.properties.category).name}}</h6>
+            </div>
+             <div class="card-body">
+                  <div class="container-fluid">
+                    <div class="row image">
+                        <div class="col-md-1 social">
+                            <a  href="#" (click)="flyToEntity($event)" title="Ir a la ubicación"><i class="fa fa-map-marker fa-2x"></i></a>
+
+                        </div>
+                        <div class="col-md-11">
+                            <img *ngIf="currentPlace" class="place_image img-fluid " [attr.src]="currentPlace.image">
+
+                        </div>
+                    </div>
+                    <div class="row description">
+                        <div class="col-md-12">
+                             <p class="card-text">{{currentEntity.properties.description}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-3 text-center">
+                         <img src="assets/images/emoji.png"/>
+                         <p class="text-muted">Lo ví, es así</p>
+                    </div>
+                                        <div class="col-3 text-center">
+                         <img src="assets/images/emoji.png"/>
+                         <p class="text-muted">Lo ví, es así</p>
+                    </div>
+                                        <div class="col-3 text-center" >
+                         <img src="assets/images/emoji.png"/>
+                         <p class="text-muted">Lo ví, es así</p>
+                    </div>
+                                        <div class="col-3 text-center">
+                         <img src="assets/images/emoji.png"/>
+                         <p class="text-muted">Lo ví, es así</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                         <div class="social text-center">
+
+                              <a href="http://www.twitter.com/mike_youngg" title="Compartir en Twitter"><i class="fa fa-twitter fa-2x"></i></a>
+                              <a href="mailto:michael_y@live.co.uk" title="Compartir en Facebook"><i class="fa fa-facebook fa-2x"></i></a>
+                              <a href="http://www.linkedin.com" title="Compartir por Whatsapp"><i class="fa fa-whatsapp fa-2x"></i></a>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+</div-->
+<!--div *ngIf="currentEntity" class="containter pull-right place_card_container place_card_container">
+    <div class="row">
+        <div class="col-12">
+        <div class="card place_card" style="width: 20rem;">
+            <img *ngIf="currentPlace" class="card-img-top" [attr.src]="currentPlace.image">
+              <div class="card-body">
+                <h4 class="card-title">Título: {{currentEntity.properties.title}}</h4>
+                <p class="card-title">Descripción: {{currentEntity.properties.description}}</p>
+                <p class="card-title">Categoría: {{getCategory(currentEntity.properties.category).name}}</p>
+                <button type="button" (click)="flyToEntity()" class="btn btn-primary">Ir</button>
+              </div>
+            </div>
+        </div>
+    </div>
+</div-->

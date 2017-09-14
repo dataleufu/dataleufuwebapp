@@ -64,7 +64,7 @@ export class MapComponent implements OnInit {
         var promise = this.pathComponentRef.instance.rotate().then(
             function () {
                 that.initLayers();
-                that.pathComponentRef.instance.rio(null);
+               // that.pathComponentRef.instance.rio(null);
                 }
             );
     }

@@ -1,3 +1,5 @@
+
+
 .miniview{
     z-index: 9999999999999;
     position: absolute;
@@ -63,15 +65,128 @@ section
     position: absolute;
     bottom: 0;
     right: 0;
+}
+/*Modelo 1
+.place_card{
+    background-color:WHITE;
+    height: 80%;
+}
+.place_card .card-body{
+    background-color:WHITE;
+    max-height: 500px;
+    padding: 0rem;
+}
+.place_card .card-body .image{
+    background-color:WHITE;
+    max-height: 250px;
+    overflow: hidden;
+    padding: 0px;
+}
+.place_card .card-body .description{
+    background-color:WHITE;
+    max-height: 250px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-top: 5pt;
+}
+.place_card .card-body .place_image{
+    max-height: 200px;
+    overflow: hidden;
+
+          }
+.place_card .card-footer{
+    background-color:WHITE;
+ }
+.place_card .social a{
+    color: #4CB493;
+}
+.profile-info a {
+  color: #4CB493;
+}
+
+.place_card .social i {
+  padding: 15px;
+}
+* */
+
+/*Modelo 2*/
+.place_card{
+    background-color:WHITE;
+    /*height: 80%;
+    max-height: 80%;*/
+}
+.place_card .card-body{
+    background-color:WHITE;
+    max-height: 500px;
+    padding: 0rem;
+}
+.place_card .card-body .image{
+    background-color:WHITE;
+    max-height: 250px;
+    overflow: hidden;
+    padding: 0px;
+}
+.place_card .card-body .description{
+    background-color:WHITE;
+    max-height: 250px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-top: 5pt;
+}
+.place_card .card-body .place_image{
+    max-height: 200px;
+    overflow: hidden;
+
+          }
+.place_card .card-footer{
+    background-color:WHITE;
+ }
+.place_card .social{
+   /* position: relative;
+    bottom: 0;
+    left: 0;
+  z-index: 1999 !important;
+  margin:auto;*/
+
+  position: absolute;
+
+    right: 0;
+    bottom: 0;
+
+    padding: 1rem;
 
 }
-.place_card{
-    z-index: 999 !important;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background-color:WHITE;
+.image_wrapper {
+   position: relative;
+   bottom: 0;
+    left: 0;
 }
+.place_card .social a{
+    color: white;
+}
+
+.place_card .fly-to-entity{
+    color: #4CB493;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+    background: 0 0;
+    border: 0;
+    padding: 0;
+}
+
+
+.profile-info a {
+  color: #4CB493;
+}
+
+.place_card .social i {
+  padding: 15px;
+  }
 /***********************************************************************
 *  NAVBAR SECTION
 ***********************************************************************/
@@ -129,3 +244,17 @@ ul.dropdown-menu {
   border-radius: 0;
   background-color:#eae3ad;
 }
+
+
+.create_point_container{
+
+    background-color:WHITE;
+
+}
+.over_map{
+    z-index: 999 !important;
+}
+
+
+//////////////
+
