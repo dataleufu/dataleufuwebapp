@@ -199,7 +199,7 @@ section
     list-style: none;
     display: block !important;
     background-color: rgba(0,0,0,0) !important;
-    max-width: 130px;
+    max-width: 220px;
 }
 
 .sidebar-nav li {
