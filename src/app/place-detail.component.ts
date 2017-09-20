@@ -34,13 +34,22 @@ export class PlaceDetailComponent implements OnInit{
     }
     setCurrentItem(item: any){
         console.log("setCurrentItem item" + item);
+        var that = this;
         this.currentEntity = item;
         if(item !== undefined){
             var id = item.id;
             this.visible = true;
             this.placeService
                 .getPlace(+id)
-                    .then(place => this.currentPlace = place);
+                    .then(function (place){
+                        that.currentPlace = place;
+                        var minimum = 1;
+                        var maximum = 10;
+                        var randomnumber = Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+                        if (that.currentPlace.image == undefined){
+                            that.currentPlace.image = 'http://lorempixel.com/600/400/nature/' + randomnumber;
+                        }
+                    });
         }else{
             this.currentPlace = undefined;
             this.visible = false;

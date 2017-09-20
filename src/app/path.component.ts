@@ -128,4 +128,42 @@ export class PathComponent implements OnInit{
         camera.flyTo(initOptions);
     }
 
+    confluencia(event:any):void {
+        if(event)
+            event.preventDefault();
+
+        var that = this;
+        var camera = this.viewer.scene.camera;
+        var adjustPitch = true;
+
+        var endOptions = {
+            destination : Cesium.Cartesian3.fromRadians(-1.18876120787592, -0.6797168690180323, 4982.396358798396),
+
+            orientation: {
+                heading :2.1406537131449053,
+                pitch : -0.37091465414414104,
+                roll : 6.280218826340054
+            },
+            duration: 6,
+            //flyOverLongitude: Cesium.Math.toRadians(-65.0)
+        };
+
+        var initOptions = {
+            destination : Cesium.Cartesian3.fromRadians(-1.1904721853189928, -0.6788759796173222, 4964.848809250644),
+            duration: 6,
+            orientation: {
+                heading : 2.140653317963096,//Cesium.Math.toRadians(15.0),
+                pitch :  -0.37091530523432903, //-Cesium.Math.PI_OVER_FOUR,
+                roll : 6.280219916591992
+            },
+            //pitchAdjustHeight: 400,
+            complete: function() {
+                setTimeout(function() {
+                    camera.flyTo(endOptions);
+                }, 1000);
+            }
+        };
+        camera.flyTo(initOptions);
+    }
+
 }
