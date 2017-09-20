@@ -56,18 +56,16 @@ export class PlaceFormComponent implements OnInit{
 
   }
 
-  disableSendButton(event:any){
-
+  disableSendButton(state:boolean){
+        console.log("disableSendButton " + JSON.stringify(state));
   }
   imageRemoved(event:any){
 
   }
   imageUploaded(file:any){
     console.log("imageUploaded file" + file.file );
-    console.log("imageUploaded file[0]" + file[0] );
-    console.dir(file);
     this.model.image = file.src;
-    console.log("imageUploaded this.model.image" + this.model.image );
+
 
   }
 }

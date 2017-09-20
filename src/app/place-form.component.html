@@ -40,7 +40,7 @@
 
                     <image-upload
                       [max]="1"
-
+                       url="https://httpbin.org/status/200"
                       [headers]="[
                         {header: 'Authorization', value: 'MyToken'}
                       ]"
@@ -69,14 +69,14 @@
     </div>
     <div class="modal-body">
         <div class="container">
-            <div class="row">
+            <!--div class="row">
                 <div class="col-xs-3">Título: </div>
                 <div class="col-xs-9  pull-left">{{ model.title }}</div>
             </div>
             <div class="row">
                 <div class="col-xs-3">Descripción:</div>
                 <div class="col-xs-9  pull-left">{{ model.description }}</div>
-            </div>
+            </div-->
             <div class="row">
                 <div class="col-xs-12">
                     <button class="btn btn-primary" (click)="cancel()">Cerrar</button>
