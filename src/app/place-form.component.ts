@@ -3,7 +3,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Place, Category }          from './place';
 import { PlaceService }             from './place.service';
 import { CategoryService }          from './category.service';
-
+import {BusyModule}              from 'angular2-busy';
 
 @Component({
   selector: 'place-form',
@@ -17,6 +17,7 @@ export class PlaceFormComponent implements OnInit{
     callback: any;
     callbackCancel: any;
     categories: Category[];
+    busy: Promise<any>;
 
   constructor(public activeModal: NgbActiveModal, private placeService: PlaceService, private categoryService: CategoryService) {
         console.log("PlaceFormComponent constructor " + this.categories);
@@ -30,24 +31,13 @@ export class PlaceFormComponent implements OnInit{
     console.log("PlaceFormComponent ngOnInit longitude " + this.longitude + " latitude" + this.latitude);
 
   }
+
   onSubmit(): void  {
-    console.log("PlaceFormComponent submit " + this.categories);
-    this.submitted = true;
-    var newName = this.model.description;
-    if (!newName) { return; }
-    console.log("onSubmit " + newName);
-
     this.model.point = "SRID=4326;POINT(" + this.longitude + " " + this.latitude + ")";
-    console.log("this.model.point " + this.model.point);
-
-    console.log("onSubmit this.model.image " + this.model.image );
-    console.dir(this.model);
-    this.placeService.createPlace(this.model)
+    this.busy = this.placeService.createPlace(this.model)
       .then(place => {
-        console.log("onSubmit ok createPlace devuelve place:");
-        console.dir(place);
+        this.submitted = true;
         this.callback(this.model.category);
-
       });
   }
   cancel(): void{
