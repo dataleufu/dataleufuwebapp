@@ -52,7 +52,7 @@
 
                     ></image-upload>
 
-                    <div [ngBusy]="busy"></div>
+                    <div [ngBusy]="{busy: busy, message: 'Enviando...'}"></div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success" [disabled]="!(placeForm.form.valid && model.image)">Enviar</button>
                         <button type="submit" (click)="cancel()" class="btn btn-primary">Cancelar</button>
