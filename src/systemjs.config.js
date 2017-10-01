@@ -31,6 +31,7 @@
       '@angular/flex-layout': 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
       '@ng-bootstrap/ng-bootstrap': 'node_modules/@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
       'angular2-image-upload': 'node_modules/angular2-image-upload',
+      'angular2-busy': 'node_modules/angular2-busy',
 
       // other libraries
       'rxjs':                      'npm:rxjs',
@@ -51,6 +52,10 @@
         defaultExtension: 'js'
       },
       'angular2-image-upload': {
+        main: 'index.js',
+        defaultExtension: 'js'
+        },
+      'angular2-busy': {
         main: 'index.js',
         defaultExtension: 'js'
         }

@@ -40,7 +40,6 @@
 
                     <image-upload
                       [max]="1"
-                       url="https://httpbin.org/status/200"
                       [headers]="[
                         {header: 'Authorization', value: 'MyToken'}
                       ]"
@@ -50,11 +49,12 @@
                       (onFileUploadFinish)="imageUploaded($event)"
                       (onRemove)="imageRemoved($event)"
                       (isPending)="disableSendButton($event)"
+
                     ></image-upload>
 
-
+                    <div [ngBusy]="busy"></div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success" [disabled]="!placeForm.form.valid">Enviar</button>
+                        <button type="submit" class="btn btn-success" [disabled]="!(placeForm.form.valid && model.image)">Enviar</button>
                         <button type="submit" (click)="cancel()" class="btn btn-primary">Cancelar</button>
                     </div>
                 </form>
