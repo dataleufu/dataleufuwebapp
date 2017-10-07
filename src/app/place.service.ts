@@ -51,15 +51,6 @@ export class PlaceService {
   createPlace(place: Place): Promise<Place> {
     console.log("create Place " + place);
     console.dir(place);
-    let formData = new FormData();
-    formData.append('image', place.image);
-    formData.append('description', place.description);
-    formData.append('point', place.point);
-    formData.append('title', place.title);
-     console.log("create formData " + formData);
-//'data:image/jpeg;base64,' + image;
-    //place.image = place.image.src;// 'data:image/jpeg;base64,' + place.image;
-    console.dir(formData);
     return this.http
       .post(this.placesUrl, place, {headers: this.headers})
       .toPromise()

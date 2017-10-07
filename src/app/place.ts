@@ -1,11 +1,15 @@
-
+export class ImagePlace {
+    constructor(
+        public pk: number,
+        public image: string){}
+}
 export class Place {
 
   constructor(
     public pk: number,
     public description: string,
     public title: string,
-    public image: any,
+    public images: ImagePlace[],
     public created: Date,
     public point: string,
     public category: Category

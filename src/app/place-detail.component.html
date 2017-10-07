@@ -3,8 +3,7 @@
       <div class="col-12 col-sm-12 col-md-6 ml-auto">
         <div class="card place_card  over_map">
             <div class="image_wrapper">
-                <img *ngIf="currentPlace" class="card-img-top" [attr.src]="currentPlace.image">
-
+                <img *ngIf="currentPlace && currentPlace.images.length > 0" class="card-img-top" [attr.src]="currentPlace.images[0].image">
                  <div class="container social">
                     <div class="row align-items-end">
                         <div class="col-md-1 align-items-end">
@@ -23,7 +22,7 @@
                <button type="button" (click)="flyToEntity($event)" class="pull-rigth fly-to-entity" aria-label="Close">
                     <span aria-hidden="true"><i class="fa fa-map-marker fa-2x"></i></span>
                 </button>
-                <h4 class="card-title">{{currentEntity.properties.title}}
+                <h4 class="card-title"> {{currentEntity.properties.title}}
 
                 </h4>
                 <h6 class="card-subtitle mb-2 text-muted">{{getCategory(currentEntity.properties.category).name}}</h6>

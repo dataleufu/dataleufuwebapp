@@ -35,10 +35,11 @@ export class PlaceComponent {
 
   }
   imageRemoved(event:any){
-    this.model.image = undefined;
+    this.model.images = [];
   }
   imageUploaded(file:any){
-    this.model.image = file.src;
+
+    console.log("imageUploaded this.model.images " + this.model.images);
 
   }
 }
