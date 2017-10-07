@@ -20,8 +20,7 @@ import { PlaceDetailComponent }         from './place-detail.component';
 import { LayerService }         from './layer.service';
 import { LayerComponent }         from './layer.component';
 import { PathComponent }         from './path.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {BusyModule}              from 'angular2-busy';
+
 
 @NgModule({
   imports: [
@@ -31,8 +30,7 @@ import {BusyModule}              from 'angular2-busy';
     AppRoutingModule,
     NgbModule.forRoot(),
     ImageUploadModule.forRoot(),
-    BrowserAnimationsModule,
-    BusyModule
+
   ],
   declarations: [
     AppComponent,

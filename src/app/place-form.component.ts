@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Place, Category }          from './place';
+import { Place, Category, ImagePlace}          from './place';
 import { PlaceService }             from './place.service';
 import { CategoryService }          from './category.service';
 import {BusyModule}              from 'angular2-busy';
@@ -11,7 +11,7 @@ import {BusyModule}              from 'angular2-busy';
 })
 export class PlaceFormComponent implements OnInit{
     private submitted = false;
-    model = new Place(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+    model = new Place(undefined, undefined, undefined, [], undefined, undefined, undefined);
     longitude: any;
     latitude: any;
     callback: any;
@@ -54,7 +54,8 @@ export class PlaceFormComponent implements OnInit{
   }
   imageUploaded(file:any){
     console.log("imageUploaded file" + file.file );
-    this.model.image = file.src;
+    var image = new ImagePlace(null, file.src);
+    this.model.images.push(image);
 
 
   }
