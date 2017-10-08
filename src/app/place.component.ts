@@ -10,7 +10,7 @@ import { PlaceService }             from './place.service';
 })
 export class PlaceComponent {
     private submitted = false;
-    model = new Place(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+    model = new Place(undefined, undefined, undefined, undefined, undefined, undefined);
     longitude: any;
     latitude: any;
     callback: any;
