@@ -22,9 +22,7 @@
                <button type="button" (click)="flyToEntity($event)" class="pull-rigth fly-to-entity" aria-label="Close">
                     <span aria-hidden="true"><i class="fa fa-map-marker fa-2x"></i></span>
                 </button>
-                <h4 class="card-title"> {{currentEntity.properties.title}}
 
-                </h4>
                 <h6 class="card-subtitle mb-2 text-muted">{{getCategory(currentEntity.properties.category).name}}</h6>
             </div>
              <div class="card-body">
@@ -102,7 +100,6 @@
         <div class="card place_card" style="width: 20rem;">
             <img *ngIf="currentPlace" class="card-img-top" [attr.src]="currentPlace.image">
               <div class="card-body">
-                <h4 class="card-title">Título: {{currentEntity.properties.title}}</h4>
                 <p class="card-title">Descripción: {{currentEntity.properties.description}}</p>
                 <p class="card-title">Categoría: {{getCategory(currentEntity.properties.category).name}}</p>
                 <button type="button" (click)="flyToEntity()" class="btn btn-primary">Ir</button>
@@ -124,7 +121,6 @@
                 <h4 class="card-title">{{currentEntity.properties.title}}
 
                 </h4>
-                <h6 class="card-subtitle mb-2 text-muted">{{getCategory(currentEntity.properties.category).name}}</h6>
             </div>
              <div class="card-body">
                   <div class="container-fluid">

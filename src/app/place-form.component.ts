@@ -11,7 +11,7 @@ import {BusyModule}              from 'angular2-busy';
 })
 export class PlaceFormComponent implements OnInit{
     private submitted = false;
-    model = new Place(undefined, undefined, undefined, [], undefined, undefined, undefined);
+    model = new Place(undefined, undefined, [], undefined, undefined, undefined);
     longitude: any;
     latitude: any;
     callback: any;
