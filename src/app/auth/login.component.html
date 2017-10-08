@@ -1,0 +1,29 @@
+
+<div class="modal-header">
+    <h2>Inicia sesión</h2>
+</div>
+<div class="modal-body">
+    <div class="container">
+        <div>
+            <div *ngIf="error" class="alert alert-danger" role="alert">El usuario o la contraseña son incorrectos.</div>
+            <div [ngBusy]="{busy: busy, message: 'Enviando...'}"></div>
+            <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                    <label for="username">Usuario</label>
+                    <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
+                    <div *ngIf="f.submitted && !username.valid" class="help-block">Completar el nombre de usuario.</div>
+                </div>
+                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                    <label for="password">Contraseña</label>
+                    <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+                    <div *ngIf="f.submitted && !password.valid" class="help-block">Completar la contraseña</div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success">Ingresar</button>
+                    <button type="submit" (click)="cancel()" class="btn btn-primary">Cancelar</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

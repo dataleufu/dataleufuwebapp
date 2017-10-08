@@ -22,6 +22,11 @@ import { LayerComponent }         from './layer.component';
 import { PathComponent }         from './path.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BusyModule}              from 'angular2-busy';
+import {LoginComponent} from './auth/login.component';
+import {RegisterComponent} from './auth/register.component';
+import { AuthenticationService } from './auth/authentication.service';
+import { UserComponent }         from './user.component';
+import { MessageComponent }         from './message.component';
 
 @NgModule({
   imports: [
@@ -44,9 +49,13 @@ import {BusyModule}              from 'angular2-busy';
     CreatePointComponent,
     PlaceDetailComponent,
     LayerComponent,
-    PathComponent
+    PathComponent,
+    LoginComponent,
+    RegisterComponent,
+    UserComponent,
+    MessageComponent
   ],
-  providers: [ PlaceService, CategoryService, LayerService ],
+  providers: [ PlaceService, CategoryService, LayerService, AuthenticationService, ],
   bootstrap: [ AppComponent ],
   exports :   [NgbModule],
   entryComponents: [
@@ -56,7 +65,11 @@ import {BusyModule}              from 'angular2-busy';
     CreatePointComponent,
     PlaceDetailComponent,
     LayerComponent,
-    PathComponent
+    PathComponent,
+    LoginComponent,
+    RegisterComponent,
+    UserComponent,
+    MessageComponent
     ]
 
 })

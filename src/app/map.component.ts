@@ -11,6 +11,9 @@ import { LayerComponent }         from './layer.component';
 import { LayerService }         from './layer.service';
 import { PathComponent }         from './path.component';
 import {Input,ElementRef, ComponentFactory,ComponentRef, ComponentFactoryResolver, ViewContainerRef, ChangeDetectorRef,  ViewChild, TemplateRef, Output, EventEmitter} from '@angular/core'
+import {UserProfile} from './place';
+import { UserComponent }         from './user.component';
+import { MessageComponent }         from './message.component';
 
 declare var Cesium : any;
 
@@ -24,6 +27,7 @@ export class MapComponent implements OnInit {
     currentItem: any;
     selectingPoint: any;
     docElement: any;
+    user: UserProfile;
 
     @ViewChild("messageContainer", { read: ViewContainerRef }) messageContainer: any;
     messageComponentRef: any;
@@ -36,6 +40,9 @@ export class MapComponent implements OnInit {
 
     @ViewChild("pathContainer", { read: ViewContainerRef }) pathContainer: any;
     pathComponentRef: any;
+
+    @ViewChild("userContainer", { read: ViewContainerRef }) userContainer: any;
+    userComponentRef: any;
 
     constructor(public element: ElementRef, private modalService: NgbModal,
             private placeService: PlaceService, private layerService: LayerService,
@@ -56,6 +63,7 @@ export class MapComponent implements OnInit {
               infoBox: false
             });
 
+        this.initUser();
         this.initPaths();
         this.initDetails();
 
@@ -97,6 +105,7 @@ export class MapComponent implements OnInit {
         const modalRef = this.modalService.open(AboutComponent, { windowClass: 'modal-fullscreen' });
     }
 
+
     initDetails(){
         //Creo el componente de visualización de detalles
         this.detailContainer.clear();
@@ -121,14 +130,29 @@ export class MapComponent implements OnInit {
         this.pathComponentRef.instance.viewer = this.viewer;
     }
 
+    initUser(){
+        //Creo el componente de gestión del menú de usuarios
+        console.log("initUser");
+        this.userContainer.clear();
+        const factory: any = this.resolver.resolveComponentFactory(UserComponent);
+        this.userComponentRef = this.userContainer.createComponent(factory);
+        this.userComponentRef.instance.user.subscribe((user:any) => {
+            this.user = user;
+        })
+    }
 
     ngOnDestroy() {
         this.messageComponentRef.destroy();
         this.detailComponentRef.destroy();
     }
+
     addPoint(event:any):void{
         event.preventDefault();
 
+        if (!this.user){
+            this.message("Para ingresar un punto debes registrarte.");
+            return;
+        }
         var that = this;
 
         //Creo el punto
@@ -168,6 +192,10 @@ export class MapComponent implements OnInit {
     collapsePaths(event: any){
         event.preventDefault();
         this.pathComponentRef.instance.collapsed = !this.pathComponentRef.instance.collapsed;
+    }
+    message(text:string){
+        const modalRef = this.modalService.open(MessageComponent);
+        modalRef.componentInstance.message = text;
     }
 
 }
