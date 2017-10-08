@@ -1,5 +1,5 @@
 import { Component, OnInit }         from '@angular/core';
-import {Input, Output, EventEmitter} from '@angular/core'
+import {Input, Output, EventEmitter} from '@angular/core';
 
 //TODO drag point http://localhost:8001/cesium-google-earth-examples/examples/pinDrag.html
 

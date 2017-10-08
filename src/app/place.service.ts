@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { Place } from './place';
 import { API_BASE_URL } from './config';
+import { AuthenticationService } from './auth/authentication.service';
 
 
 @Injectable()
@@ -14,8 +15,19 @@ export class PlaceService {
 
   private placesUrl = API_BASE_URL + '/api_places/';  // URL to web api
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authService: AuthenticationService) {
 
+  }
+
+  getHeaders(): Headers{
+      var token = this.authService.token;
+      if (token){
+          return new Headers({'Content-Type': 'application/json', 'AUTHORIZATION': 'TOKEN ' + token});
+      }else{
+          return new Headers({'Content-Type': 'application/json'});
+      }
+
+  }
   getPlaces(): Promise<Place[]> {
     return this.http.get(this.placesUrl)
                .toPromise()
@@ -35,7 +47,7 @@ export class PlaceService {
 
   delete(id: number): Promise<void> {
     const url = `${this.placesUrl}/${id}`;
-    return this.http.delete(url, {headers: this.headers})
+    return this.http.delete(url, {headers: this.getHeaders()})
       .toPromise()
       .then(() => null)
       .catch(this.handleError);
@@ -43,7 +55,7 @@ export class PlaceService {
 
   create(name: string): Promise<Place> {
     return this.http
-      .post(this.placesUrl, JSON.stringify({name: name}), {headers: this.headers})
+      .post(this.placesUrl, JSON.stringify({name: name}), {headers: this.getHeaders()})
       .toPromise()
       .then(res => res.json().data as Place)
       .catch(this.handleError);
@@ -52,7 +64,7 @@ export class PlaceService {
     console.log("create Place " + place);
     console.dir(place);
     return this.http
-      .post(this.placesUrl, place, {headers: this.headers})
+      .post(this.placesUrl, place, {headers: this.getHeaders()})
       .toPromise()
       .then(res => res.json() as Place)
       .catch(this.handleError);
@@ -60,7 +72,7 @@ export class PlaceService {
   update(place: Place): Promise<Place> {
     const url = `${this.placesUrl}/${place.pk}`;
     return this.http
-      .put(url, JSON.stringify(place), {headers: this.headers})
+      .put(url, JSON.stringify(place), {headers: this.getHeaders()})
       .toPromise()
       .then(() => place)
       .catch(this.handleError);

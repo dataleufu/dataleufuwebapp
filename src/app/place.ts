@@ -43,3 +43,34 @@ export class Layer {
     public visible: boolean
   ) {  }
 }
+
+export class UserGroup {
+    constructor(
+        public pk: number,
+        public name: string,
+        public description: string,
+        public image: string
+    ){}
+}
+
+export class User {
+    constructor(
+        public id: number,
+        public username: string,
+        public first_name: string,
+        public last_name: string,
+        public email: string,
+        public is_staff: boolean,
+
+    ){}
+}
+
+export class UserProfile {
+    constructor(
+        public user: User,
+
+        public description: string,
+        public image: string,
+        public group: UserGroup
+    ){}
+}
