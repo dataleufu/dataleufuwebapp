@@ -1,11 +1,14 @@
 import { Component, OnInit }         from '@angular/core';
-import {Input, Output, EventEmitter} from '@angular/core'
+import {Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core'
 import { PlaceService }            from './place.service';
 import { CategoryService }          from './category.service';
 import { Category, Place } from './place';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
+import {NgbTabChangeEvent} from '@ng-bootstrap/ng-bootstrap';
+import { APP_BASE_URL } from './config';
 
 declare var Cesium : any;
+declare var window: any;
 
 @Component({
     selector: 'place-detail',
@@ -13,7 +16,7 @@ declare var Cesium : any;
 
 })
 export class PlaceDetailComponent implements OnInit{
-
+    @ViewChild('fbComments') elementRef: ElementRef;
     @Input() viewer: any;
     handler: any;
     currentEntity: any;
@@ -22,9 +25,30 @@ export class PlaceDetailComponent implements OnInit{
     visible: boolean;
     galleryOptions: NgxGalleryOptions[];
     galleryImages: NgxGalleryImage[];
-    show: string;
+    currentURL: string;
+    lastUrl: string;
 
     constructor(private placeService: PlaceService, private categoryService: CategoryService) {}
+
+    initFacebook(){
+        console.log("initFacebook ngAfterViewInit");
+        this.lastUrl = this.currentURL;
+        this.currentURL = this.getUrl();
+          (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            js = d.createElement(s); js.id = id;
+            //js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.10&appId=1947080825564588";
+            js.setAttribute("src", "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.10&appId=1947080825564588");
+
+            if (d.getElementById(id)){
+              //if <script id="facebook-jssdk"> exists
+              delete (<any>window).FB;
+              fjs.parentNode.replaceChild(js, fjs);
+            } else {
+              fjs.parentNode.insertBefore(js, fjs);
+            }
+          }(document, 'script', 'facebook-jssdk'));
+        }
 
     flyToEntity(event: any){
         event.preventDefault();
@@ -36,26 +60,8 @@ export class PlaceDetailComponent implements OnInit{
     close(){
         this.visible = false;
     }
-    on_more(){
-        this.show = "description";
-        console.log("on_more " + this.show);
 
-    }
-    showGallery(){
-        var ret = this.show == "gallery";
-        console.log(" showGallery " + ret);
-        return ret;
-    }
-    showDescription(){
-        var ret = this.show == "description";
-        console.log(" showDescription " + ret);
-        return ret;
-    }
-    on_less(){
-      //  this.show = "gallery";
-        console.log("on_less " + this.show);
 
-    }
     setCurrentPlace(item: Place){
         if(item !== undefined){
             this.currentPlace = item;
@@ -82,6 +88,9 @@ export class PlaceDetailComponent implements OnInit{
                         if (that.currentPlace.image == undefined){
                             that.currentPlace.image = 'http://lorempixel.com/600/400/nature/' + randomnumber;
                         }
+
+                        console.log(that.currentPlace);
+                        console.dir(that.currentPlace);
                     });
         }else{
             this.currentPlace = undefined;
@@ -90,19 +99,37 @@ export class PlaceDetailComponent implements OnInit{
         console.log("setCurrentItem currentPlace " + this.currentPlace);
 
     }
+
+    beforeTabChange($event: NgbTabChangeEvent) {
+      console.log("this.lastUrl " + this.lastUrl);
+      console.log("this.getUrl() " + this.getUrl());
+      if ($event.nextId === 'tab-comments' ) {
+        this.initFacebook();
+      }
+    }
+    showComments(event: any){
+        event.preventDefault();
+        //t.select('tab-comments');
+    }
+    getUrl(): string{
+        var ret = '';
+        if (this.currentPlace != undefined){
+            ret = APP_BASE_URL + this.currentPlace.pk.toString();
+        }
+        else{
+            ret = APP_BASE_URL;
+        }
+        return ret;
+    }
     ngOnInit() {
-        this.show = 'gallery';
         console.log("PlaceDetailComponent oninit");
         this.categoryService
             .getCategories()
             .then(categories => this.categories = categories);
-
         var that = this;
         this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
         this.handler.setInputAction(function(movement:any){
             var item = false;
-            console.log("that.viewer.scene.mode", that.viewer.scene.mode);
-            console.log("that.viewer.scene.mode !== Cesium.SceneMode.MORPHING" + that.viewer.scene.mode !== Cesium.SceneMode.MORPHING);
             if (that.viewer.scene.mode !== Cesium.SceneMode.MORPHING) {
                 //var pickedObject = that.viewer.scene.pick(movement.endPosition);
                 var pickedObject = that.viewer.scene.pick(movement.position);
@@ -114,13 +141,6 @@ export class PlaceDetailComponent implements OnInit{
                     console.log("cartesian " + cartesian);
                     that.setCurrentItem(pickedObject.id);
                         item = true;
-                    /*if (Cesium.defined(cartesian)) {
-                        //that.setCurrentItem(pickedObject.id.properties.pk);
-                        console.log("final pick pickedObject: ");
-                        console.dir(pickedObject.id);
-                        that.setCurrentItem(pickedObject.id);
-                        item = true;
-                    }*/
                 }
             }
             if (!item){
@@ -135,58 +155,18 @@ export class PlaceDetailComponent implements OnInit{
                 thumbnails: false,
                 imageAnimation: NgxGalleryAnimation.Slide
             },
-
-            // max-width 800
-           /* {
-                breakpoint: 800,
-                width: '100%',
-                height: '600px',
-                imagePercent: 80,
-                thumbnailsPercent: 20,
-                thumbnailsMargin: 20,
-                thumbnailMargin: 20,
-                thumbnailsSwipe:true
-            },
-            // max-width 400
-            {
-                breakpoint: 400,
-                preview: true
-            }*/
         ];
-
-        this.galleryImages = [
-           /* {
-                small: 'http://lorempixel.com/800/400/',
-                medium: 'http://lorempixel.com/800/400/',
-                big: 'http://lorempixel.com/800/400/'
-            },
-            {
-                small: 'http://lorempixel.com/800/400/',
-                medium: 'http://lorempixel.com/800/400/',
-                big: 'http://lorempixel.com/800/400/'
-            },
-            {
-                small: 'http://lorempixel.com/800/400/',
-                medium: 'http://lorempixel.com/800/400/',
-                big: 'http://lorempixel.com/800/400/'
-            }*/
-        ];
-
+        this.galleryImages = [];
     }
 
     initGallery(){
-        console.log("initGallery start  this.currentPlace.images" + this.currentPlace.images);
-
         var galleryImages:NgxGalleryImage[] = [];
-
         if (this.currentPlace){
-
             this.currentPlace.images.forEach(function(image:any) {
                 console.log("image " , image);
                 galleryImages.push({ small: image.image, medium: image.image, big: image.image});
             });
         };
-        console.log("initGallery end " + galleryImages);
         console.dir(galleryImages);
         return galleryImages;
 
