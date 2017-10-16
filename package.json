@@ -50,6 +50,7 @@
     "cesium": "^1.36.0",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
+    "ng2-meta": "^2.0.3",
     "ng2share": "^1.3.6",
     "ngx-gallery": "^2.0.0",
     "ngx-sharebuttons": "^3.0.0",
