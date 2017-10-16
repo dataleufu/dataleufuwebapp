@@ -2,7 +2,7 @@ import { Component, OnInit }         from '@angular/core';
 import {Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core'
 import { PlaceService }            from './place.service';
 import { CategoryService }          from './category.service';
-import { Category, Place } from './place';
+import { Category, Place, ImagePlace } from './place';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 import {NgbTabChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import { APP_BASE_URL } from './config';
@@ -80,15 +80,12 @@ export class PlaceDetailComponent implements OnInit{
                 .getPlace(+id)
                     .then(function (place){
                         that.currentPlace = place;
-                        that.galleryImages = that.initGallery();
-                        console.log("that.galleryImages " + that.galleryImages);
-                        var minimum = 1;
-                        var maximum = 10;
-                        var randomnumber = Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-                        if (that.currentPlace.image == undefined){
-                            that.currentPlace.image = 'http://lorempixel.com/600/400/nature/' + randomnumber;
+                        if (that.currentPlace.images.length == 0){
+                            that.currentPlace.images.push(new ImagePlace(null, 'http://lorempixel.com/600/400/nature/1'));
+                            that.currentPlace.images.push(new ImagePlace(null, 'http://lorempixel.com/600/400/nature/2'));
+                            that.currentPlace.images.push(new ImagePlace(null, 'http://lorempixel.com/600/400/nature/3'));
                         }
-
+                        that.galleryImages = that.initGallery();
                         console.log(that.currentPlace);
                         console.dir(that.currentPlace);
                     });
@@ -106,10 +103,6 @@ export class PlaceDetailComponent implements OnInit{
       if ($event.nextId === 'tab-comments' ) {
         this.initFacebook();
       }
-    }
-    showComments(event: any){
-        event.preventDefault();
-        //t.select('tab-comments');
     }
     getUrl(): string{
         var ret = '';
