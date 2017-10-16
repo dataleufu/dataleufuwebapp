@@ -15,10 +15,19 @@
                             Creado por <b>{{currentPlace.owner.user.username}}</b> <span *ngIf="currentPlace.owner.group"  (click)="t.select('tab-group')">del grupo <b>{{currentPlace.owner.group.name}}</b></span> el {{currentPlace.created | date:'dd/MM/yy'}}.  18 personas lo vieron. 34 personas están discutiendo.
                         </p>
                         <hr>
-                        <div class="btn-group" role="group" aria-label="Acciones">
+                         <div class="btn-group" role="group" aria-label="Acciones">
                             <a class="btn btn-link" href="#" (click)="$event.preventDefault();"><i class="fa fa-thumbs-o-up"></i> Lo ví, es así</a>
                             <a class="btn btn-link" href="#"  (click)="t.select('tab-comments');$event.preventDefault();"><i class="fa fa-comment-o"></i> Quiero participar</a>
-                            <a class="btn btn-link" href="#" (click)="$event.preventDefault();"><i class="fa fa-share-alt"></i> Compartir</a>
+
+                            <div ngbDropdown class="d-inline-block over_images">
+                                  <a class="btn btn-link" id="dropdownBasic1" ngbDropdownToggle>
+                                      <i class="fa fa-share-alt"></i> Compartir</a>
+                                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <a class="btn btn-link dropdown-item" shareButton="facebook" [sbUrl]="getUrl()">Facebook</a>
+                                    <a class="btn btn-link dropdown-item" shareButton="twitter" [sbUrl]="getUrl()">Twitter</a>
+                                    <a class=" btn btn-link dropdown-item"  shareButton="whatsapp" [sbUrl]="getUrl()">Whatsapp</a>
+                                  </div>
+                            </div>
                         </div>
                     </div>
                     <ngb-tabset #t="ngbTabset" (tabChange)="beforeTabChange($event)" destroyOnHide="false">

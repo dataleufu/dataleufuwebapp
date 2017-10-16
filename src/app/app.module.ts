@@ -28,6 +28,7 @@ import { AuthenticationService } from './auth/authentication.service';
 import { UserComponent }         from './user.component';
 import { MessageComponent }         from './message.component';
 import { NgxGalleryModule } from 'ngx-gallery';
+import {ShareButtonsModule} from 'ngx-sharebuttons';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { NgxGalleryModule } from 'ngx-gallery';
     ImageUploadModule.forRoot(),
     BrowserAnimationsModule,
     BusyModule,
-    NgxGalleryModule
+    NgxGalleryModule,
+    ShareButtonsModule.forRoot(),
   ],
   declarations: [
     AppComponent,

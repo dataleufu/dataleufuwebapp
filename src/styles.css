@@ -352,9 +352,15 @@ ul.dropdown-menu {
 .over_map{
     z-index: 999 !important;
 }
+
 .over_menu{
   z-index: 1999 !important;
 }
+
+.over_images{
+ z-index: 10000 !important;
+}
+
 .nav-social {
     color: rgba(249, 246, 246, 1) !important;
     padding: 5px;
