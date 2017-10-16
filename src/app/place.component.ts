@@ -10,7 +10,7 @@ import { PlaceService }             from './place.service';
 })
 export class PlaceComponent {
     private submitted = false;
-    model = new Place(undefined, undefined, undefined, undefined, undefined, undefined);
+    model = new Place(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
     longitude: any;
     latitude: any;
     callback: any;
@@ -22,6 +22,7 @@ export class PlaceComponent {
   onSubmit(): void  {
     this.submitted = true;
     this.model.point = "SRID=4326;POINT(" + this.longitude + " " + this.latitude + ")";
+    this.model.owner = undefined;
     this.placeService.createPlace(this.model)
       .then(place => {
         this.callback();

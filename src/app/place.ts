@@ -16,7 +16,8 @@ export class Place {
     public images: ImagePlace[],
     public created: Date,
     public point: string,
-    public category: Category
+    public category: Category,
+    public owner: UserProfile
 
   ) {  }
 }
@@ -28,7 +29,8 @@ export class GeoPlace {
     public images: ImagePlace[],
     public created: Date,
     public point: Point,
-    public category: Category
+    public category: Category,
+    public owner: UserProfile
 
   ) {  }
 }

@@ -8,40 +8,57 @@
                         <button type="button" (click)="close()" class="close pull-rigth" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
+
                         <p class="title text-primary">{{getCategory(currentEntity.properties.category).name}}
                             <a class="btn btn-link text-primary" href="#" (click)="flyToEntity($event)" title="Ir a la ubicación"><i class="fa fa-location-arrow text-primary"></i> Ir</a></p>
-                        <p class="creation text-muted">
-                            Creado por <b>juan</b> del grupo <b>droneros</b> hace 4 meses.  18 personas lo vieron. 34 personas están discutiendo.
+                        <p *ngIf="currentPlace" class="creation text-muted">
+                            Creado por <b>{{currentPlace.owner.user.username}}</b> <span *ngIf="currentPlace.owner.group"  (click)="t.select('tab-group')">del grupo <b>{{currentPlace.owner.group.name}}</b></span> el {{currentPlace.created | date:'dd/MM/yy'}}.  18 personas lo vieron. 34 personas están discutiendo.
                         </p>
                         <hr>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <a class="btn btn-link" href="#"><i class="fa fa-thumbs-o-up"></i> Lo ví, es así</a>
-                            <a class="btn btn-link" href="#"><i class="fa fa-comment-o"></i> Qué hacemos</a>
-                            <a class="btn btn-link" href="#"><i class="fa fa-share-alt"></i> Compartir</a>
+                        <div class="btn-group" role="group" aria-label="Acciones">
+                            <a class="btn btn-link" href="#" (click)="$event.preventDefault();"><i class="fa fa-thumbs-o-up"></i> Lo ví, es así</a>
+                            <a class="btn btn-link" href="#"  (click)="t.select('tab-comments');$event.preventDefault();"><i class="fa fa-comment-o"></i> Quiero participar</a>
+                            <a class="btn btn-link" href="#" (click)="$event.preventDefault();"><i class="fa fa-share-alt"></i> Compartir</a>
                         </div>
                     </div>
-                    <ngb-tabset #t="ngbTabset">
-                        <ngb-tab id="tab-selectbyid1" title="Fotos">
+                    <ngb-tabset #t="ngbTabset" (tabChange)="beforeTabChange($event)" destroyOnHide="false">
+                        <ngb-tab id="tab-gallery" title="Fotos">
                             <ng-template ngbTabContent>
                                 <div class="panel">
                                     <ngx-gallery   [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
                                 </div>
                             </ng-template>
                         </ngb-tab>
-                        <ngb-tab id="tab-selectbyid2" title="Info">
+                        <ngb-tab id="tab-info" title="Info">
                             <ng-template ngbTabContent>
                                 <div class="panel">
-                                    <h3 class="mb-2 text-muted">{{getCategory(currentEntity.properties.category).name}}</h3>
-                                    <p>Creado por juan del grupo droneros hace 4 meses</p>
+                                    <p class="title text-primary">{{getCategory(currentEntity.properties.category).name}}
+                                    <a class="btn btn-link text-primary" href="#" (click)="flyToEntity($event)" title="Ir a la ubicación"><i class="fa fa-location-arrow text-primary"></i> Ir</a></p>
                                     <p #textContent>{{currentEntity.properties.description}}</p>
-
+                                    <hr/>
+                                    <p *ngIf="currentPlace" class="creation text-muted">
+                                        Creado por <b>{{currentPlace.owner.user.username}}</b> <span *ngIf="currentPlace.owner.group"  (click)="t.select('tab-group')">del grupo <b>{{currentPlace.owner.group.name}}</b></span> el {{currentPlace.created | date:'dd/MM/yy'}}.  18 personas lo vieron. 34 personas están discutiendo.
+                                    </p>
+                                    <hr>
                                 </div>
                             </ng-template>
                         </ngb-tab>
-                        <ngb-tab id="tab-selectbyid3" title="Test">
+                        <ngb-tab id="tab-comments" title="Participar">
                             <ng-template ngbTabContent>
                                 <div class="panel">
+                                    <div id="fb-root"></div>
+                                    <div class="fb-comments"  [attr.data-href]="currentURL"  data-numposts="5"></div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
 
+                        <ngb-tab *ngIf="currentPlace && currentPlace.owner.group" id="tab-group" title="El grupo">
+                            <ng-template ngbTabContent>
+                                <div class="panel">
+                                   <h3 class="mb-2 text-muted">{{currentPlace.owner.group.name}}</h3>
+                                   <hr/>
+                                   <p class="mb-2 text-muted">{{currentPlace.owner.group.description}}</p>
+                                    <img *ngIf="currentPlace && currentPlace.owner.group.image" class="card-img-top" [attr.src]="currentPlace.owner.group.image">
                                 </div>
                             </ng-template>
                         </ngb-tab>
