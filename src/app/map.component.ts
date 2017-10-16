@@ -95,11 +95,6 @@ export class MapComponent implements OnInit {
 
     gotoPlace(place: GeoPlace){
         if (place){
-                        console.log(place);
-            console.dir(place);
-            console.log(place.point);
-            console.dir(place.point);
-          //  var point = place.point as Point;
             var options = {
 
                 destination : Cesium.Cartesian3.fromDegrees(place.point.coordinates[0], place.point.coordinates[1], 1000),
