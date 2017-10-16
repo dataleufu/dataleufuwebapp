@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router }            from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { AboutComponent }       from './about.component';
 import { PlaceFormComponent }   from './place-form.component';
@@ -14,6 +14,8 @@ import {Input,ElementRef, ComponentFactory,ComponentRef, ComponentFactoryResolve
 import {UserProfile} from './place';
 import { UserComponent }         from './user.component';
 import { MessageComponent }         from './message.component';
+import 'rxjs/add/operator/switchMap';
+
 
 declare var Cesium : any;
 
@@ -46,7 +48,8 @@ export class MapComponent implements OnInit {
 
     constructor(public element: ElementRef, private modalService: NgbModal,
             private placeService: PlaceService, private layerService: LayerService,
-            private resolver: ComponentFactoryResolver){}
+            private resolver: ComponentFactoryResolver,
+            private route: ActivatedRoute,){}
 
     ngOnInit() {
         Cesium.BingMapsApi.defaultKey = 'ApTt78Y0u6795QNTrQ-9DFWdJxW8THvNVvHF1B19ayEzw1aiRXmunxndbwB_deO_';
@@ -72,9 +75,46 @@ export class MapComponent implements OnInit {
         var promise = this.pathComponentRef.instance.rotate().then(
             function () {
                 that.initLayers();
-                that.pathComponentRef.instance.rio(null);
+
+                that.route.paramMap
+                    .switchMap((params: ParamMap) => {
+                        if (+params.get('id') != 0)
+                            return that.placeService.getPlace(+params.get('id'));
+                        else{
+                            that.pathComponentRef.instance.rio(null);
+                            return [];
+                        }
+
+                    })
+                    .subscribe(place => that.gotoPlace(place));
+
                 }
             );
+
+    }
+
+    gotoPlace(place: Place){
+        if (place){
+            var options = {
+                destination : Cesium.Cartesian3.fromDegrees(place.point.coordinates[0], place.point.coordinates[1], 1000),
+                duration: 6,
+                /*  orientation: {
+                    heading : 6.1329933722128125,//Cesium.Math.toRadians(15.0),
+                    pitch : -0.25777284671769296, //-Cesium.Math.PI_OVER_FOUR,
+                    roll : 6.271157632771452//0.0
+                },*/
+                pitchAdjustHeight: 800,
+                complete: function() {
+                    setTimeout(function() {
+                       // TODO
+                    }, 1000);
+                }
+            };
+            this.viewer.scene.camera.flyTo(options);
+
+        }else{
+            that.pathComponentRef.instance.rio(null);
+        }
     }
 
     logCamera(event: any): void{

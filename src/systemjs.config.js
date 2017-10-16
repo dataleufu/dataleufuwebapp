@@ -32,7 +32,8 @@
       '@ng-bootstrap/ng-bootstrap': 'node_modules/@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
       'angular2-image-upload': 'node_modules/angular2-image-upload',
       'angular2-busy': 'node_modules/angular2-busy',
-
+      'ngx-gallery': 'node_modules/ngx-gallery/bundles/ngx-gallery.umd.js',
+      'ngx-sharebuttons': 'node_modules/ngx-sharebuttons/index.js',
       // other libraries
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'

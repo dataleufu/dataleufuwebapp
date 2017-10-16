@@ -4,8 +4,7 @@
     </div>
 
     <div class="modal-body">
-        <div class="container">
-            <div >
+        <div class="container-fluid">
                 <form (ngSubmit)="onSubmit()" #placeForm="ngForm">
                     <div class="form-group">
                         <label for="category">Categoría</label>
@@ -16,7 +15,7 @@
 
                     <div class="form-group">
                         <label for="description">Descripción</label>
-                        <textarea type="text" class="form-control" id="name"
+                        <textarea type="text" class="form-control" id="name" rows="8" maxlength="3000"
                            required
                            [(ngModel)]="model.description" name="description"
                            #description="ngModel" ></textarea>
@@ -41,12 +40,13 @@
                     ></image-upload>
 
                     <div [ngBusy]="{busy: busy, message: 'Enviando...'}"></div>
+                    <hr/>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success" [disabled]="!placeForm.form.valid">Enviar</button>
-                        <button type="submit" (click)="cancel()" class="btn btn-primary">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="!placeForm.form.valid">Enviar</button>
+                        <button type="submit" (click)="cancel()" class="btn btn-secondary">Cancelar</button>
                     </div>
                 </form>
-            </div>
+
         </div>
     </div>
 </div>
@@ -56,15 +56,7 @@
         <h2>¡Gracias por compartir!</h2>
     </div>
     <div class="modal-body">
-        <div class="container">
-            <!--div class="row">
-                <div class="col-xs-3">Título: </div>
-                <div class="col-xs-9  pull-left">{{ model.title }}</div>
-            </div>
-            <div class="row">
-                <div class="col-xs-3">Descripción:</div>
-                <div class="col-xs-9  pull-left">{{ model.description }}</div>
-            </div-->
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-12">
                     <button class="btn btn-primary" (click)="cancel()">Cerrar</button>
