@@ -3,6 +3,11 @@ export class ImagePlace {
         public pk: number,
         public image: string){}
 }
+export class Point {
+    constructor(
+        public coordinates: number[])
+    {}
+}
 export class Place {
 
   constructor(
@@ -15,7 +20,18 @@ export class Place {
 
   ) {  }
 }
+export class GeoPlace {
 
+  constructor(
+    public pk: number,
+    public description: string,
+    public images: ImagePlace[],
+    public created: Date,
+    public point: Point,
+    public category: Category
+
+  ) {  }
+}
 export class Category {
 
   constructor(

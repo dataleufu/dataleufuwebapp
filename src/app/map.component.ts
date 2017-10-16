@@ -11,7 +11,7 @@ import { LayerComponent }         from './layer.component';
 import { LayerService }         from './layer.service';
 import { PathComponent }         from './path.component';
 import {Input,ElementRef, ComponentFactory,ComponentRef, ComponentFactoryResolver, ViewContainerRef, ChangeDetectorRef,  ViewChild, TemplateRef, Output, EventEmitter} from '@angular/core'
-import {UserProfile} from './place';
+import {UserProfile, Place, Point, GeoPlace} from './place';
 import { UserComponent }         from './user.component';
 import { MessageComponent }         from './message.component';
 import 'rxjs/add/operator/switchMap';
@@ -93,9 +93,10 @@ export class MapComponent implements OnInit {
 
     }
 
-    gotoPlace(place: Place){
+    gotoPlace(place: GeoPlace){
         if (place){
             var options = {
+
                 destination : Cesium.Cartesian3.fromDegrees(place.point.coordinates[0], place.point.coordinates[1], 1000),
                 duration: 6,
                 /*  orientation: {
@@ -113,7 +114,7 @@ export class MapComponent implements OnInit {
             this.viewer.scene.camera.flyTo(options);
 
         }else{
-            that.pathComponentRef.instance.rio(null);
+            this.pathComponentRef.instance.rio(null);
         }
     }
 

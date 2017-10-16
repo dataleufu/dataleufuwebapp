@@ -2,7 +2,7 @@ import { Component, OnInit }         from '@angular/core';
 import {Input, Output, EventEmitter} from '@angular/core'
 import { PlaceService }            from './place.service';
 import { CategoryService }          from './category.service';
-import { Category } from './place';
+import { Category, Place } from './place';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 
 declare var Cesium : any;
