@@ -27,6 +27,8 @@ import {RegisterComponent} from './auth/register.component';
 import { AuthenticationService } from './auth/authentication.service';
 import { UserComponent }         from './user.component';
 import { MessageComponent }         from './message.component';
+import { NgxGalleryModule } from 'ngx-gallery';
+
 
 @NgModule({
   imports: [
@@ -37,7 +39,8 @@ import { MessageComponent }         from './message.component';
     NgbModule.forRoot(),
     ImageUploadModule.forRoot(),
     BrowserAnimationsModule,
-    BusyModule
+    BusyModule,
+    NgxGalleryModule
   ],
   declarations: [
     AppComponent,

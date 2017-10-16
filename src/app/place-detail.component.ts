@@ -3,6 +3,7 @@ import {Input, Output, EventEmitter} from '@angular/core'
 import { PlaceService }            from './place.service';
 import { CategoryService }          from './category.service';
 import { Category } from './place';
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 
 declare var Cesium : any;
 
@@ -19,6 +20,9 @@ export class PlaceDetailComponent implements OnInit{
     currentPlace: any;
     categories: Category[];
     visible: boolean;
+    galleryOptions: NgxGalleryOptions[];
+    galleryImages: NgxGalleryImage[];
+    show: string;
 
     constructor(private placeService: PlaceService, private categoryService: CategoryService) {}
 
@@ -32,6 +36,33 @@ export class PlaceDetailComponent implements OnInit{
     close(){
         this.visible = false;
     }
+    on_more(){
+        this.show = "description";
+        console.log("on_more " + this.show);
+
+    }
+    showGallery(){
+        var ret = this.show == "gallery";
+        console.log(" showGallery " + ret);
+        return ret;
+    }
+    showDescription(){
+        var ret = this.show == "description";
+        console.log(" showDescription " + ret);
+        return ret;
+    }
+    on_less(){
+      //  this.show = "gallery";
+        console.log("on_less " + this.show);
+
+    }
+    setCurrentPlace(item: Place){
+        if(item !== undefined){
+            this.currentPlace = item;
+            this.galleryImages = this.initGallery();
+            this.visible = true;
+        }
+    }
     setCurrentItem(item: any){
         console.log("setCurrentItem item" + item);
         var that = this;
@@ -43,6 +74,8 @@ export class PlaceDetailComponent implements OnInit{
                 .getPlace(+id)
                     .then(function (place){
                         that.currentPlace = place;
+                        that.galleryImages = that.initGallery();
+                        console.log("that.galleryImages " + that.galleryImages);
                         var minimum = 1;
                         var maximum = 10;
                         var randomnumber = Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
@@ -58,6 +91,7 @@ export class PlaceDetailComponent implements OnInit{
 
     }
     ngOnInit() {
+        this.show = 'gallery';
         console.log("PlaceDetailComponent oninit");
         this.categoryService
             .getCategories()
@@ -94,9 +128,69 @@ export class PlaceDetailComponent implements OnInit{
             }
 
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        this.galleryOptions = [
+            {
+                width: '100%',
+                height: '480px',
+                thumbnails: false,
+                imageAnimation: NgxGalleryAnimation.Slide
+            },
+
+            // max-width 800
+           /* {
+                breakpoint: 800,
+                width: '100%',
+                height: '600px',
+                imagePercent: 80,
+                thumbnailsPercent: 20,
+                thumbnailsMargin: 20,
+                thumbnailMargin: 20,
+                thumbnailsSwipe:true
+            },
+            // max-width 400
+            {
+                breakpoint: 400,
+                preview: true
+            }*/
+        ];
+
+        this.galleryImages = [
+           /* {
+                small: 'http://lorempixel.com/800/400/',
+                medium: 'http://lorempixel.com/800/400/',
+                big: 'http://lorempixel.com/800/400/'
+            },
+            {
+                small: 'http://lorempixel.com/800/400/',
+                medium: 'http://lorempixel.com/800/400/',
+                big: 'http://lorempixel.com/800/400/'
+            },
+            {
+                small: 'http://lorempixel.com/800/400/',
+                medium: 'http://lorempixel.com/800/400/',
+                big: 'http://lorempixel.com/800/400/'
+            }*/
+        ];
 
     }
 
+    initGallery(){
+        console.log("initGallery start  this.currentPlace.images" + this.currentPlace.images);
+
+        var galleryImages:NgxGalleryImage[] = [];
+
+        if (this.currentPlace){
+
+            this.currentPlace.images.forEach(function(image:any) {
+                console.log("image " , image);
+                galleryImages.push({ small: image.image, medium: image.image, big: image.image});
+            });
+        };
+        console.log("initGallery end " + galleryImages);
+        console.dir(galleryImages);
+        return galleryImages;
+
+    }
     getCategory(id: number): Category {
         return this.categories.find(x => x.pk == id );
     }
