@@ -6,6 +6,8 @@ import { Category, Place, ImagePlace } from './place';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 import {NgbTabChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import { APP_BASE_URL } from './config';
+import { MetaService } from 'ng2-meta';
+
 
 declare var Cesium : any;
 declare var window: any;
@@ -28,7 +30,8 @@ export class PlaceDetailComponent implements OnInit{
     currentURL: string;
     lastUrl: string;
 
-    constructor(private placeService: PlaceService, private categoryService: CategoryService) {}
+    constructor(private placeService: PlaceService, private categoryService: CategoryService,
+        private metaService: MetaService) {}
 
     initFacebook(){
         console.log("initFacebook ngAfterViewInit");
@@ -69,6 +72,24 @@ export class PlaceDetailComponent implements OnInit{
             this.visible = true;
         }
     }
+    testPlace(place: Place){
+
+        var that = this;
+        that.currentPlace = place;
+        that.metaService.setTitle('Product page for '+ that.currentPlace.description);
+                         that.metaService.setTag('og:image', that.currentPlace.images[0].image);
+                         that.metaService.setTag('og:description', that.currentPlace.description);
+                         that.metaService.setTag('og:title', that.currentPlace.description);
+                         that.metaService.setTag('og:type', 'article');
+                         that.metaService.setTag('og:url',  that.getUrl());
+                         that.metaService.setTag('og:site_name',  'RadarLeufú');
+                         that.metaService.setTag('article:published_time',  that.currentPlace.created);
+                         that.metaService.setTag('article:modified_time',  that.currentPlace.created);
+                         //that.metaService.setTag('article:section',  that.getCategory(that.currentPlace.category));
+
+
+    }
+
     setCurrentItem(item: any){
         console.log("setCurrentItem item" + item);
         var that = this;
@@ -88,6 +109,20 @@ export class PlaceDetailComponent implements OnInit{
                         that.galleryImages = that.initGallery();
                         console.log(that.currentPlace);
                         console.dir(that.currentPlace);
+
+                         that.metaService.setTitle(that.currentPlace.description);
+                         that.metaService.setTag('og:image', that.currentPlace.images[0].image);
+                         that.metaService.setTag('og:description', that.currentPlace.description);
+                         that.metaService.setTag('og:title', that.currentPlace.description);
+                         that.metaService.setTag('og:type', 'article');
+                         that.metaService.setTag('og:url',  that.getUrl());
+                         that.metaService.setTag('og:site_name',  'RadarLeufú');
+                         that.metaService.setTag('article:published_time',  that.currentPlace.created);
+                         that.metaService.setTag('article:modified_time',  that.currentPlace.created);
+                     //    that.metaService.setTag('article:section',  that.getCategory(that.currentPlace.category));
+
+
+
                     });
         }else{
             this.currentPlace = undefined;
@@ -112,6 +147,7 @@ export class PlaceDetailComponent implements OnInit{
         else{
             ret = APP_BASE_URL;
         }
+        console.log("getUrl " + ret);
         return ret;
     }
     ngOnInit() {
