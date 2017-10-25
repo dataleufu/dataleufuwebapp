@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {Input, Output, EventEmitter} from '@angular/core';
 import { AuthenticationService } from './authentication.service';
-import {BusyModule}              from 'angular2-busy';
 import {UserProfile} from './../place';
+import {BusyModule} from 'angular2-busy';
 
 
 @Component({
-    moduleId: module.id,
-    templateUrl: 'login.component.html'
+    templateUrl: './login.component.html',
 })
 
 export class LoginComponent implements OnInit {
@@ -24,7 +23,8 @@ export class LoginComponent implements OnInit {
         this.authenticationService.logout();
     }
 
-    login() {
+
+    login(): void {
         this.busy = this.authenticationService.login(this.model.username, this.model.password)
             .subscribe(result => {
                 if (result === true) {

@@ -6,7 +6,7 @@ import { Category, Place, ImagePlace } from './place';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 import {NgbTabChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import { APP_BASE_URL } from './config';
-import { MetaService } from 'ng2-meta';
+
 
 
 declare var Cesium : any;
@@ -30,8 +30,7 @@ export class PlaceDetailComponent implements OnInit{
     currentURL: string;
     lastUrl: string;
 
-    constructor(private placeService: PlaceService, private categoryService: CategoryService,
-        private metaService: MetaService) {}
+    constructor(private placeService: PlaceService, private categoryService: CategoryService) {}
 
     initFacebook(){
         console.log("initFacebook ngAfterViewInit");
@@ -55,7 +54,6 @@ export class PlaceDetailComponent implements OnInit{
 
     flyToEntity(event: any){
         event.preventDefault();
-        console.log("flyToEntity " + this.currentEntity);
         if(this.currentEntity !== undefined){
             this.viewer.flyTo(this.currentEntity, 200);
         }
@@ -76,7 +74,7 @@ export class PlaceDetailComponent implements OnInit{
 
         var that = this;
         that.currentPlace = place;
-        that.metaService.setTitle('Product page for '+ that.currentPlace.description);
+        /*that.metaService.setTitle('Product page for '+ that.currentPlace.description);
                          that.metaService.setTag('og:image', that.currentPlace.images[0].image);
                          that.metaService.setTag('og:description', that.currentPlace.description);
                          that.metaService.setTag('og:title', that.currentPlace.description);
@@ -87,7 +85,7 @@ export class PlaceDetailComponent implements OnInit{
                          that.metaService.setTag('article:modified_time',  that.currentPlace.created);
                          //that.metaService.setTag('article:section',  that.getCategory(that.currentPlace.category));
 
-
+*/
     }
 
     setCurrentItem(item: any){
@@ -107,10 +105,8 @@ export class PlaceDetailComponent implements OnInit{
                             that.currentPlace.images.push(new ImagePlace(null, 'http://lorempixel.com/600/400/nature/3'));
                         }
                         that.galleryImages = that.initGallery();
-                        console.log(that.currentPlace);
-                        console.dir(that.currentPlace);
 
-                         that.metaService.setTitle(that.currentPlace.description);
+                         /*that.metaService.setTitle(that.currentPlace.description);
                          that.metaService.setTag('og:image', that.currentPlace.images[0].image);
                          that.metaService.setTag('og:description', that.currentPlace.description);
                          that.metaService.setTag('og:title', that.currentPlace.description);
@@ -119,7 +115,7 @@ export class PlaceDetailComponent implements OnInit{
                          that.metaService.setTag('og:site_name',  'RadarLeufú');
                          that.metaService.setTag('article:published_time',  that.currentPlace.created);
                          that.metaService.setTag('article:modified_time',  that.currentPlace.created);
-                     //    that.metaService.setTag('article:section',  that.getCategory(that.currentPlace.category));
+                     //    that.metaService.setTag('article:section',  that.getCategory(that.currentPlace.category));*/
 
 
 
@@ -133,8 +129,6 @@ export class PlaceDetailComponent implements OnInit{
     }
 
     beforeTabChange($event: NgbTabChangeEvent) {
-      console.log("this.lastUrl " + this.lastUrl);
-      console.log("this.getUrl() " + this.getUrl());
       if ($event.nextId === 'tab-comments' ) {
         this.initFacebook();
       }
@@ -147,7 +141,6 @@ export class PlaceDetailComponent implements OnInit{
         else{
             ret = APP_BASE_URL;
         }
-        console.log("getUrl " + ret);
         return ret;
     }
     ngOnInit() {
@@ -192,11 +185,9 @@ export class PlaceDetailComponent implements OnInit{
         var galleryImages:NgxGalleryImage[] = [];
         if (this.currentPlace){
             this.currentPlace.images.forEach(function(image:any) {
-                console.log("image " , image);
                 galleryImages.push({ small: image.image, medium: image.image, big: image.image});
             });
         };
-        console.dir(galleryImages);
         return galleryImages;
 
     }
