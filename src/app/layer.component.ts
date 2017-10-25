@@ -14,7 +14,7 @@ export class LayerComponent implements OnInit{
 
     @Input() viewer: any;
     layers: Layer[];
-
+    public collapsed = false;
     constructor(private layerService: LayerService,) {}
 
     ngOnInit() {

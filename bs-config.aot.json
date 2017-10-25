@@ -1,6 +1,6 @@
 {
   "open": false,
-  "logLevel": "silent",
+  "logLevel": "DEBUG",
   "port": 8080,
   "server": {
     "baseDir": "aot",

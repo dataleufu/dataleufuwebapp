@@ -38,8 +38,7 @@
                       (isPending)="disableSendButton($event)"
 
                     ></image-upload>
-
-                    <div [ngBusy]="{busy: busy, message: 'Enviando...'}"></div>
+<div [ngBusy]="{busy: busy, message: 'Enviando...'}"></div>
                     <hr/>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" [disabled]="!placeForm.form.valid">Enviar</button>

@@ -1,12 +1,12 @@
 ﻿import { Component } from '@angular/core';
 import {Input, Output, EventEmitter} from '@angular/core';
 import { AuthenticationService } from './authentication.service';
-import {BusyModule}              from 'angular2-busy';
 import {UserProfile} from './../place';
+import {BusyModule} from 'angular2-busy';
+
 
 @Component({
-    moduleId: module.id,
-    templateUrl: 'register.component.html'
+    templateUrl: './register.component.html',
 })
 
 export class RegisterComponent {
@@ -15,12 +15,13 @@ export class RegisterComponent {
     busy: any;
 
     @Output() user = new EventEmitter<UserProfile>();
-    private submitted = false;
+    public submitted = false;
 
     constructor(
          private authenticationService: AuthenticationService) { }
 
-    register() {
+
+    register(): any {
        this.busy = this.authenticationService.create(this.model)
             .subscribe(
                 data => {

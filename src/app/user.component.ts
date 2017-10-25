@@ -17,7 +17,7 @@ export class UserComponent implements OnInit{
 
     collapsed: boolean = false;
     @Output() user = new EventEmitter<UserProfile>();
-    private currentUser: UserProfile;
+    public currentUser: UserProfile;
 
     constructor(private authenticationService: AuthenticationService,
         private modalService: NgbModal,) { console.log("UserComponent constructor");}
