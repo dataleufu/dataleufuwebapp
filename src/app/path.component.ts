@@ -14,7 +14,7 @@ declare var Cesium : any;
 export class PathComponent implements OnInit{
 
     @Input() viewer: any;
-
+    public collapsed = false;
     constructor() { console.log("PathComponent constructor");}
 
     ngOnInit() {

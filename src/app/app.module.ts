@@ -3,8 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
-
-
+import {BusyModule}              from 'angular2-busy';
 import { AppComponent }         from './app.component';
 import { PlaceFormComponent }   from './place-form.component';
 import { PlaceService }         from './place.service';
@@ -21,7 +20,6 @@ import { LayerService }         from './layer.service';
 import { LayerComponent }         from './layer.component';
 import { PathComponent }         from './path.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {BusyModule}              from 'angular2-busy';
 import {LoginComponent} from './auth/login.component';
 import {RegisterComponent} from './auth/register.component';
 import { AuthenticationService } from './auth/authentication.service';
@@ -29,10 +27,11 @@ import { UserComponent }         from './user.component';
 import { MessageComponent }         from './message.component';
 import { NgxGalleryModule } from 'ngx-gallery';
 import {ShareButtonsModule} from 'ngx-sharebuttons';
-import { MetaModule } from 'ng2-meta';
-import { MetaConfig, MetaService } from 'ng2-meta';
+//import { MetaModule } from 'ng2-meta';
+//import { MetaConfig, MetaService } from 'ng2-meta';
 
-const metaConfig: MetaConfig = {
+
+/*const metaConfig: MetaConfig = {
   //Append a title suffix such as a site name to all titles
   //Defaults to false
   useTitleSuffix: true,
@@ -42,7 +41,7 @@ const metaConfig: MetaConfig = {
     'og:image': 'http://example.com/default-image.png',
     'any other': 'arbitrary tag can be used'
   }
-};
+};*/
 
 @NgModule({
   imports: [
@@ -55,9 +54,8 @@ const metaConfig: MetaConfig = {
     BrowserAnimationsModule,
     BusyModule,
     NgxGalleryModule,
-    ShareButtonsModule.forRoot(),
-
-    MetaModule.forRoot(metaConfig)
+    ShareButtonsModule.forRoot()
+//    MetaModule.forRoot(metaConfig)
   ],
   declarations: [
     AppComponent,
@@ -75,7 +73,7 @@ const metaConfig: MetaConfig = {
     UserComponent,
     MessageComponent
   ],
-  providers: [ PlaceService, CategoryService, LayerService, AuthenticationService, ],
+  providers: [ PlaceService, CategoryService, LayerService, AuthenticationService ],
   bootstrap: [ AppComponent ],
   exports :   [NgbModule],
   entryComponents: [

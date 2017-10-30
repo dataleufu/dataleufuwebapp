@@ -5,12 +5,13 @@ import { PlaceService }             from './place.service';
 import { CategoryService }          from './category.service';
 import {BusyModule}              from 'angular2-busy';
 
+
 @Component({
   selector: 'place-form',
   templateUrl: './place-form.component.html'
 })
 export class PlaceFormComponent implements OnInit{
-    private submitted = false;
+    public submitted = false;
     model = new Place(undefined, undefined, [], undefined, undefined, undefined, undefined);
     longitude: any;
     latitude: any;
@@ -19,7 +20,8 @@ export class PlaceFormComponent implements OnInit{
     categories: Category[];
     busy: Promise<any>;
 
-  constructor(public activeModal: NgbActiveModal, private placeService: PlaceService, private categoryService: CategoryService) {
+  constructor(public activeModal: NgbActiveModal, private placeService: PlaceService,
+    private categoryService: CategoryService) {
         console.log("PlaceFormComponent constructor " + this.categories);
   }
 
@@ -32,7 +34,7 @@ export class PlaceFormComponent implements OnInit{
 
   }
 
-  onSubmit(): void  {
+  onSubmit(): any  {
     this.model.point = "SRID=4326;POINT(" + this.longitude + " " + this.latitude + ")";
     this.model.owner = undefined;
     this.busy = this.placeService.createPlace(this.model)
@@ -41,6 +43,7 @@ export class PlaceFormComponent implements OnInit{
         this.callback(this.model.category);
       });
   }
+
   cancel(): void{
     this.callbackCancel();
     this.activeModal.close();
