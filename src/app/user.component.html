@@ -1,12 +1,32 @@
 <li class="nav-item" *ngIf="currentUser">
-    <a class="nav-link" href="#" (click)="collapseUser($event)">{{currentUser.user.username}}</a>
+    <a class="nav-link" href="#" (click)="collapseUser($event)">{{currentUser.user.username}} <i class="fa fa-caret-down"></i></a>
     <ul class="sidebar-submenu" [hidden]="!collapsed">
+        <li class="nav-item" >
+            <a class="nav-link" href="#" (click)="gotoMyLocation($event)" title="Mi ubicación">Ir a mi ubicación</a>
+        </li>
+        <li class="nav-item" >
+            <a class="nav-link" href="#" (click)="goHome($event)" title="Inicio">Ir al inicio</a>
+        </li>
         <li class="nav-item" >
             <a class="nav-link" href="#" (click)="logout($event)">Cerrar sesión</a>
         </li>
     </ul>
 </li>
 <li class="nav-item" *ngIf="!currentUser">
-    <a class="nav-link" href="#" (click)="login($event)" title="Ingresar">Ingresar</a>
-    <a class="nav-link" href="#" (click)="register($event)" title="Registrarse">Registrarse</a>
+    <a class="nav-link" href="#" (click)="collapseUser($event)" title="Ingresar">Participar <i class="fa fa-caret-down"></i></a>
+
+    <ul class="sidebar-submenu" [hidden]="!collapsed">
+        <li class="nav-item" >
+            <a class="nav-link" href="#" (click)="gotoMyLocation($event)" title="Mi ubicación">Ir a mi  ubicación</a>
+        </li>
+        <li class="nav-item" >
+            <a class="nav-link" href="#" (click)="goHome($event)" title="Inicio">Ir al inicio</a>
+        </li>
+        <li class="nav-item" >
+            <a class="nav-link" href="#" (click)="login($event)" title="Ingresar">Ingresar</a>
+        </li>
+        <li class="nav-item" >
+            <a class="nav-link" href="#" (click)="register($event)" title="Registrarse">Registrarse</a>
+        </li>
+    </ul>
 </li>

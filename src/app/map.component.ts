@@ -55,16 +55,21 @@ export class MapComponent implements OnInit {
         Cesium.BingMapsApi.defaultKey = 'ApTt78Y0u6795QNTrQ-9DFWdJxW8THvNVvHF1B19ayEzw1aiRXmunxndbwB_deO_';
         var el = this.element.nativeElement;
         this.viewer =  new Cesium.Viewer( el, {
-              baseLayerPicker: true,
-              fullscreenButton: true    ,
-              homeButton: true,
-              sceneModePicker: true,
+              baseLayerPicker: false,
+              fullscreenButton: false    ,
+              homeButton: false,
+              sceneModePicker: false,
               timeline: false,
               animation: false,
-              geocoder: true,
+              geocoder: false,
               selectionIndicator: true,
-              infoBox: false
+              infoBox: false,
+              navigationHelpButton: false,
+              creditContainer: 'page-content-wrapper',
             });
+            /*this.viewer.scene.frameState.creditDisplay.beginFrame();
+            var credit = new Cesium.Credit('RadarLeufú', 'assets/images/logo.png');
+            this.viewer.scene.frameState.creditDisplay.addDefaultCredit(credit);*/
 
         this.initUser();
         this.initPaths();
@@ -178,6 +183,7 @@ export class MapComponent implements OnInit {
         this.userContainer.clear();
         const factory: any = this.resolver.resolveComponentFactory(UserComponent);
         this.userComponentRef = this.userContainer.createComponent(factory);
+        this.userComponentRef.instance.viewer = this.viewer;
         this.userComponentRef.instance.user.subscribe((user:any) => {
             this.user = user;
         })

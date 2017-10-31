@@ -12,7 +12,8 @@
                         <p class="title text-primary">{{getCategory(currentEntity.properties.category).name}}
                             <a class="btn btn-link text-primary" href="#" (click)="flyToEntity($event)" title="Ir a la ubicación"><i class="fa fa-location-arrow text-primary"></i> Ir</a></p>
                         <p *ngIf="currentPlace" class="creation text-muted">
-                            Creado por <b>{{currentPlace.owner.user.username}}</b> <span *ngIf="currentPlace.owner.group"  (click)="t.select('tab-group')">del grupo <b>{{currentPlace.owner.group.name}}</b></span> el {{currentPlace.created | date:'dd/MM/yy'}}.  18 personas lo vieron. 34 personas están discutiendo.
+                            Creado por <b>{{currentPlace.owner.user.username}}</b> <span *ngIf="currentPlace.owner.group"  (click)="t.select('tab-group')">del grupo <b>{{currentPlace.owner.group.name}}</b></span> el {{currentPlace.created | date:'dd/MM/yy'}}.
+
                         </p>
                         <hr>
                          <div class="btn-group" role="group" aria-label="Acciones">
@@ -52,7 +53,7 @@
                                 </div>
                             </ng-template>
                         </ngb-tab>
-                        <ngb-tab id="tab-comments" title="Participar">
+                        <ngb-tab id="tab-comments" title="Comentarios">
                             <ng-template ngbTabContent>
                                 <div class="panel">
                                     <div id="fb-root"></div>
