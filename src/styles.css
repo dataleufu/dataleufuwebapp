@@ -197,9 +197,17 @@ section
     padding-bottom: 15pt;
 }
 .place_card .panel{
-    height: 500px;
-        overflow-y: auto;
+    height: 350px;
+    overflow-y: auto;
     overflow-x: hidden;
+}
+
+@media (min-width: 768px) {
+    .place_card .panel{
+        height: 500px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
 }
 .a{
 max-height: 20%;

@@ -8,6 +8,9 @@ import {LoginComponent} from './auth/login.component';
 import {RegisterComponent} from './auth/register.component';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
+declare var Cesium : any;
+
+
 @Component({
     selector: 'user',
     templateUrl: './user.component.html',
@@ -18,6 +21,7 @@ export class UserComponent implements OnInit{
     collapsed: boolean = false;
     @Output() user = new EventEmitter<UserProfile>();
     public currentUser: UserProfile;
+    @Input() viewer: any;
 
     constructor(private authenticationService: AuthenticationService,
         private modalService: NgbModal,) { console.log("UserComponent constructor");}
@@ -74,5 +78,27 @@ export class UserComponent implements OnInit{
             modalRef.close();
         });
 
+    }
+    goHome(event: any): void{
+        event.preventDefault();
+        var camera = this.viewer.scene.camera;
+        camera.flyHome();
+    }
+    gotoMyLocation(event: any): void{
+        event.preventDefault();
+        var that = this;
+        // Create callback for browser's geolocation
+        function fly(position) {
+            that.viewer.camera.flyTo({
+                destination : Cesium.Cartesian3.fromDegrees(position.coords.longitude, position.coords.latitude, 1000.0)
+            });
+        }
+
+        // Ask browser for location, and fly there.
+        navigator.geolocation.getCurrentPosition(fly, this.showErrors);
+    }
+    showErrors(error){
+         console.warn('ERROR(' + error.code + '): ' + error.message);
+         //Todo: mensajes al usuario (como servicio)
     }
 }

@@ -177,6 +177,12 @@ export class PlaceDetailComponent implements OnInit{
                 thumbnails: false,
                 imageAnimation: NgxGalleryAnimation.Slide
             },
+            // max-width 400
+            {
+                breakpoint: 400,
+                width: '100%',
+                height: '330px',
+            }
         ];
         this.galleryImages = [];
     }
