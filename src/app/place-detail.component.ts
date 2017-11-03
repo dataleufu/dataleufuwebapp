@@ -74,18 +74,6 @@ export class PlaceDetailComponent implements OnInit{
 
         var that = this;
         that.currentPlace = place;
-        /*that.metaService.setTitle('Product page for '+ that.currentPlace.description);
-                         that.metaService.setTag('og:image', that.currentPlace.images[0].image);
-                         that.metaService.setTag('og:description', that.currentPlace.description);
-                         that.metaService.setTag('og:title', that.currentPlace.description);
-                         that.metaService.setTag('og:type', 'article');
-                         that.metaService.setTag('og:url',  that.getUrl());
-                         that.metaService.setTag('og:site_name',  'RadarLeufú');
-                         that.metaService.setTag('article:published_time',  that.currentPlace.created);
-                         that.metaService.setTag('article:modified_time',  that.currentPlace.created);
-                         //that.metaService.setTag('article:section',  that.getCategory(that.currentPlace.category));
-
-*/
     }
 
     setCurrentItem(item: any){
@@ -105,19 +93,6 @@ export class PlaceDetailComponent implements OnInit{
                             that.currentPlace.images.push(new ImagePlace(null, 'http://lorempixel.com/600/400/nature/3'));
                         }
                         that.galleryImages = that.initGallery();
-
-                         /*that.metaService.setTitle(that.currentPlace.description);
-                         that.metaService.setTag('og:image', that.currentPlace.images[0].image);
-                         that.metaService.setTag('og:description', that.currentPlace.description);
-                         that.metaService.setTag('og:title', that.currentPlace.description);
-                         that.metaService.setTag('og:type', 'article');
-                         that.metaService.setTag('og:url',  that.getUrl());
-                         that.metaService.setTag('og:site_name',  'RadarLeufú');
-                         that.metaService.setTag('article:published_time',  that.currentPlace.created);
-                         that.metaService.setTag('article:modified_time',  that.currentPlace.created);
-                     //    that.metaService.setTag('article:section',  that.getCategory(that.currentPlace.category));*/
-
-
 
                     });
         }else{
@@ -141,7 +116,7 @@ export class PlaceDetailComponent implements OnInit{
         else{
             ret = APP_BASE_URL;
         }
-        return ret;
+        return encodeURIComponent(ret);
     }
     ngOnInit() {
         console.log("PlaceDetailComponent oninit");
@@ -190,8 +165,13 @@ export class PlaceDetailComponent implements OnInit{
     initGallery(){
         var galleryImages:NgxGalleryImage[] = [];
         if (this.currentPlace){
+            var imageDescription = this.currentPlace.description;
             this.currentPlace.images.forEach(function(image:any) {
-                galleryImages.push({ small: image.image, medium: image.image, big: image.image});
+                galleryImages.push({
+                    small: image.image,
+                    medium: image.image,
+                    big: image.image,
+                    description: imageDescription.substring(0, 200);});
             });
         };
         return galleryImages;

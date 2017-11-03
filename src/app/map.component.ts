@@ -15,7 +15,7 @@ import {UserProfile, Place, Point, GeoPlace} from './place';
 import { UserComponent }         from './user.component';
 import { MessageComponent }         from './message.component';
 import 'rxjs/add/operator/switchMap';
-
+import { APP_BASE_URL } from './config';
 
 declare var Cesium : any;
 
@@ -244,6 +244,10 @@ export class MapComponent implements OnInit {
     message(text:string){
         const modalRef = this.modalService.open(MessageComponent);
         modalRef.componentInstance.message = text;
+    }
+    getUrl(): string{
+
+        return encodeURIComponent('http://radiocut.fm');
     }
 
 }

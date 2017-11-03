@@ -301,6 +301,10 @@ a.vimeo:hover * { color:#FFF; }
     max-width: 120px;
     font-family: Affogato-bold;
 }
+.sidebar-nav .nav-social {
+    color: rgba(249, 246, 246, 1) !important;
+    padding: 5px;
+}
 @media (min-width: 768px) {
     .sidebar-nav {
         max-width: 220px;
@@ -370,7 +374,7 @@ ul.dropdown-menu {
 }
 
 .nav-social {
-    color: rgba(249, 246, 246, 1) !important;
+
     padding: 5px;
 }
 //////////////
