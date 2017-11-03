@@ -171,7 +171,7 @@ export class PlaceDetailComponent implements OnInit{
                     small: image.image,
                     medium: image.image,
                     big: image.image,
-                    description: imageDescription.substring(0, 200);});
+                    description: imageDescription.substring(0, 200)});
             });
         };
         return galleryImages;
