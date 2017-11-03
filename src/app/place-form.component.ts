@@ -41,7 +41,6 @@ export class PlaceFormComponent implements OnInit{
     this.busy = this.placeService.createPlace(this.model)
       .then(place => {
         this.url = APP_BASE_URL + place.pk;
-        console.log("this.url" + this.url);
         this.submitted = true;
 
         this.callback(this.model.category);
