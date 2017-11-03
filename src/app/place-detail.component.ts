@@ -116,7 +116,7 @@ export class PlaceDetailComponent implements OnInit{
         else{
             ret = APP_BASE_URL;
         }
-        return encodeURIComponent(ret);
+        return ret;
     }
     ngOnInit() {
         console.log("PlaceDetailComponent oninit");
