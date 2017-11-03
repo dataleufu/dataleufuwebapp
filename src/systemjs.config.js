@@ -38,8 +38,6 @@
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
       'ngx-sharebuttons': 'node_modules/ngx-sharebuttons/bundles/ngx-sharebuttons.umd.js'
-      /*,
-      'ng2-meta': 'node_modules/ng2-meta/dist/'*/
 
     },
     // packages tells the System loader how to load when no filename and/or no extension
@@ -64,11 +62,6 @@
         main: 'index.js',
         defaultExtension: 'js'
         }
-        /*,
-        'ng2-meta': {
-        main: 'index.js',
-        defaultExtension: 'js'
-        }*/
     }
   });
 })(this);

@@ -88,7 +88,7 @@ export class UserComponent implements OnInit{
         event.preventDefault();
         var that = this;
         // Create callback for browser's geolocation
-        function fly(position) {
+        function fly(position: any) {
             that.viewer.camera.flyTo({
                 destination : Cesium.Cartesian3.fromDegrees(position.coords.longitude, position.coords.latitude, 1000.0)
             });
@@ -97,7 +97,7 @@ export class UserComponent implements OnInit{
         // Ask browser for location, and fly there.
         navigator.geolocation.getCurrentPosition(fly, this.showErrors);
     }
-    showErrors(error){
+    showErrors(error: any){
          console.warn('ERROR(' + error.code + '): ' + error.message);
          //Todo: mensajes al usuario (como servicio)
     }
