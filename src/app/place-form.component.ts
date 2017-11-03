@@ -19,7 +19,7 @@ export class PlaceFormComponent implements OnInit{
     callbackCancel: any;
     categories: Category[];
     busy: Promise<any>;
-    @Output() url = new EventEmitter<UserProfile>();
+    @Output() url = new EventEmitter<string>();
 
   constructor(public activeModal: NgbActiveModal, private placeService: PlaceService,
     private categoryService: CategoryService) {
@@ -40,7 +40,7 @@ export class PlaceFormComponent implements OnInit{
     this.model.owner = undefined;
     this.busy = this.placeService.createPlace(this.model)
       .then(place => {
-        this.url = APP_BASE_URL + place.pk;
+        this.url.emit(APP_BASE_URL + place.pk);
         this.submitted = true;
 
         this.callback(this.model.category);
@@ -49,7 +49,7 @@ export class PlaceFormComponent implements OnInit{
 
     getUrl(): string{
         var ret = '';
-        if (this.place != undefined){
+        if (this.model != undefined){
             ret = APP_BASE_URL + this.model.pk.toString();
         }
         else{
