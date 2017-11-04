@@ -66,7 +66,9 @@ section
     bottom: 0;
     right: 0;
 }
-
+.place_card_container .nav-link{
+    padding: .5rem .7rem;
+}
 
 /*Modelo 1
 .place_card{

@@ -10,11 +10,9 @@
                         </button>
 
                         <p class="title text-primary">{{getCategory(currentEntity.properties.category).name}}
-                            <a class="btn btn-link text-primary" href="#" (click)="flyToEntity($event)" title="Ir a la ubicación"><i class="fa fa-location-arrow text-primary"></i> Ir</a></p>
-                        <p *ngIf="currentPlace" class="creation text-muted">
-                            Creado por <b>{{currentPlace.owner.user.username}}</b> <span *ngIf="currentPlace.owner.group"  (click)="t.select('tab-group')">del grupo <b>{{currentPlace.owner.group.name}}</b></span> el {{currentPlace.created | date:'dd/MM/yy'}}.
+                        <a class="btn btn-link text-primary" href="#" (click)="flyToEntity($event)" title="Ir a la ubicación">
+                            <i class="fa fa-location-arrow text-primary"></i> Ir</a></p>
 
-                        </p>
                         <hr>
                          <div class="btn-group" role="group" aria-label="Acciones">
                             <a class="btn btn-link" href="#" (click)="$event.preventDefault();"><i class="fa fa-thumbs-o-up"></i> Lo ví, es así</a>
@@ -43,12 +41,15 @@
                             <ng-template ngbTabContent>
                                 <div class="panel">
                                     <p class="title text-primary">{{getCategory(currentEntity.properties.category).name}}
-                                    <a class="btn btn-link text-primary" href="#" (click)="flyToEntity($event)" title="Ir a la ubicación"><i class="fa fa-location-arrow text-primary"></i> Ir</a></p>
-                                    <p #textContent>{{currentEntity.properties.description}}</p>
-                                    <hr/>
-                                    <p *ngIf="currentPlace" class="creation text-muted">
-                                        Creado por <b>{{currentPlace.owner.user.username}}</b> <span *ngIf="currentPlace.owner.group"  (click)="t.select('tab-group')">del grupo <b>{{currentPlace.owner.group.name}}</b></span> el {{currentPlace.created | date:'dd/MM/yy'}}.  18 personas lo vieron. 34 personas están discutiendo.
+
+                                     <p *ngIf="currentPlace" class="creation text-muted">
+                                        Creado por <b>{{currentPlace.owner.user.username}}</b> <span *ngIf="currentPlace.owner.group"  (click)="t.select('tab-group')">del grupo <b>{{currentPlace.owner.group.name}}</b></span> el {{currentPlace.created | date:'dd/MM/yy'}}.
+
                                     </p>
+                                    <hr/>
+                                    <p #textContent>{{currentEntity.properties.description}}</p>
+
+
                                     <hr>
                                 </div>
                             </ng-template>
