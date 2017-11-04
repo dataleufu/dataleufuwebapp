@@ -4,6 +4,7 @@ var fs = require("fs-extra");
 var resources = [
   'node_modules/core-js/client/shim.min.js',
   'node_modules/zone.js/dist/zone.min.js',
+  'node_modules/hammerjs/hammer.min.js',
   'src/styles.css',
 ];
 resources.map(function(f) {

@@ -235,7 +235,13 @@ height: 90%;
 .detail-header a{
     color: #343a40;
     font-size: 0.85rem;
-    padding: .1675rem .75rem !important;
+    padding-top: .1675rem !important;
+    padding-bottom: .1675rem !important;
+    padding-left: .01rem !important;
+    padding-right: .8rem !important;
+}
+.detail-header .dropdown-item{
+   padding-left: .8rem !important;
 }
 .detail-header .creation{
     color: #343a40;

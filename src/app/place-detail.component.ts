@@ -150,13 +150,17 @@ export class PlaceDetailComponent implements OnInit{
                 width: '100%',
                 height: '480px',
                 thumbnails: false,
-                imageAnimation: NgxGalleryAnimation.Slide
+                imageAnimation: NgxGalleryAnimation.Slide,
+                imageSwipe: true,
+                previewSwipe: true
             },
             // max-width 400
             {
                 breakpoint: 400,
                 width: '100%',
                 height: '330px',
+                imageSwipe: true,
+                previewSwipe: true
             }
         ];
         this.galleryImages = [];
