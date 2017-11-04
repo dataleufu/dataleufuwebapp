@@ -64,12 +64,10 @@ export class MapComponent implements OnInit {
               geocoder: false,
               selectionIndicator: true,
               infoBox: false,
-              navigationHelpButton: false,
-              creditContainer: 'page-content-wrapper',
+              navigationHelpButton: false
             });
-            /*this.viewer.scene.frameState.creditDisplay.beginFrame();
-            var credit = new Cesium.Credit('RadarLeufú', 'assets/images/logo.png');
-            this.viewer.scene.frameState.creditDisplay.addDefaultCredit(credit);*/
+            this.viewer.scene.frameState.creditDisplay.destroy() ;
+
 
         this.initUser();
         this.initPaths();
