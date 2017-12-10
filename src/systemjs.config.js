@@ -4,6 +4,7 @@
  */
 (function (global) {
   System.config({
+       defaultJSExtensions: 'js',
     paths: {
       // paths serve as alias
       'npm:': 'node_modules/'
@@ -29,7 +30,9 @@
       '@angular/upgrade': 'npm:@angular/upgrade/bundles/upgrade.umd.js',
       '@angular/upgrade/static': 'npm:@angular/upgrade/bundles/upgrade-static.umd.js',
       '@angular/flex-layout': 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
-      '@ng-bootstrap/ng-bootstrap': 'node_modules/@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
+
+      '@ng-bootstrap':              'npm:@ng-bootstrap',
+      '@ng-bootstrap/ng-bootstrap': 'npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
       'angular2-image-upload': 'node_modules/angular2-image-upload',
       'angular2-busy': 'node_modules/angular2-busy/build/',
       'ngx-gallery': 'node_modules/ngx-gallery/bundles/ngx-gallery.umd.js',
