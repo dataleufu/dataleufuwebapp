@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import { AboutComponent }       from './about.component';
+import {AboutComponent} from './about/about.component';
 import { PlaceFormComponent }   from './place-form.component';
 import { PlaceService }            from './place.service';
 import { TestComponent }            from './test.component';
