@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {AboutComponent} from './about/about.component';
+import {AboutComponent} from './about.component';
 import { PlaceFormComponent }   from './place-form.component';
 import { PlaceService }            from './place.service';
 import { TestComponent }            from './test.component';
@@ -17,12 +17,16 @@ import { MessageComponent }         from './message.component';
 import 'rxjs/add/operator/switchMap';
 import { APP_BASE_URL } from './config';
 
+
+import { MapService }         from './map.service';
+
 declare var Cesium : any;
 
 
 @Component({
   selector: 'map',
   templateUrl: './map.component.html',
+  providers: [MapService]
 })
 export class MapComponent implements OnInit {
     viewer: any;
@@ -49,26 +53,11 @@ export class MapComponent implements OnInit {
     constructor(public element: ElementRef, private modalService: NgbModal,
             private placeService: PlaceService, private layerService: LayerService,
             private resolver: ComponentFactoryResolver,
-            private route: ActivatedRoute,){}
+            private route: ActivatedRoute, private mapService: MapService){}
 
     ngOnInit() {
-        Cesium.BingMapsApi.defaultKey = 'ApTt78Y0u6795QNTrQ-9DFWdJxW8THvNVvHF1B19ayEzw1aiRXmunxndbwB_deO_';
-        var el = this.element.nativeElement;
-        this.viewer =  new Cesium.Viewer( el, {
-              baseLayerPicker: false,
-              fullscreenButton: false    ,
-              homeButton: false,
-              sceneModePicker: false,
-              timeline: false,
-              animation: false,
-              geocoder: false,
-              selectionIndicator: true,
-              infoBox: false,
-              navigationHelpButton: false
-            });
-            this.viewer.scene.frameState.creditDisplay.destroy() ;
-
-
+        this.mapService.init(this.element.nativeElement);
+        this.viewer = this.mapService.getMap();
         this.initUser();
         this.initPaths();
         this.initDetails();
@@ -172,7 +161,6 @@ export class MapComponent implements OnInit {
         this.pathContainer.clear();
         const factory: any = this.resolver.resolveComponentFactory(PathComponent);
         this.pathComponentRef = this.pathContainer.createComponent(factory);
-        this.pathComponentRef.instance.viewer = this.viewer;
     }
 
     initUser(){
