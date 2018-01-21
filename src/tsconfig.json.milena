@@ -10,9 +10,5 @@
     "noImplicitAny": true,
    "lib": [ "es2015", "dom" ]
 
-  },
-  "exclude": [
-        "main-aot.ts",
-        "**/*.spec.ts"
-    ]
+  }
 }

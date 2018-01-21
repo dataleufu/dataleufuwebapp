@@ -8,7 +8,7 @@ import { AppComponent }         from './app.component';
 import { PlaceFormComponent }   from './place-form.component';
 import { PlaceService }         from './place.service';
 import { CategoryService }      from './category.service';
-import { AboutComponent }       from './about.component';
+import {AboutComponent} from './about.component';
 import { MainComponent }        from './main.component';
 import { MapComponent }         from './map.component';
 import { NgbModule }            from '@ng-bootstrap/ng-bootstrap';
@@ -27,7 +27,7 @@ import { UserComponent }         from './user.component';
 import { MessageComponent }         from './message.component';
 import { NgxGalleryModule } from 'ngx-gallery';
 import {ShareButtonsModule} from 'ngx-sharebuttons';
-
+import { MapService }         from './map.service';
 
 
 @NgModule({
@@ -59,7 +59,7 @@ import {ShareButtonsModule} from 'ngx-sharebuttons';
     UserComponent,
     MessageComponent
   ],
-  providers: [ PlaceService, CategoryService, LayerService, AuthenticationService ],
+  providers: [ PlaceService, CategoryService, LayerService, AuthenticationService, MapService],
   bootstrap: [ AppComponent ],
   exports :   [NgbModule],
   entryComponents: [

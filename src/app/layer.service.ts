@@ -1,8 +1,8 @@
-import { Injectable }    from '@angular/core';
-import { Headers, Http } from '@angular/http';
-import { API_BASE_URL } from './config';
+import {Injectable}    from '@angular/core';
+import {Headers, Http} from '@angular/http';
+import {API_BASE_URL} from './config';
 import 'rxjs/add/operator/toPromise';
-import { Layer, INTERNAL_LAYER, Category } from './place';
+import {Layer, INTERNAL_LAYER, Category} from './place';
 
 @Injectable()
 export class LayerService {
@@ -33,9 +33,19 @@ export class LayerService {
   }
 
   formatLayer(layer: Layer):void{
-    if (layer.type == INTERNAL_LAYER && (layer.url == null || layer.url == "")){
-        layer.url = API_BASE_URL + '/places/' + layer.category;
-      }
+    if (layer.type == INTERNAL_LAYER){
+        if (layer.category != null)
+            layer.url = API_BASE_URL + '/places/' + layer.category.pk;
+        else
+            throw "Si la capa es interna debe tener una categoría asignada: " + layer.name;
+
+    }
+    else{
+        //Si es externa deja la url
+        if( layer.url == null || layer.url == "")
+            throw "Si la capa es externa debe tener una url: " + layer.name;
+    }
+
   }
 
   private handleError(error: any): Promise<any> {

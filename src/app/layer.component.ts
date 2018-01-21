@@ -2,6 +2,7 @@ import { Component, OnInit }         from '@angular/core';
 import {Input, Output, EventEmitter} from '@angular/core'
 import { LayerService }         from './layer.service';
 import { Layer }         from './place';
+import { MapService }         from './map.service';
 
 declare var Cesium : any;
 
@@ -12,35 +13,33 @@ declare var Cesium : any;
 })
 export class LayerComponent implements OnInit{
 
-    @Input() viewer: any;
     layers: Layer[];
     public collapsed = false;
-    constructor(private layerService: LayerService,) {}
+    constructor(private layerService: LayerService, private mapService: MapService) { console.log("LayerComponent constructor ");}
 
     ngOnInit() {
-        var that = this;
+        console.log("LayerComponent ngOnInit ");
         this.layerService
             .getLayers()
-            .then(function (layers) {
-                that.layers = layers;
-                that.layers.forEach( function(layer, indice, array) {
-                    if (layer.visible == true)
-                        that.loadLayer(layer);
-                    });
-                });
+            .then((layers) => {
+                this.loadLayers(layers);//.then( () => this.layers = layers;);
+                this.layers = layers; //seteo los layers sin esperar que carguen
+            });
     }
 
     getCategoryLayer(id: number): Layer {
-        return this.layers.find(x => +x.category === id );
+        return this.layers.find(x => +x.category.pk === id );
     }
 
-    loadLayer(layer:Layer){
+
+    loadLayer(layer:Layer): Promise<any>{
         var that = this;
         console.log("Loading layer ... " + layer.name);
         var geoJsonPromise = Cesium.GeoJsonDataSource.load(layer.url);
         geoJsonPromise.then(function (datasource1:any) {
-            var datasourcePromise = that.viewer.dataSources.add(datasource1);
+            var datasourcePromise = that.mapService.getMap().dataSources.add(datasource1);
             datasourcePromise.then(function (datasource2:any){
+                console.log("carga ", layer.url);
                 var entities = datasource2.entities.values;
                 for (var i = 0; i < entities.length; i++) {
                     var entity = entities[i];
@@ -54,10 +53,18 @@ export class LayerComponent implements OnInit{
                 layer.visible = true;
             });
         });
+        return geoJsonPromise;
     }
 
+    loadLayers(layers: Layer[]): Promise<any>{
+        var promises = new Array();
+        layers.forEach((layer, indice, array) => {
+            promises.push(this.loadLayer(layer));
+        });
+        return Promise.all(promises).then( () => { console.log("cargó todo");  });
+    }
     hideLayer(layer:Layer){
-        var removed = this.viewer.dataSources.remove(layer.datasource);
+        var removed = this.mapService.getMap().dataSources.remove(layer.datasource);
         if (removed)
             layer.visible = false;
     }

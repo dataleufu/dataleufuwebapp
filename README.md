@@ -31,3 +31,23 @@ npm start
 ```
 
 
+## Testing
+
+```
+npm run test
+```
+
+## Producción
+
+Compilación aot
+
+```
+npm run build:aot:production
+```
+
+Usar con compilación aot localmente:
+
+
+```
+npm run serve:aot
+```

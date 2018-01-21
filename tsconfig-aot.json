@@ -15,12 +15,15 @@
   },
 
   "files": [
-    "src/app/app.module.ts",
     "src/main-aot.ts"
   ],
 
   "angularCompilerOptions": {
     "genDir": "aot",
     "skipMetadataEmit" : true
-  }
+  },
+    "exclude": [
+        "main.ts",
+        "**/*.spec.ts"
+    ]
 }

@@ -1,7 +1,7 @@
-import rollup      from 'rollup'
+//import rollup      from 'rollup'
 import nodeResolve from 'rollup-plugin-node-resolve'
 import commonjs    from 'rollup-plugin-commonjs';
-import uglify      from 'rollup-plugin-uglify'
+//import uglify      from 'rollup-plugin-uglify'
 
 //paths are relative to the execution path
 export default {
@@ -22,14 +22,14 @@ export default {
   plugins: [
     nodeResolve({jsnext: true, module: true}),
     commonjs({
-      include: ['node_modules/rxjs/**', 'node_modules/angular2-image-upload/**', 'node_modules/angular2-busy/build/**'],
+      include: ["node_modules/**", 'node_modules/rxjs/**', 'node_modules/angular2-image-upload/**', 'node_modules/angular2-busy/build/**'],
       namedExports: {
         // left-hand side can be an absolute path, a path
         // relative to the current directory, or the name
         // of a module in node_modules
         'node_modules/angular2-busy/build/index.js': [ 'BusyModule' ]
       }
-    }),
-    uglify()
+    })/*,
+    uglify()*/
   ]
 }
