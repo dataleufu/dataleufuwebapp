@@ -60,6 +60,7 @@
     "hammerjs": "^2.0.8",
     "jquery": "^3.2.1",
     "ng2share": "^1.3.6",
+    "ngx-facebook": "^2.4.0",
     "ngx-gallery": "^2.0.0",
     "ngx-sharebuttons": "^3.0.0",
     "read-more-directive-angular2": "0.0.5",

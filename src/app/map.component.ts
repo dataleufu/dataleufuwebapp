@@ -16,12 +16,12 @@ import { UserComponent }         from './user.component';
 import { MessageComponent }         from './message.component';
 import 'rxjs/add/operator/switchMap';
 import { APP_BASE_URL } from './config';
-
+import { FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
 
 import { MapService }         from './map.service';
 
 declare var Cesium : any;
-
+declare var FB: any;
 
 @Component({
   selector: 'map',
@@ -53,7 +53,9 @@ export class MapComponent implements OnInit {
     constructor(public element: ElementRef, private modalService: NgbModal,
             private placeService: PlaceService, private layerService: LayerService,
             private resolver: ComponentFactoryResolver,
-            private route: ActivatedRoute, private mapService: MapService){}
+            private route: ActivatedRoute, private mapService: MapService,
+            private fb: FacebookService
+            ){}
 
     ngOnInit() {
         this.mapService.init(this.element.nativeElement);
@@ -61,7 +63,6 @@ export class MapComponent implements OnInit {
         this.initUser();
         this.initPaths();
         this.initDetails();
-
 
         var that = this;
         var promise = this.pathComponentRef.instance.rotate().then(

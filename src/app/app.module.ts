@@ -28,7 +28,7 @@ import { MessageComponent }         from './message.component';
 import { NgxGalleryModule } from 'ngx-gallery';
 import {ShareButtonsModule} from 'ngx-sharebuttons';
 import { MapService }         from './map.service';
-
+import { FacebookModule } from 'ngx-facebook';
 
 @NgModule({
   imports: [
@@ -41,7 +41,8 @@ import { MapService }         from './map.service';
     BrowserAnimationsModule,
     BusyModule,
     NgxGalleryModule,
-    ShareButtonsModule.forRoot()
+    ShareButtonsModule.forRoot(),
+    FacebookModule.forRoot()
   ],
   declarations: [
     AppComponent,

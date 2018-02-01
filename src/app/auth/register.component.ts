@@ -22,11 +22,13 @@ export class RegisterComponent {
 
 
     register(): any {
+       console.log("RegisterComponent register");
        this.busy = this.authenticationService.create(this.model)
             .subscribe(
                 data => {
 
                      this.submitted = true;
+                     console.log("RegisterComponent submitted");
                 },
                 error => {
                     this.error = error;
@@ -36,6 +38,7 @@ export class RegisterComponent {
         this.user.emit(null);
     }
     close(){
+        console.log("close this.authenticationService.user_profile" + this.authenticationService.user_profile);
         this.user.emit(this.authenticationService.user_profile);
     }
 
