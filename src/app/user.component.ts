@@ -98,7 +98,7 @@ export class UserComponent implements OnInit{
         navigator.geolocation.getCurrentPosition(fly, this.showErrors);
     }
     showErrors(error: any){
-         console.warn('ERROR(' + error.code + '): ' + error.message);
+         console.log('ERROR(' + error.code + '): ' + error.message);
          //Todo: mensajes al usuario (como servicio)
     }
 }
