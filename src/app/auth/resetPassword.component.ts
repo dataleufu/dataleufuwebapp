@@ -7,10 +7,10 @@ import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
-    templateUrl: './register.component.html',
+    templateUrl: './resetPassword.component.html',
 })
 
-export class RegisterComponent {
+export class ResetPasswordComponent {
     model: any = {};
     error: any = {};
     busy: any;
@@ -24,12 +24,10 @@ export class RegisterComponent {
          public activeModal: NgbActiveModal) //Modal del login
          { }
 
-    register(): any {
-       this.busy = this.authenticationService.create(this.model)
+    resetPassword(): any {
+       this.busy = this.authenticationService.resetPassword(this.model)
             .subscribe(
                 data => {
-                     this.user.emit(this.authenticationService.user_profile);
-                     this.currentUser = this.authenticationService.user_profile;
                      this.submitted = true;
                 },
                 error => {
@@ -38,10 +36,8 @@ export class RegisterComponent {
     }
 
     cancel(){
-        this.user.emit(null);
         this.activeModal.close();
     }
-
     close(){
         this.activeModal.close();
     }

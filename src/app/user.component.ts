@@ -40,7 +40,6 @@ export class UserComponent implements OnInit{
         const modalRef  = this.modalService.open(LoginComponent);
         modalRef.componentInstance.user.subscribe((user:UserProfile) => {
             this.setUser(user);
-            modalRef.close();
         });
 
     }
@@ -70,15 +69,7 @@ export class UserComponent implements OnInit{
         this.currentUser = user;
     }
 
-    register(event: any): void{
-        event.preventDefault();
-        const modalRef  = this.modalService.open(RegisterComponent);
-        modalRef.componentInstance.user.subscribe((user:UserProfile) => {
-            this.setUser(user);
-            modalRef.close();
-        });
 
-    }
     goHome(event: any): void{
         event.preventDefault();
         var camera = this.viewer.scene.camera;

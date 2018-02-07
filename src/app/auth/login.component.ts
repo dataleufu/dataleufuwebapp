@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import {Input, Output, EventEmitter} from '@angular/core';
-import { AuthenticationService } from './authentication.service';
+import {AuthenticationService } from './authentication.service';
 import {UserProfile} from './../place';
 import {BusyModule} from 'angular2-busy';
-import { FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
-import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
+import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {RegisterComponent} from './register.component';
+import {ResetPasswordComponent} from './resetPassword.component';
 
 @Component({
     templateUrl: './login.component.html',
@@ -16,15 +17,17 @@ export class LoginComponent implements OnInit {
     error = '';
     @Output() user = new EventEmitter<UserProfile>();
     busy: any;
+    public submitted = false;
+    public currentUser: UserProfile;
 
     constructor(
         private authenticationService: AuthenticationService,
         private fb: FacebookService,
-        private modalService: NgbModal) { }
+        public activeModal: NgbActiveModal, //Modal del login
+        private modalService: NgbModal) //Modal para abrir la venta del registro
+        { }
 
     ngOnInit() {
-        // reset login status
-        console.log("LoginComponent ngOnInit");
         this.authenticationService.logout();
 
         let initParams: InitParams = {
@@ -40,13 +43,14 @@ export class LoginComponent implements OnInit {
     login(): void {
         this.busy = this.authenticationService.login(this.model.username, this.model.password)
             .subscribe(result => {
-                console.log("Login controller result " + result);
-                console.dir(result);
                 if (result === true) {
-                   this.user.emit(this.authenticationService.user_profile);
+
+                    this.currentUser = this.authenticationService.user_profile;
+                    this.user.emit(this.authenticationService.user_profile);
+                    this.submitted = true;
 
                 } else {
-                    this.error = 'Username or password is incorrect';
+                    this.error = 'Usuario o contraseña incorrecto.';
                 }
             },
             err => {
@@ -55,22 +59,23 @@ export class LoginComponent implements OnInit {
                 this.error = 'Username or password is incorrect';
             });
     }
+    close(){
+        this.activeModal.close();
+    }
     cancel(){
         this.user.emit(null);
     }
     register(event: any): void{
         event.preventDefault();
-        this.user.emit(null);
+        this.activeModal.close();
         const modalRef  = this.modalService.open(RegisterComponent);
         modalRef.componentInstance.user.subscribe((user:UserProfile) => {
             this.user.emit(this.authenticationService.user_profile);
-            modalRef.close();
         });
 
     }
 
     facebookLogin(event:any):void{
-        console.log("LoginComponent facebookLogin");
         event.preventDefault();
         this.fb.login({ scope: 'email, public_profile, user_friends', return_scopes: true }).then(
             (response: LoginResponse) => {
@@ -84,9 +89,9 @@ export class LoginComponent implements OnInit {
                     console.log("access_token " + access_token);
                     this.busy = this.authenticationService.facebookLogin(access_token)
                     .subscribe(result => {
-                            console.log("facebookLogin result" + result);
-                            console.dir(result);
+                            this.currentUser = this.authenticationService.user_profile;
                             this.user.emit(this.authenticationService.user_profile);
+                            this.submitted = true;
                             console.log("facebookLogin emit" + this.authenticationService.user_profile);
                         });
 
@@ -95,4 +100,13 @@ export class LoginComponent implements OnInit {
             (error: any) => console.error(error)
         );
     }
+
+    resetPassword(event: any): void{
+        event.preventDefault();
+        this.activeModal.close();
+        const modalRef  = this.modalService.open(ResetPasswordComponent);
+
+
+    }
+
 }
