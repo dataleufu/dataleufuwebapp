@@ -1,35 +1,55 @@
-<div class="modal-header">
-    <h2>Inicia sesión</h2>
-</div>
-<div class="modal-body">
-    <div class="container-fluid">
-        <div *ngIf="error" class="alert alert-danger" role="alert">El usuario o la contraseña son incorrectos.</div>
-        <div [ngBusy]="{busy: busy, message: 'Enviando...'}"></div>
-        <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+<div [hidden]="submitted">
+    <div class="modal-header">
+        <h2>Inicia sesión</h2>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div *ngIf="error" class="alert alert-danger" role="alert">El usuario o la contraseña son incorrectos.</div>
+            <div [ngBusy]="{busy: busy, message: 'Enviando...'}"></div>
             <div class="form-group">
-                <button type="submit" (click)="facebookLogin($event)" class="loginBtn loginBtn--facebook">Login con Facebook</button>
-            </div>
-            <p class="text-muted">O inicia con tu usuario y contraseña</p>
-            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-                <label for="username">Usuario</label>
-                <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
-                <div *ngIf="f.submitted && !username.valid" class="help-block">Completar el nombre de usuario.</div>
-            </div>
-            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-                <label for="password">Contraseña</label>
-                <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
-                <div *ngIf="f.submitted && !password.valid" class="help-block">Completar la contraseña</div>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary">Ingresar</button>
-                <button type="submit" (click)="cancel()" class="btn btn-secondary">Cancelar</button>
-            </div>
-            <div class="form-group">
-                <p>¿No tienes cuenta? <a href="#" (click)="register($event)" >Registrate</a></p>
-            </div>
+                    <button (click)="facebookLogin($event)" class="loginBtn loginBtn--facebook">Login con Facebook</button>
+                </div>
+            <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
 
-            <!--div class="fb-login-button" data-max-rows="1" data-size="large"
-                onlogin="facebookLogin($event)" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true"></div-->
-        </form>
+                <p class="text-muted">O inicia con tu usuario y contraseña</p>
+                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                    <label for="username">Usuario</label>
+                    <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
+                    <div *ngIf="f.submitted && !username.valid" class="help-block">Completar el nombre de usuario.</div>
+                </div>
+                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                    <label for="password">Contraseña</label>
+                    <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+                    <div *ngIf="f.submitted && !password.valid" class="help-block">Completar la contraseña</div>
+                    <p class="pull-rigth"><small> <a href="#" (click)="resetPassword($event)" >¿Olvidaste tu contraseña?</a></small></p>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary">Ingresar</button>
+                    <button type="submit" (click)="close()" class="btn btn-secondary">Cancelar</button>
+                </div>
+                <div class="form-group">
+                    <p>¿No tienes cuenta? <a href="#" (click)="register($event)" >Registrate</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div [hidden]="!submitted">
+    <div class="modal-header">
+        <h2 *ngIf="currentUser">¡Hola {{currentUser.user.username}}!</h2>
+
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h4>Bienvenida/o a RadarLeufú.</h4>
+                    <p>Si sos parte de un grupo, escribinos a <a href="mailto:contacto@radarleufu.com">contacto@radarleufu.com</a>
+                    para crear el grupo en la plataforma o para asociar tu usuario al grupo al cual perteneces.</p>
+                    <button class="btn btn-primary" (click)="close()">Cerrar</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

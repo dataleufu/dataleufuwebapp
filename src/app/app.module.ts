@@ -22,6 +22,7 @@ import { PathComponent }         from './path.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoginComponent} from './auth/login.component';
 import {RegisterComponent} from './auth/register.component';
+import {ResetPasswordComponent} from './auth/resetPassword.component';
 import { AuthenticationService } from './auth/authentication.service';
 import { UserComponent }         from './user.component';
 import { MessageComponent }         from './message.component';
@@ -57,6 +58,7 @@ import { FacebookModule } from 'ngx-facebook';
     PathComponent,
     LoginComponent,
     RegisterComponent,
+    ResetPasswordComponent,
     UserComponent,
     MessageComponent
   ],
@@ -73,6 +75,7 @@ import { FacebookModule } from 'ngx-facebook';
     PathComponent,
     LoginComponent,
     RegisterComponent,
+    ResetPasswordComponent,
     UserComponent,
     MessageComponent
     ]

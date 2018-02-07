@@ -132,5 +132,14 @@ export class AuthenticationService {
         .catch((error:any) => Observable.throw(error.json())); //...errors if any
     }
 
+    resetPassword(mail: string): Observable<boolean> {
 
+        console.log("AuthenticationService resetPassword" + {email: mail});
+        return this.http.post(API_BASE_URL + '/rest-auth/password/reset/', mail, {headers: this.headers})
+            .map((response: Response) => {
+                console.log("Response",response);
+                return true;
+            })
+        .catch((error:any) => Observable.throw(error.json())); //...errors if any
+    }
 }
