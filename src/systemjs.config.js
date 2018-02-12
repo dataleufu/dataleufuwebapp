@@ -33,7 +33,7 @@
 
       '@ng-bootstrap':              'npm:@ng-bootstrap',
       '@ng-bootstrap/ng-bootstrap': 'npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
-      'angular2-image-upload': 'node_modules/angular2-image-upload',
+      'angular2-image-upload': 'node_modules/angular2-image-upload/lib/image-upload.module.js',
       'angular2-busy': 'node_modules/angular2-busy/build/',
       'ngx-gallery': 'node_modules/ngx-gallery/bundles/ngx-gallery.umd.js',
       'ngx-sharebuttons': 'node_modules/ngx-sharebuttons/index.js',
@@ -42,6 +42,7 @@
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
       'ngx-sharebuttons': 'node_modules/ngx-sharebuttons/bundles/ngx-sharebuttons.umd.js',
       'ngx-facebook': 'node_modules/ng2-facebook-sdk/dist/umd/index.js'
+
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -58,13 +59,14 @@
         defaultExtension: 'js'
       },
       'angular2-image-upload': {
-        main: 'index.js',
+     //   main: 'index.js',
         defaultExtension: 'js'
         },
       'angular2-busy': {
         main: 'index.js',
         defaultExtension: 'js'
         }
+
     }
   });
 })(this);

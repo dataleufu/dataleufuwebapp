@@ -139,4 +139,30 @@ export class PathComponent implements OnInit{
         this.flyPath(initOptions, endOptions, 1000);
     }
 
+    mar(event:any):void {
+        if(event)
+            event.preventDefault();
+
+        var endOptions = {
+            destination : Cesium.Cartesian3.fromRadians(-1.0966376539541591, -0.714761512976013, 2424.754074754378),
+            orientation: {
+                heading : 2.706472903896117,
+                pitch :  -0.33305607852132013,
+                roll :  6.28178121684164
+            },
+            duration: 6,
+        };
+
+        var initOptions = {
+            destination : Cesium.Cartesian3.fromRadians(-1.0989047766093116, -0.7121512218536901, 2369.5778258946666),
+            duration: 6,
+            orientation: {
+                heading :  2.7064725290787877,//Cesium.Math.toRadians(15.0),
+                pitch :  -0.33305840938509945, //-Cesium.Math.PI_OVER_FOUR,
+                roll : 6.281782363304135
+            }
+        };
+        this.flyPath(initOptions, endOptions, 1000);
+    }
+
 }

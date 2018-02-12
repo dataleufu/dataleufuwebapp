@@ -1,10 +1,9 @@
-import { Component, OnInit }         from '@angular/core';
+import {Component, OnInit }         from '@angular/core';
 import {Input, Output, EventEmitter} from '@angular/core'
-import { INITIAL_ROTATION_DURATION } from './config';
-import { AuthenticationService } from './auth/authentication.service';
-import { UserProfile } from './place';
+import {INITIAL_ROTATION_DURATION } from './config';
+import {AuthenticationService } from './auth/authentication.service';
+import {UserProfile } from './place';
 import {LoginComponent} from './auth/login.component';
-
 import {RegisterComponent} from './auth/register.component';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -24,7 +23,7 @@ export class UserComponent implements OnInit{
     @Input() viewer: any;
 
     constructor(private authenticationService: AuthenticationService,
-        private modalService: NgbModal,) { console.log("UserComponent constructor");}
+        private modalService: NgbModal,) {}
 
     ngOnInit() {
         this.tryLogin();
@@ -36,7 +35,8 @@ export class UserComponent implements OnInit{
     }
 
     login(event: any): void{
-        event.preventDefault();
+        if (event)
+            event.preventDefault();
         const modalRef  = this.modalService.open(LoginComponent);
         modalRef.componentInstance.user.subscribe((user:UserProfile) => {
             this.setUser(user);

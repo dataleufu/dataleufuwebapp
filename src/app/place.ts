@@ -1,7 +1,8 @@
 export class ImagePlace {
     constructor(
         public pk: number,
-        public image: string){}
+        public image: string,
+        public action: string){}
 }
 export class Point {
     constructor(
@@ -19,8 +20,11 @@ export class Place {
     public category: Category,
     public owner: UserProfile
 
-  ) {  }
+  ){}
+
+
 }
+
 export class GeoPlace {
 
   constructor(

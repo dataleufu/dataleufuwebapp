@@ -1,29 +1,11 @@
 <div [hidden]="submitted">
     <div class="modal-header">
-        <h2>Completá tu informe</h2>
+        <h2>Actualizá tus imágenes</h2>
     </div>
 
     <div class="modal-body">
         <div class="container-fluid">
                 <form (ngSubmit)="onSubmit()" #placeForm="ngForm">
-                    <div class="form-group">
-                        <label for="category">Categoría</label>
-                        <select [(ngModel)]="model.category"  id="category" name="category" class="form-control" required>
-                            <option *ngFor="let cat of categories" [ngValue]="cat" >{{cat.name}}</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="description">Descripción</label>
-                        <textarea type="text" class="form-control" id="name" rows="8" maxlength="3000"
-                           required
-                           [(ngModel)]="model.description" name="description"
-                           #description="ngModel" ></textarea>
-                        <div [hidden]="description.valid || description.pristine"
-                            class="alert alert-danger">
-                        Debe completar la descripción.
-                        </div>
-                    </div>
 
                     <image-upload
 
@@ -33,6 +15,7 @@
                       [buttonCaption]="'Subí la foto'"
                       [dropBoxMessage]="'O arrastrá la foto aquí.'"
                       [extensions]="['jpg','png','gif']"
+                      [uploadedFiles]="imagesNames"
                       (uploadFinished)="imageUploaded($event)"
                       (removed)="imageRemoved($event)"
                       (isPending)="disableSendButton($event)"

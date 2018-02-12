@@ -9,7 +9,13 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
 
-                        <p class="title text-primary">{{getCategory(currentEntity.properties.category).name}}
+                        <p class="title text-primary">
+                            <span *ngIf="!canEdit()"  >{{categoryName}}</span>
+                       <ndv-select  [permission]="canEdit()"  [items]="categoryNames"
+
+                       [title]="'name'" [placeholder]='categoryName' (onSave)='saveCategory($event)'></ndv-select >
+
+
                         <a class="btn btn-link text-primary" href="#" (click)="flyToEntity($event)" title="Ir a la ubicación">
                             <i class="fa fa-location-arrow text-primary"></i> Ir</a></p>
 
@@ -33,6 +39,10 @@
                         <ngb-tab id="tab-gallery" title="Fotos">
                             <ng-template ngbTabContent>
                                 <div class="panel">
+                                    <a *ngIf="canEdit()" class="btn btn-link pull-rigth" href="#"
+                                        (click)="changeFotos();$event.preventDefault();">
+                                        <i class="fa fa-edit"></i> Modificar fotos
+                                    </a>
                                     <ngx-gallery   [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
                                 </div>
                             </ng-template>
@@ -47,8 +57,8 @@
 
                                     </p>
                                     <hr/>
-                                    <p #textContent>{{currentEntity.properties.description}}</p>
 
+                                    <p><ndv-area  [permission]="canEdit()"  [title]="'description'" [placeholder]='description' (onSave)='saveDescription($event)'></ndv-area></p>
 
                                     <hr>
                                 </div>
@@ -57,224 +67,15 @@
                         <ngb-tab id="tab-comments" title="Comentarios">
                             <ng-template ngbTabContent>
                                 <div class="panel">
-                                    <div id="fb-root"></div>
-                                    <div class="fb-comments"  [attr.data-href]="currentURL"  data-numposts="5"></div>
+                                  <fb-comments [href]="currentURL"></fb-comments>
                                 </div>
                             </ng-template>
                         </ngb-tab>
 
-                        <ngb-tab *ngIf="currentPlace && currentPlace.owner.group" id="tab-group" title="El grupo">
-                            <ng-template ngbTabContent>
-                                <div class="panel">
-                                   <h3 class="mb-2 text-muted">{{currentPlace.owner.group.name}}</h3>
-                                   <hr/>
-                                   <p class="mb-2 text-muted">{{currentPlace.owner.group.description}}</p>
-                                    <img *ngIf="currentPlace && currentPlace.owner.group.image" class="card-img-top" [attr.src]="currentPlace.owner.group.image">
-                                </div>
-                            </ng-template>
-                        </ngb-tab>
+
                     </ngb-tabset>
                 </div>
             </div>
         </div>
     </div>
 </div>
-                <!--div class="col-12 col-sm-4 abc " >
-
-                    <div  class="a">
-                        <button type="button" (click)="close()" class="close pull-rigth" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h3 class="mb-2 text-muted">{{getCategory(currentEntity.properties.category).name}}</h3>
-                        <p>Creado por juan del grupo droneros</p>
-                        <hr/>
-                    </div>
-                    <div class="b">
-                        <p >{{currentEntity.properties.description}}</p>
-                    </div>
-                    <div  class="c">
-                        <div class="list-group voting">
-                            <a  class="list-group-item visitor">
-                                <h3 class="pull-right">
-                                    <img src="assets/images/emoji.png"/>
-                                </h3>
-                                <h4 class="list-group-item-heading count">
-                                    Lo ví, es así.</h4>
-                                <p class="list-group-item-text">
-                                    12 personas lo vieron.</p>
-                            </a><a class="list-group-item facebook-like">
-                                <h3 class="pull-right">
-                                    <img src="assets/images/emoji.png"/>
-                                </h3>
-                                <h4 class="list-group-item-heading count">
-                                    Quiero cambiarlo</h4>
-                                <p class="list-group-item-text">
-                                    4 personas están conversando.</p>
-                            </a>
-                        </div>
-                    </div-->
-
-
-
-<!--div *ngIf="visible" class="container-fluid place_card_container">
-    <div class="row">
-      <div class="col-12 col-sm-12 col-md-6 ml-auto">
-        <div class="card place_card  over_map">
-            <div class="image_wrapper">
-                <img *ngIf="currentPlace && currentPlace.images.length > 0" class="card-img-top" [attr.src]="currentPlace.images[0].image">
-                 <div class="container social">
-                    <div class="row align-items-end">
-                        <div class="col-md-1 align-items-end">
-
-                          <a href="" title="Compartir en Twitter"><i class="fa fa-twitter fa-2x"></i></a>
-                          <a href="" title="Compartir en Facebook"><i class="fa fa-facebook fa-2x"></i></a>
-                          <a href="" title="Compartir por Whatsapp"><i class="fa fa-whatsapp fa-2x"></i></a>
-
-                        </div>
-                    </div>
-                 </div>
-            </div>
-
-            <div class="card-header">
-
-               <button type="button" (click)="flyToEntity($event)" class="pull-rigth fly-to-entity" aria-label="Close">
-                    <span aria-hidden="true"><i class="fa fa-map-marker fa-2x"></i></span>
-                </button>
-
-                <h6 class="card-subtitle mb-2 text-muted">{{getCategory(currentEntity.properties.category).name}}</h6>
-            </div>
-             <div class="card-body">
-                  <div class="container-fluid">
-
-                    <div class="row">
-                        <div class="col-md-8 description">
-                             <p class="card-text">{{currentEntity.properties.description}}</p>
-                        </div>
-                        <div class="col-md-4 ">
-                            <div class="row">
-                                <div class="col-6 text-center">
-                                    <img src="assets/images/emoji.png"/>
-                                    <p class="text-muted">Lo ví, es así</p>
-                                </div>
-                                <div class="col-6 text-center">
-                                    <img src="assets/images/emoji.png"/>
-                                    <p class="text-muted">Lo ví, es así</p>
-                                </div>
-                            </div>
-                               <div class="row">
-                                <div class="col-6 text-center">
-                                    <img src="assets/images/emoji.png"/>
-                                    <p class="text-muted">Lo ví, es así</p>
-                                </div>
-                                <div class="col-6 text-center">
-                                    <img src="assets/images/emoji.png"/>
-                                    <p class="text-muted">Lo ví, es así</p>
-                                </div>
-                            </div>
-
- <button type="button" (click)="close()" class="close pull-rigth" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-      </div>
-</div-->
-<!--div *ngIf="currentEntity" class="containter pull-right place_card_container place_card_container">
-    <div class="row">
-        <div class="col-12">
-        <div class="card place_card" style="width: 20rem;">
-            <img *ngIf="currentPlace" class="card-img-top" [attr.src]="currentPlace.image">
-              <div class="card-body">
-                <p class="card-title">Descripción: {{currentEntity.properties.description}}</p>
-                <p class="card-title">Categoría: {{getCategory(currentEntity.properties.category).name}}</p>
-                <button type="button" (click)="flyToEntity()" class="btn btn-primary">Ir</button>
-              </div>
-            </div>
-        </div>
-    </div>
-</div-->
-
-
-<!-- Modelo 1 div *ngIf="visible" class="container-fluid place_card_container">
-    <div class="row">
-      <div class="col-12 col-sm-12 col-md-6 ml-auto">
-        <div class="card place_card  over_map">
-            <div class="card-header">
-                <button type="button" (click)="close()" class="close pull-rigth" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="card-title">{{currentEntity.properties.title}}
-
-                </h4>
-            </div>
-             <div class="card-body">
-                  <div class="container-fluid">
-                    <div class="row image">
-                        <div class="col-md-1 social">
-                            <a  href="#" (click)="flyToEntity($event)" title="Ir a la ubicación"><i class="fa fa-map-marker fa-2x"></i></a>
-
-                        </div>
-                        <div class="col-md-11">
-                            <img *ngIf="currentPlace" class="place_image img-fluid " [attr.src]="currentPlace.image">
-
-                        </div>
-                    </div>
-                    <div class="row description">
-                        <div class="col-md-12">
-                             <p class="card-text">{{currentEntity.properties.description}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <div class="row">
-                    <div class="col-3 text-center">
-                         <img src="assets/images/emoji.png"/>
-                         <p class="text-muted">Lo ví, es así</p>
-                    </div>
-                                        <div class="col-3 text-center">
-                         <img src="assets/images/emoji.png"/>
-                         <p class="text-muted">Lo ví, es así</p>
-                    </div>
-                                        <div class="col-3 text-center" >
-                         <img src="assets/images/emoji.png"/>
-                         <p class="text-muted">Lo ví, es así</p>
-                    </div>
-                                        <div class="col-3 text-center">
-                         <img src="assets/images/emoji.png"/>
-                         <p class="text-muted">Lo ví, es así</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                         <div class="social text-center">
-
-                              <a href="http://www.twitter.com/mike_youngg" title="Compartir en Twitter"><i class="fa fa-twitter fa-2x"></i></a>
-                              <a href="mailto:michael_y@live.co.uk" title="Compartir en Facebook"><i class="fa fa-facebook fa-2x"></i></a>
-                              <a href="http://www.linkedin.com" title="Compartir por Whatsapp"><i class="fa fa-whatsapp fa-2x"></i></a>
-                          </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </div>
-</div-->
-<!--div *ngIf="currentEntity" class="containter pull-right place_card_container place_card_container">
-    <div class="row">
-        <div class="col-12">
-        <div class="card place_card" style="width: 20rem;">
-            <img *ngIf="currentPlace" class="card-img-top" [attr.src]="currentPlace.image">
-              <div class="card-body">
-                <h4 class="card-title">Título: {{currentEntity.properties.title}}</h4>
-                <p class="card-title">Descripción: {{currentEntity.properties.description}}</p>
-                <p class="card-title">Categoría: {{getCategory(currentEntity.properties.category).name}}</p>
-                <button type="button" (click)="flyToEntity()" class="btn btn-primary">Ir</button>
-              </div>
-            </div>
-        </div>
-    </div>
-</div-->

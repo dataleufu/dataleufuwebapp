@@ -3,7 +3,7 @@ import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Place } from './place';
+import { Place, Category, ImagePlace } from './place';
 import { API_BASE_URL } from './config';
 import { AuthenticationService } from './auth/authentication.service';
 
@@ -38,10 +38,11 @@ export class PlaceService {
 
   getPlace(id: number): Promise<Place> {
     const url = `${this.placesUrl}${id}`;
-    console.log("getPlace " + id);
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json() as Place)
+      .then(response => {
+          return response.json() as Place;}
+        )
       .catch(this.handleError);
   }
 
@@ -61,8 +62,7 @@ export class PlaceService {
       .catch(this.handleError);
   }
   createPlace(place: Place): Promise<Place> {
-    console.log("create Place " + place);
-    console.dir(place);
+
     return this.http
       .post(this.placesUrl, place, {headers: this.getHeaders()})
       .toPromise()
@@ -72,12 +72,49 @@ export class PlaceService {
   update(place: Place): Promise<Place> {
     const url = `${this.placesUrl}/${place.pk}`;
     return this.http
-      .put(url, JSON.stringify(place), {headers: this.getHeaders()})
+      .put(url, place, {headers: this.getHeaders()})
       .toPromise()
-      .then(() => place)
+      .then(res => res.json() as Place)
       .catch(this.handleError);
   }
 
+  updateDescription(place: Place, description: string): Promise<Place> {
+    const url = this.placesUrl + place.pk + "/";
+    var updtedPlace = this.makeUpdatedPlace(place);
+    updtedPlace.description = description;
+    return this.http
+      .put(url, JSON.stringify(updtedPlace), {headers: this.getHeaders()})
+      .toPromise()
+      .then(res => res.json() as Place)
+      .catch(this.handleError);
+  }
+
+  updateCategory(place: Place, category: Category): Promise<Place> {
+    const url = this.placesUrl + place.pk + "/";
+    var updtedPlace = this.makeUpdatedPlace(place);
+    updtedPlace.category = category;
+    return this.http
+      .put(url, JSON.stringify(updtedPlace), {headers: this.getHeaders()})
+      .toPromise()
+      .then(res => res.json() as Place)
+      .catch(this.handleError);
+  }
+
+  updateImages(place: Place, images: ImagePlace[]): Promise<Place> {
+    const url = this.placesUrl + place.pk + "/";
+    var updtedPlace = this.makeUpdatedPlace(place);
+    updtedPlace.images = images;
+    return this.http
+      .put(url, JSON.stringify(updtedPlace), {headers: this.getHeaders()})
+      .toPromise()
+      .then(res => res.json() as Place)
+      .catch(this.handleError);
+  }
+
+  makeUpdatedPlace(place: Place): Place{
+      return new Place(place.pk, place.description, [], null, place.point, place.category, place.owner);
+
+  }
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
