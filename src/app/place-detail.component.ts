@@ -6,15 +6,20 @@ import { Category, Place, ImagePlace } from './place';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 import {NgbTabChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import { APP_BASE_URL } from './config';
-
-
+import {FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
+// Import to the component where you want to implement the click-to-edit.
+import { NdvEditAreaComponent } from './angular2-click-to-edit/ndv.edit.area.component';
+import { NdvEditSelectComponent } from './angular2-click-to-edit/ndv.edit.select.component';
+import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { PlaceImageEditionComponent } from './place-image-edition.component';
+import { AuthenticationService } from './auth/authentication.service';
 
 declare var Cesium : any;
 declare var window: any;
 
 @Component({
     selector: 'place-detail',
-    templateUrl: './place-detail.component.html',
+    templateUrl: './place-detail.component.html'
 
 })
 export class PlaceDetailComponent implements OnInit{
@@ -26,31 +31,55 @@ export class PlaceDetailComponent implements OnInit{
     categories: Category[];
     visible: boolean;
     galleryOptions: NgxGalleryOptions[];
-    galleryImages: NgxGalleryImage[];
+    @Output() galleryImages: NgxGalleryImage[];
     currentURL: string;
     lastUrl: string;
+    description: string;
+    category: Category;
+    categoryName: string;
 
-    constructor(private placeService: PlaceService, private categoryService: CategoryService) {}
+    categoryNames: string[];
+
+    constructor(private placeService: PlaceService, private categoryService: CategoryService,
+        private fb: FacebookService, private modalService: NgbModal,
+        private authenticationService: AuthenticationService) {}
 
     initFacebook(){
-        console.log("initFacebook ngAfterViewInit");
-        this.lastUrl = this.currentURL;
-        this.currentURL = this.getUrl();
-          (function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            js = d.createElement(s); js.id = id;
-            //js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.10&appId=1947080825564588";
-            js.setAttribute("src", "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.10&appId=1947080825564588");
 
-            if (d.getElementById(id)){
-              //if <script id="facebook-jssdk"> exists
-              delete (<any>window).FB;
-              fjs.parentNode.replaceChild(js, fjs);
-            } else {
-              fjs.parentNode.insertBefore(js, fjs);
-            }
-          }(document, 'script', 'facebook-jssdk'));
-        }
+        let initParams: InitParams = {
+          appId: '1947080825564588',
+          xfbml: true,
+          version: 'v2.8'
+        };
+
+        this.fb.init(initParams);
+
+    }
+
+    saveDescription(event:any): void{
+        this.placeService.updateDescription(this.currentPlace, event.description).then(place=>{
+            this.description = place.description;
+        });
+    }
+    saveCategory(event:any): void{
+
+        var category = this.getCategoryByName(event.name);
+
+        this.placeService.updateCategory(this.currentPlace, category).then(place=>{
+            var newCategory = place.category;
+            this.category = newCategory;
+            this.categoryName = newCategory.name;
+
+        });
+    }
+
+    canEdit(): boolean {
+        if (this.authenticationService.user_profile && this.authenticationService.user_profile.user &&
+            this.currentPlace && this.currentPlace.owner &&
+             this.authenticationService.user_profile.user.id == this.currentPlace.owner.user.id  )
+            return true;
+        return false;
+    }
 
     flyToEntity(event: any){
         event.preventDefault();
@@ -62,14 +91,6 @@ export class PlaceDetailComponent implements OnInit{
         this.visible = false;
     }
 
-
-    setCurrentPlace(item: Place){
-        if(item !== undefined){
-            this.currentPlace = item;
-            this.galleryImages = this.initGallery();
-            this.visible = true;
-        }
-    }
     testPlace(place: Place){
 
         var that = this;
@@ -77,29 +98,32 @@ export class PlaceDetailComponent implements OnInit{
     }
 
     setCurrentItem(item: any){
-        console.log("setCurrentItem item" + item);
+
         var that = this;
         this.currentEntity = item;
         if(item !== undefined){
             var id = item.id;
             this.visible = true;
+            this.categoryName = this.getCategory(this.currentEntity.properties.category).name;
+
             this.placeService
                 .getPlace(+id)
                     .then(function (place){
                         that.currentPlace = place;
                         if (that.currentPlace.images.length == 0){
-                            that.currentPlace.images.push(new ImagePlace(null, 'http://lorempixel.com/600/400/nature/1'));
-                            that.currentPlace.images.push(new ImagePlace(null, 'http://lorempixel.com/600/400/nature/2'));
-                            that.currentPlace.images.push(new ImagePlace(null, 'http://lorempixel.com/600/400/nature/3'));
-                        }
+                           }
+
                         that.galleryImages = that.initGallery();
+                        that.currentURL = that.getUrl();
+                        that.description = that.currentPlace.description;
+                        that.category = that.currentPlace.category;
+                        that.categoryName = that.currentPlace.category.name;
 
                     });
         }else{
             this.currentPlace = undefined;
             this.visible = false;
         }
-        console.log("setCurrentItem currentPlace " + this.currentPlace);
 
     }
 
@@ -118,12 +142,38 @@ export class PlaceDetailComponent implements OnInit{
         }
         return ret;
     }
+    getFullName(item: any, index: number): string {
+        var fullname = item.name;
+        return fullname;
+    }
+    changeFotos(event:any):void{
+
+            const modalRef = this.modalService.open(PlaceImageEditionComponent);
+            console.dir(this.currentPlace.images);
+            this.visible = false;
+            modalRef.componentInstance.place = this.currentPlace;
+            modalRef.componentInstance.done.subscribe((newPlace:any) => {
+                console.log("subscripto al done");
+                this.currentPlace = newPlace;
+                this.galleryImages = this.initGallery();
+
+            })
+
+    }
+
     ngOnInit() {
         console.log("PlaceDetailComponent oninit");
+      // this.initFacebook();
+        var that = this;
         this.categoryService
             .getCategories()
-            .then(categories => this.categories = categories);
-        var that = this;
+            .then(categories => {
+                this.categories = categories;
+                this.categoryNames =  categories.map(this.getFullName);
+
+            });
+
+        console.log("names " + this.categoryNames);
         this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
         this.handler.setInputAction(function(movement:any){
             var item = false;
@@ -184,6 +234,8 @@ export class PlaceDetailComponent implements OnInit{
     getCategory(id: number): Category {
         return this.categories.find(x => x.pk == id );
     }
-
+    getCategoryByName(name: string): Category {
+        return this.categories.find(x => x.name == name );
+    }
 
 }

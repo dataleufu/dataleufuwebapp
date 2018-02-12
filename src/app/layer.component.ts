@@ -1,7 +1,7 @@
 import { Component, OnInit }         from '@angular/core';
 import {Input, Output, EventEmitter} from '@angular/core'
 import { LayerService }         from './layer.service';
-import { Layer }         from './place';
+import { Layer, Category }         from './place';
 import { MapService }         from './map.service';
 
 declare var Cesium : any;
@@ -27,8 +27,8 @@ export class LayerComponent implements OnInit{
             });
     }
 
-    getCategoryLayer(id: number): Layer {
-        return this.layers.find(x => +x.category.pk === id );
+    getCategoryLayer(category: Category): Layer {
+        return this.layers.find(x => +x.category.pk === category.pk );
     }
 
 
@@ -39,7 +39,6 @@ export class LayerComponent implements OnInit{
         geoJsonPromise.then(function (datasource1:any) {
             var datasourcePromise = that.mapService.getMap().dataSources.add(datasource1);
             datasourcePromise.then(function (datasource2:any){
-                console.log("carga ", layer.url);
                 var entities = datasource2.entities.values;
                 for (var i = 0; i < entities.length; i++) {
                     var entity = entities[i];
@@ -61,7 +60,7 @@ export class LayerComponent implements OnInit{
         layers.forEach((layer, indice, array) => {
             promises.push(this.loadLayer(layer));
         });
-        return Promise.all(promises).then( () => { console.log("cargó todo");  });
+        return Promise.all(promises).then( () => { });
     }
     hideLayer(layer:Layer){
         var removed = this.mapService.getMap().dataSources.remove(layer.datasource);

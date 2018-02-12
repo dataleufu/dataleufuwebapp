@@ -14,6 +14,7 @@ import {Input,ElementRef, ComponentFactory,ComponentRef, ComponentFactoryResolve
 import {UserProfile, Place, Point, GeoPlace} from './place';
 import { UserComponent }         from './user.component';
 import { MessageComponent }         from './message.component';
+import { LoginRequiredComponent }         from './loginRequired.component';
 import 'rxjs/add/operator/switchMap';
 import { APP_BASE_URL } from './config';
 import { FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
@@ -185,7 +186,7 @@ export class MapComponent implements OnInit {
         event.preventDefault();
 
         if (!this.user){
-            this.message("Para ingresar un punto debes registrarte.");
+            this.loginRequired("Para ingresar un punto debes registrarte.");
             return;
         }
         var that = this;
@@ -231,6 +232,15 @@ export class MapComponent implements OnInit {
     message(text:string){
         const modalRef = this.modalService.open(MessageComponent);
         modalRef.componentInstance.message = text;
+    }
+
+    loginRequired(text:string){
+        const modalRef = this.modalService.open(LoginRequiredComponent);
+        modalRef.componentInstance.message = text;
+        modalRef.componentInstance.doLogin.subscribe((event:any) => {
+            this.userComponentRef.instance.login();
+        });
+
     }
     getUrl(): string{
 

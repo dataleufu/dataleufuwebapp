@@ -1,10 +1,10 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Place, Category, ImagePlace}          from './place';
 import { PlaceService }             from './place.service';
 import { CategoryService }          from './category.service';
 import {BusyModule}              from 'angular2-busy';
-import { APP_BASE_URL } from './config';
+
 
 @Component({
   selector: 'place-form',
@@ -19,7 +19,6 @@ export class PlaceFormComponent implements OnInit{
     callbackCancel: any;
     categories: Category[];
     busy: Promise<any>;
-    @Output() url = new EventEmitter<string>();
 
   constructor(public activeModal: NgbActiveModal, private placeService: PlaceService,
     private categoryService: CategoryService) {
@@ -40,23 +39,10 @@ export class PlaceFormComponent implements OnInit{
     this.model.owner = undefined;
     this.busy = this.placeService.createPlace(this.model)
       .then(place => {
-        this.url.emit(APP_BASE_URL + place.pk);
         this.submitted = true;
-
         this.callback(this.model.category);
       });
   }
-
-    getUrl(): string{
-        var ret = '';
-        if (this.model != undefined){
-            ret = APP_BASE_URL + this.model.pk.toString();
-        }
-        else{
-            ret = APP_BASE_URL;
-        }
-        return ret;
-    }
 
   cancel(): void{
     this.callbackCancel();
@@ -68,13 +54,12 @@ export class PlaceFormComponent implements OnInit{
         console.log("disableSendButton " + JSON.stringify(state));
   }
   imageRemoved(event:any){
-
+    //TODO: borrar del modelo
   }
   imageUploaded(file:any){
     console.log("imageUploaded file" + file.file );
-    var image = new ImagePlace(null, file.src);
+    var image = new ImagePlace(null, file.src, "new");
     this.model.images.push(image);
-
 
   }
 }

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
         let initParams: InitParams = {
           appId: '1947080825564588',
           xfbml: true,
-          version: 'v2.8'
+          version: 'v2.9'
         };
 
         this.fb.init(initParams);
@@ -80,19 +80,15 @@ export class LoginComponent implements OnInit {
         this.fb.login({ scope: 'email, public_profile, user_friends', return_scopes: true }).then(
             (response: LoginResponse) => {
                 status = response['status'];
-                console.log("status", status);
                 var userId = response['authResponse'].userID;
                 if (status == 'connected') {
                     let access_token = response['authResponse']['accessToken'];
 
-                    localStorage.setItem('id_token', access_token);
-                    console.log("access_token " + access_token);
                     this.busy = this.authenticationService.facebookLogin(access_token)
                     .subscribe(result => {
                             this.currentUser = this.authenticationService.user_profile;
                             this.user.emit(this.authenticationService.user_profile);
                             this.submitted = true;
-                            console.log("facebookLogin emit" + this.authenticationService.user_profile);
                         });
 
                 }
