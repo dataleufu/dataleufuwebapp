@@ -1,0 +1,109 @@
+
+<div class="modal-header">
+    <h1 class="modal-title">Volar en el globo</h1>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cerrar')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+</div>
+<div class="modal-body">
+
+    <div class="container-fluid">
+        <p>Nos gusta el río, nos gusta explorarlo desde el globo.</p>
+        <ngb-tabset #t="ngbTabset" destroyOnHide="false">
+            <ngb-tab>
+                <ng-template ngbTabTitle><i class="fa fa-mouse-pointer "></i> Mouse</ng-template>
+                <ng-template ngbTabContent>
+                    <div class="panel">
+                        <table class="navigation-help">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="https://cesiumjs.org/Cesium/Build/Apps/CesiumViewer/Widgets/Images/NavigationHelp/MouseLeft.svg" width="48" height="48">
+                                    </td>
+                                    <td>
+                                        <div class="cesium-navigation-help-pan">Desplazarse</div>
+                                        <div class="navigation-help-details">Click izquierdo y desplazar</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="https://cesiumjs.org/Cesium/Build/Apps/CesiumViewer/Widgets/Images/NavigationHelp/MouseRight.svg" width="48" height="48">
+                                    </td>
+                                    <td>
+                                        <div class="cesium-navigation-help-zoom">Zoom</div>
+                                        <div class="navigation-help-details">Click derecho y desplazar, o</div>
+                                        <div class="navigation-help-details">girar la rueda del mouse</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="https://cesiumjs.org/Cesium/Build/Apps/CesiumViewer/Widgets/Images/NavigationHelp/MouseMiddle.svg" width="48" height="48">
+                                    </td>
+                                    <td>
+                                        <div class="cesium-navigation-help-rotate">Rotar el plano</div>
+                                        <div class="navigation-help-details">Click del medio y dezplazar, o</div>
+                                        <div class="navigation-help-details">CTRL + click (der. o izq.) + desplazar</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+
+            <ngb-tab id="tab-gallery" >
+                <ng-template ngbTabTitle><i class="fa  fa-hand-o-up"></i> Touch</ng-template>
+                <ng-template ngbTabContent>
+                    <div class="panel">
+                       <table  class="navigation-help">
+                         <tbody>
+                          <tr>
+                           <td>
+                            <img src="/assets/images/TouchDrag.png" height="48"/>
+                           </td>
+                           <td>
+                            <div class="cesium-navigation-help-pan">Desplazarse</div>
+                            <div class="navigation-help-details">Arrastrar con un dedo</div>
+                           </td>
+                          </tr>
+                          <tr>
+                           <td>
+                            <img src="/assets/images/TouchZoom.png" height="48"/>
+                           </td>
+                           <td>
+                            <div class="cesium-navigation-help-zoom">Zoom</div>
+                            <div class="navigation-help-details">Pellizcar con dos dedos</div>
+                           </td>
+                          </tr>
+                          <tr>
+                           <td>
+                            <img src="/assets/images/TouchTilt.png"height="48"/>
+                           </td>
+                           <td>
+                            <div class="cesium-navigation-help-rotate">Inclinar el plano</div>
+                            <div class="navigation-help-details">Arrastrar con dos dedos, misma dirección</div>
+                           </td>
+                          </tr>
+                          <tr>
+                           <td>
+                            <img src="/assets/images/TouchRotate.png" height="48"/>
+                           </td>
+                           <td>
+                            <div class="cesium-navigation-help-tilt">Rotar el plano</div>
+                            <div class="navigation-help-details">Arrastrar con dos dedos, dirección opuesta</div>
+                           </td>
+                          </tr>
+                         </tbody>
+                        </table>               </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+
+        <br/>
+        <div class="form-group">
+             <button type="button" class="btn btn-primary" (click)="activeModal.close('Cerrar')">Cerrar</button>
+        </div>
+    </div>
+</div>
+
