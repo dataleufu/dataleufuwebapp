@@ -29,8 +29,6 @@ export class PlaceFormComponent implements OnInit{
     this.categoryService
         .getCategories()
         .then(categories => this.categories = categories);
-    console.log("PlaceFormComponent ngOnInit " + this.categories);
-    console.log("PlaceFormComponent ngOnInit longitude " + this.longitude + " latitude" + this.latitude);
 
   }
 

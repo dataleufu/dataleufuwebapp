@@ -2,6 +2,7 @@ import { Component, OnInit }         from '@angular/core';
 import {Input, Output, EventEmitter} from '@angular/core'
 import { INITIAL_ROTATION_DURATION } from './config';
 import { MapService }         from './map.service';
+import {TrackerService} from "./tracker.service";
 
 declare var Cesium : any;
 
@@ -14,7 +15,7 @@ export class PathComponent implements OnInit{
 
     public collapsed = false;
 
-    constructor(private mapService: MapService) {
+    constructor(private mapService: MapService, private tracker: TrackerService) {
         console.log("PathComponent constructor");
     }
 
@@ -32,8 +33,11 @@ export class PathComponent implements OnInit{
     }
 
     rio(event:any):void {
-        if(event)
+
+        if(event){
+            this.tracker.emitEvent("recorridos", "ver", "El río");
             event.preventDefault();
+        }
 
         var desembocaduraOptions = {
             destination : Cesium.Cartesian3.fromRadians(-1.1151465797357878, -0.7504146865954336, 226846.7174589363),
@@ -90,6 +94,7 @@ export class PathComponent implements OnInit{
     }
 
     pasoCordoba(event:any):void {
+        this.tracker.emitEvent("recorridos", "ver_recorrido", "Paso Córdoba");
         if(event)
             event.preventDefault();
         var endOptions = {
@@ -114,6 +119,7 @@ export class PathComponent implements OnInit{
     }
 
     confluencia(event:any):void {
+        this.tracker.emitEvent("recorridos", "ver_recorrido", "Confluencia");
         if(event)
             event.preventDefault();
 
@@ -140,6 +146,7 @@ export class PathComponent implements OnInit{
     }
 
     mar(event:any):void {
+        this.tracker.emitEvent("recorridos", "ver_recorrido", "Desembocadura");
         if(event)
             event.preventDefault();
 

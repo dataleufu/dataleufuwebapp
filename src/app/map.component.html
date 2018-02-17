@@ -18,13 +18,13 @@
 
     <li class="nav-item">
       <span class="nav-link">
-          <a class="nav-social"  shareButton="facebook" [sbDescription]="'description'" [sbUrl]="getUrl()" title="Compartir en Facebook"><i class="fa fa-facebook"></i></a>
-          <a class="nav-social"  shareButton="twitter" [sbDescription]="'description'" [sbUrl]="getUrl()" title="Compartir en Twitter"><i class="fa fa-twitter"></i></a>
+          <a class="nav-social" (click)="facebookOpened()"   shareButton="facebook" [sbDescription]="'description'" [sbUrl]="getUrl()" title="Compartir en Facebook"><i class="fa fa-facebook"></i></a>
+          <a class="nav-social" (click)="twitterOpened()"  shareButton="twitter" [sbDescription]="'description'" [sbUrl]="getUrl()" title="Compartir en Twitter"><i class="fa fa-twitter"></i></a>
           <a class="nav-social"  href="#" (click)="logCamera($event)" title="Info de la cámara para armar recorridos"><i class="fa fa-info"></i></a>
       </span>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="https://www.facebook.com/RadarLeufu/" target="_blank" >Contactanos</a>
+      <a class="nav-link" (click)="contactanosOpened()" href="https://www.facebook.com/RadarLeufu/" target="_blank" >Contactanos</a>
     </li>
         <ng-template #userContainer></ng-template>
   </ul>

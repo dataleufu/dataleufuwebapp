@@ -28,9 +28,9 @@
                                   <a class="btn btn-link" id="dropdownBasic1" ngbDropdownToggle>
                                       <i class="fa fa-share-alt"></i> Compartir</a>
                                   <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                    <a class="btn btn-link dropdown-item" shareButton="facebook" [sbUrl]="getUrl()">Facebook</a>
-                                    <a class="btn btn-link dropdown-item" shareButton="twitter" [sbUrl]="getUrl()">Twitter</a>
-                                    <a class=" btn btn-link dropdown-item"  shareButton="whatsapp" [sbUrl]="getUrl()">Whatsapp</a>
+                                    <a class="btn btn-link dropdown-item" (click)="facebookOpened()" shareButton="facebook" [sbUrl]="getUrl()">Facebook</a>
+                                    <a class="btn btn-link dropdown-item" (click)="twitterOpened()"shareButton="twitter" [sbUrl]="getUrl()">Twitter</a>
+                                    <a class=" btn btn-link dropdown-item"  (click)="whatsappOpened()" shareButton="whatsapp" [sbUrl]="getUrl()">Whatsapp</a>
                                   </div>
                             </div>
                         </div>

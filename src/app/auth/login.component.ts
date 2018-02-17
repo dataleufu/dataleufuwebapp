@@ -7,6 +7,7 @@ import {FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {RegisterComponent} from './register.component';
 import {ResetPasswordComponent} from './resetPassword.component';
+import {TrackerService} from "./../tracker.service";
 
 @Component({
     templateUrl: './login.component.html',
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private fb: FacebookService,
         public activeModal: NgbActiveModal, //Modal del login
-        private modalService: NgbModal) //Modal para abrir la venta del registro
+        private modalService: NgbModal,
+        private tracker: TrackerService) //Modal para abrir la venta del registro
         { }
 
     ngOnInit() {
@@ -48,6 +50,7 @@ export class LoginComponent implements OnInit {
                     this.currentUser = this.authenticationService.user_profile;
                     this.user.emit(this.authenticationService.user_profile);
                     this.submitted = true;
+                    this.tracker.emitEvent("login", "login_con_usuario");
 
                 } else {
                     this.error = 'Usuario o contraseña incorrecto.';
@@ -71,6 +74,7 @@ export class LoginComponent implements OnInit {
         const modalRef  = this.modalService.open(RegisterComponent);
         modalRef.componentInstance.user.subscribe((user:UserProfile) => {
             this.user.emit(this.authenticationService.user_profile);
+            this.tracker.emitEvent("registro", "registro");
         });
 
     }
@@ -89,6 +93,7 @@ export class LoginComponent implements OnInit {
                             this.currentUser = this.authenticationService.user_profile;
                             this.user.emit(this.authenticationService.user_profile);
                             this.submitted = true;
+                            this.tracker.emitEvent("login", "login_con_facebook");
                         });
 
                 }

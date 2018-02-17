@@ -18,8 +18,8 @@ import { LoginRequiredComponent }         from './loginRequired.component';
 import 'rxjs/add/operator/switchMap';
 import { APP_BASE_URL } from './config';
 import { FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
-
 import { MapService }         from './map.service';
+import {TrackerService} from "./tracker.service";
 
 declare var Cesium : any;
 declare var FB: any;
@@ -55,7 +55,8 @@ export class MapComponent implements OnInit {
             private placeService: PlaceService, private layerService: LayerService,
             private resolver: ComponentFactoryResolver,
             private route: ActivatedRoute, private mapService: MapService,
-            private fb: FacebookService
+            private fb: FacebookService,
+            private tracker: TrackerService
             ){}
 
     ngOnInit() {
@@ -89,6 +90,7 @@ export class MapComponent implements OnInit {
 
     gotoPlace(place: GeoPlace){
         if (place){
+            this.tracker.emitEvent("map", "goto", "goto", place.pk);
             this.detailComponentRef.instance.testPlace(place);
             var options = {
 
@@ -138,6 +140,7 @@ export class MapComponent implements OnInit {
     }
     about(event: any): void {
         event.preventDefault();
+        this.tracker.emitEvent("sobre_el_proyecto", "ver_sobre_el_proyecto");
         const modalRef = this.modalService.open(AboutComponent, { windowClass: 'modal-fullscreen' });
     }
 
@@ -186,6 +189,7 @@ export class MapComponent implements OnInit {
         event.preventDefault();
 
         if (!this.user){
+            this.tracker.emitEvent("punto", "publicar_no_registrado");
             this.loginRequired("Para ingresar un punto debes registrarte.");
             return;
         }
@@ -193,6 +197,7 @@ export class MapComponent implements OnInit {
 
         //Creo el punto
         this.messageContainer.clear();
+        this.tracker.emitEvent("punto", "inicio_publicar");
         const factory: any = this.resolver.resolveComponentFactory(CreatePointComponent);
         this.messageComponentRef = this.messageContainer.createComponent(factory);
         this.messageComponentRef.instance.viewer = this.viewer;
@@ -205,6 +210,7 @@ export class MapComponent implements OnInit {
             modalRef.componentInstance.longitude = this.messageComponentRef.instance.lon;
             modalRef.componentInstance.latitude = this.messageComponentRef.instance.lat;
             modalRef.componentInstance.callback = function(category:any){
+                that.tracker.emitEvent("punto", "publicar");
                 var layer = that.layerComponentRef.instance.getCategoryLayer(category);
                 that.layerComponentRef.instance.relaodLayer(layer);
                 that.viewer.flyTo(that.messageComponentRef.instance.entity);
@@ -223,11 +229,20 @@ export class MapComponent implements OnInit {
     collapseLayers(event: any){
         event.preventDefault();
         this.layerComponentRef.instance.collapsed = !this.layerComponentRef.instance.collapsed;
+        if (this.layerComponentRef.instance.collapsed)
+            this.tracker.emitEvent("capas", "desplegar_capas");
+        else
+            this.tracker.emitEvent("capas", "ocultar_capas");
     }
+
 
     collapsePaths(event: any){
         event.preventDefault();
         this.pathComponentRef.instance.collapsed = !this.pathComponentRef.instance.collapsed;
+        if (this.pathComponentRef.instance.collapsed)
+            this.tracker.emitEvent("recorridos", "desplegar_recorridos");
+        else
+            this.tracker.emitEvent("recorridos", "ocultar_recorridos");
     }
     message(text:string){
         const modalRef = this.modalService.open(MessageComponent);
@@ -243,8 +258,15 @@ export class MapComponent implements OnInit {
 
     }
     getUrl(): string{
-
-        return encodeURIComponent('http://radiocut.fm');
+        return APP_BASE_URL;
     }
-
+    facebookOpened(param: any):void{
+        this.tracker.emitEvent("menu", "compartir_facebook");
+    }
+    twitterOpened(param: any):void{
+        this.tracker.emitEvent("menu", "compartir_twitter");
+    }
+    contactanosOpened(param: any):void{
+        this.tracker.emitEvent("menu", "contactanos");
+    }
 }

@@ -1,4 +1,6 @@
-import { Component }          from '@angular/core';
+import {Component}          from '@angular/core';
+import {Router, NavigationEnd} from '@angular/router';
+declare let ga: Function;
 
 @Component({
   selector: 'my-app',
@@ -7,4 +9,14 @@ import { Component }          from '@angular/core';
 })
 export class AppComponent {
   title = 'RadarLeufú';
+
+  constructor(public router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        ga('set', 'page', event.urlAfterRedirects);
+        ga('send', 'pageview');
+      }
+    });
+  }
+
 }
