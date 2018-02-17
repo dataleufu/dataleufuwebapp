@@ -10,6 +10,7 @@ import {PlaceImageEditionComponent}   from './place-image-edition.component';
 import {PlaceService}         from './place.service';
 import {CategoryService}      from './category.service';
 import {AboutComponent} from './about/about.component';
+import {HelpComponent} from './help/help.component';
 import {MainComponent}        from './main.component';
 import {MapComponent}         from './map.component';
 import {NgbModule}            from '@ng-bootstrap/ng-bootstrap';
@@ -56,6 +57,7 @@ import {TrackerService} from "./tracker.service";
     MainComponent,
     MapComponent,
     AboutComponent,
+    HelpComponent,
     PlaceFormComponent,
     PlaceImageEditionComponent,
     TestComponent,
@@ -79,6 +81,7 @@ import {TrackerService} from "./tracker.service";
   entryComponents: [
     PlaceFormComponent,
     AboutComponent,
+    HelpComponent,
     TestComponent,
     CreatePointComponent,
     PlaceDetailComponent,

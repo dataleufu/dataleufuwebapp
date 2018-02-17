@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {AboutComponent} from './about/about.component';
+import {HelpComponent} from './help/help.component';
 import { PlaceFormComponent }   from './place-form.component';
 import { PlaceService }            from './place.service';
 import { TestComponent }            from './test.component';
@@ -138,10 +139,17 @@ export class MapComponent implements OnInit {
 
 
     }
+
     about(event: any): void {
         event.preventDefault();
         this.tracker.emitEvent("sobre_el_proyecto", "ver_sobre_el_proyecto");
         const modalRef = this.modalService.open(AboutComponent, { windowClass: 'modal-fullscreen' });
+    }
+
+    help(event: any): void {
+        event.preventDefault();
+        this.tracker.emitEvent("ayuda", "ver_ayuda");
+        const modalRef = this.modalService.open(HelpComponent);
     }
 
 

@@ -612,3 +612,13 @@ ul.dropdown-menu {
     text-shadow: 0 1px 0 #fff;
     opacity: .5;
 }
+.navigation-help-details{
+    color: #212529;
+}
+.navigation-help td{
+    padding-top: 30px;
+}
+.modal-title {
+    margin-bottom: 0;
+    line-height: 1.1;
+}
