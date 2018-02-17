@@ -3,6 +3,7 @@ import {Input, Output, EventEmitter} from '@angular/core'
 import { LayerService }         from './layer.service';
 import { Layer, Category }         from './place';
 import { MapService }         from './map.service';
+import {TrackerService} from "./tracker.service";
 
 declare var Cesium : any;
 
@@ -15,7 +16,8 @@ export class LayerComponent implements OnInit{
 
     layers: Layer[];
     public collapsed = false;
-    constructor(private layerService: LayerService, private mapService: MapService) { console.log("LayerComponent constructor ");}
+    constructor(private layerService: LayerService, private mapService: MapService,
+        private tracker: TrackerService) { console.log("LayerComponent constructor ");}
 
     ngOnInit() {
         console.log("LayerComponent ngOnInit ");
@@ -70,9 +72,11 @@ export class LayerComponent implements OnInit{
 
     checkLayer(layer:Layer){
         if (layer.visible == false){
-            this.loadLayer(layer)
+            this.loadLayer(layer);
+            this.tracker.emitEvent("capas", "ver_capa", layer.name);
         }else{
-            this.hideLayer(layer)
+            this.hideLayer(layer);
+            this.tracker.emitEvent("capas", "ocultar_capa", layer.name);
         }
 
     }

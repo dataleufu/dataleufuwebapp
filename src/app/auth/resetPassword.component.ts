@@ -4,7 +4,7 @@ import {AuthenticationService } from './authentication.service';
 import {UserProfile} from './../place';
 import {BusyModule} from 'angular2-busy';
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-
+import {TrackerService} from "./../tracker.service";
 
 @Component({
     templateUrl: './resetPassword.component.html',
@@ -21,7 +21,8 @@ export class ResetPasswordComponent {
 
     constructor(
          private authenticationService: AuthenticationService,
-         public activeModal: NgbActiveModal) //Modal del login
+         public activeModal: NgbActiveModal,
+         private tracker: TrackerService) //Modal del login
          { }
 
     resetPassword(): any {
@@ -29,6 +30,7 @@ export class ResetPasswordComponent {
             .subscribe(
                 data => {
                      this.submitted = true;
+                     this.tracker.emitEvent("contraseña", "recuperar_contraseña");
                 },
                 error => {
                     this.error = error;

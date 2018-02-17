@@ -34,6 +34,8 @@ import {MapService}         from './map.service';
 import {FacebookModule} from 'ngx-facebook';
 import {NdvEditAreaComponent} from './angular2-click-to-edit/ndv.edit.area.component';
 import {NdvEditSelectComponent} from './angular2-click-to-edit/ndv.edit.select.component';
+import {TrackerService} from "./tracker.service";
+
 
 @NgModule({
   imports: [
@@ -70,7 +72,8 @@ import {NdvEditSelectComponent} from './angular2-click-to-edit/ndv.edit.select.c
     NdvEditAreaComponent,
     NdvEditSelectComponent
   ],
-  providers: [ PlaceService, CategoryService, LayerService, AuthenticationService, MapService],
+  providers: [ PlaceService, CategoryService, LayerService,
+    AuthenticationService, MapService, TrackerService],
   bootstrap: [ AppComponent ],
   exports :   [NgbModule],
   entryComponents: [

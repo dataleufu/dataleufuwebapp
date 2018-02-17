@@ -6,6 +6,7 @@ import {UserProfile } from './place';
 import {LoginComponent} from './auth/login.component';
 import {RegisterComponent} from './auth/register.component';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {TrackerService} from "./tracker.service";
 
 declare var Cesium : any;
 
@@ -23,7 +24,8 @@ export class UserComponent implements OnInit{
     @Input() viewer: any;
 
     constructor(private authenticationService: AuthenticationService,
-        private modalService: NgbModal,) {}
+        private modalService: NgbModal,
+        private tracker: TrackerService) {}
 
     ngOnInit() {
         this.tryLogin();
@@ -32,6 +34,10 @@ export class UserComponent implements OnInit{
     collapseUser(event: any){
         event.preventDefault();
         this.collapsed = !this.collapsed;
+        if (this.collapsed)
+            this.tracker.emitEvent("usuario", "desplegar_usuario");
+        else
+            this.tracker.emitEvent("usuario", "ocultar_usuario");
     }
 
     login(event: any): void{
@@ -48,6 +54,7 @@ export class UserComponent implements OnInit{
             .subscribe(result => {
                 if (result === true) {
                     this.setUser(this.authenticationService.user_profile);
+                    this.tracker.emitEvent("login", "login_con_token");
                 } else {
                     this.setUser(null);
                 }
@@ -62,6 +69,7 @@ export class UserComponent implements OnInit{
         event.preventDefault();
         this.authenticationService.logout();
         this.setUser(null);
+        this.tracker.emitEvent("logout", "logout");
     }
 
     setUser(user: UserProfile){
@@ -74,6 +82,7 @@ export class UserComponent implements OnInit{
         event.preventDefault();
         var camera = this.viewer.scene.camera;
         camera.flyHome();
+        this.tracker.emitEvent("menu", "volar_al_inicio");
     }
     gotoMyLocation(event: any): void{
         event.preventDefault();
@@ -83,6 +92,7 @@ export class UserComponent implements OnInit{
             that.viewer.camera.flyTo({
                 destination : Cesium.Cartesian3.fromDegrees(position.coords.longitude, position.coords.latitude, 1000.0)
             });
+            this.tracker.emitEvent("menu", "volar_a_mi_ubicacion");
         }
 
         // Ask browser for location, and fly there.

@@ -13,6 +13,7 @@ import { NdvEditSelectComponent } from './angular2-click-to-edit/ndv.edit.select
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { PlaceImageEditionComponent } from './place-image-edition.component';
 import { AuthenticationService } from './auth/authentication.service';
+import {TrackerService} from "./tracker.service";
 
 declare var Cesium : any;
 declare var window: any;
@@ -42,7 +43,8 @@ export class PlaceDetailComponent implements OnInit{
 
     constructor(private placeService: PlaceService, private categoryService: CategoryService,
         private fb: FacebookService, private modalService: NgbModal,
-        private authenticationService: AuthenticationService) {}
+        private authenticationService: AuthenticationService,
+        private tracker: TrackerService) {}
 
     initFacebook(){
 
@@ -59,6 +61,8 @@ export class PlaceDetailComponent implements OnInit{
     saveDescription(event:any): void{
         this.placeService.updateDescription(this.currentPlace, event.description).then(place=>{
             this.description = place.description;
+            this.tracker.emitEvent("punto", "modificar_descripcion", this.currentPlace.pk);
+
         });
     }
     saveCategory(event:any): void{
@@ -69,6 +73,7 @@ export class PlaceDetailComponent implements OnInit{
             var newCategory = place.category;
             this.category = newCategory;
             this.categoryName = newCategory.name;
+            this.tracker.emitEvent("punto", "modificar_categoria", this.currentPlace.pk);
 
         });
     }
@@ -83,7 +88,9 @@ export class PlaceDetailComponent implements OnInit{
 
     flyToEntity(event: any){
         event.preventDefault();
+
         if(this.currentEntity !== undefined){
+            this.tracker.emitEvent("punto", "volar_al_punto", this.currentEntity.id);
             this.viewer.flyTo(this.currentEntity, 200);
         }
     }
@@ -102,6 +109,7 @@ export class PlaceDetailComponent implements OnInit{
         var that = this;
         this.currentEntity = item;
         if(item !== undefined){
+            this.tracker.emitEvent("punto", "ver_punto", item.id);
             var id = item.id;
             this.visible = true;
             this.categoryName = this.getCategory(this.currentEntity.properties.category).name;
@@ -130,8 +138,25 @@ export class PlaceDetailComponent implements OnInit{
     beforeTabChange($event: NgbTabChangeEvent) {
       if ($event.nextId === 'tab-comments' ) {
         this.initFacebook();
+        this.tracker.emitEvent("punto", "ver_comentarios", this.currentPlace.pk);
+      }
+      if ($event.nextId === 'tab-info' ) {
+          this.tracker.emitEvent("punto", "ver_info", this.currentPlace.pk);
+      }
+      if ($event.nextId === 'tab-gallery' ) {
+          this.tracker.emitEvent("punto", "ver_fotos", this.currentPlace.pk);
       }
     }
+    facebookOpened(param: any):void{
+        this.tracker.emitEvent("punto", "compartir_facebook", this.currentPlace.pk);
+    }
+    twitterOpened(param: any):void{
+        this.tracker.emitEvent("punto", "compartir_twitter", this.currentPlace.pk);
+    }
+    whatsappOpened(param: any):void{
+        this.tracker.emitEvent("punto", "compartir_whatsapp", this.currentPlace.pk);
+    }
+
     getUrl(): string{
         var ret = '';
         if (this.currentPlace != undefined){
@@ -156,6 +181,7 @@ export class PlaceDetailComponent implements OnInit{
                 console.log("subscripto al done");
                 this.currentPlace = newPlace;
                 this.galleryImages = this.initGallery();
+                this.tracker.emitEvent("punto", "modificar_fotos", this.currentPlace.pk);
 
             })
 
