@@ -93,7 +93,6 @@ export class AuthenticationService {
             .map((response: Response) => {
                 let token = response.json() && response.json().key;
                 let user_profile = response.json() && response.json().user_profile;
-
                 if (token) {
                     this.setToken(token);
                     this.setUserProfile(user_profile);
@@ -105,8 +104,12 @@ export class AuthenticationService {
                     return false;
                 }
 
+
             })
-        .catch((error:any) => Observable.throw(error.json())); //...errors if any
+        .catch((error:any) => {
+            return Observable.throw(error.json())
+
+        }); //...errors if any
     }
 
     resetPassword(mail: string): Observable<boolean> {
