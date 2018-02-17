@@ -260,13 +260,13 @@ export class MapComponent implements OnInit {
     getUrl(): string{
         return APP_BASE_URL;
     }
-    facebookOpened(param: any):void{
+    facebookOpened():void{
         this.tracker.emitEvent("menu", "compartir_facebook");
     }
-    twitterOpened(param: any):void{
+    twitterOpened():void{
         this.tracker.emitEvent("menu", "compartir_twitter");
     }
-    contactanosOpened(param: any):void{
+    contactanosOpened():void{
         this.tracker.emitEvent("menu", "contactanos");
     }
 }
