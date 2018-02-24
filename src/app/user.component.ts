@@ -7,6 +7,7 @@ import {LoginComponent} from './auth/login.component';
 import {RegisterComponent} from './auth/register.component';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {TrackerService} from "./tracker.service";
+import { MessageComponent }         from './message.component';
 
 declare var Cesium : any;
 
@@ -84,22 +85,32 @@ export class UserComponent implements OnInit{
         camera.flyHome();
         this.tracker.emitEvent("menu", "volar_al_inicio");
     }
+
     gotoMyLocation(event: any): void{
         event.preventDefault();
+        this.tracker.emitEvent("menu", "volar_a_mi_ubicacion");
         var that = this;
         // Create callback for browser's geolocation
         function fly(position: any) {
             that.viewer.camera.flyTo({
                 destination : Cesium.Cartesian3.fromDegrees(position.coords.longitude, position.coords.latitude, 1000.0)
             });
-            this.tracker.emitEvent("menu", "volar_a_mi_ubicacion");
+        }
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(fly, function (error: any){
+                 var text = "No es posible acceder a tu ubicación. El navegador no soporta geolocalización";
+                 const modalRef = that.modalService.open(MessageComponent);
+                 modalRef.componentInstance.message = text;
+            });
+        } else {
+            this.showMyLocationError(null);
+            that.tracker.emitEvent("menu", "volar_a_mi_ubicacion_no_permitido");
         }
 
-        // Ask browser for location, and fly there.
-        navigator.geolocation.getCurrentPosition(fly, this.showErrors);
     }
-    showErrors(error: any){
-         console.log('ERROR(' + error.code + '): ' + error.message);
-         //Todo: mensajes al usuario (como servicio)
+    showMyLocationError(error: any){
+        var text = "No es posible acceder a tu ubicación. El navegador no soporta geolocalización";
+        const modalRef = this.modalService.open(MessageComponent);
+        modalRef.componentInstance.message = text;
     }
 }

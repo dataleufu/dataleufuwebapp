@@ -20,16 +20,26 @@ export class MapService {
         this.cesium.BingMapsApi.defaultKey = 'ApTt78Y0u6795QNTrQ-9DFWdJxW8THvNVvHF1B19ayEzw1aiRXmunxndbwB_deO_';
         this.viewer =  new this.cesium.Viewer( el, {
               baseLayerPicker: false,
-              fullscreenButton: false    ,
+              fullscreenButton: false,
               homeButton: false,
               sceneModePicker: false,
               timeline: false,
               animation: false,
-              geocoder: false,
               selectionIndicator: true,
               infoBox: false,
               navigationHelpButton: false
             });
+        this.viewer.scene.frameState.creditDisplay.beginFrame();
+
+        //Por ahora accedo a atributos privados hasta que Cesium lo resuelva mejor
+        this.viewer.scene.frameState.creditDisplay.removeDefaultCredit(this.viewer.scene.frameState.creditDisplay._defaultImageCredits[0]);
+        this.viewer.scene.frameState.creditDisplay.addDefaultCredit(
+            new this.cesium.Credit({text : '',
+                imageUrl : '/assets/images/logo.png',
+                link : 'https://radarleufu.com/',
+                showOnScreen:true}));
+
+        this.viewer.scene.frameState.creditDisplay.endFrame();
         console.log("MapService init end");
   }
 
