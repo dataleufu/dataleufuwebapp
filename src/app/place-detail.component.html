@@ -21,7 +21,7 @@
 
                         <hr>
                          <div class="btn-group" role="group" aria-label="Acciones">
-                            <a class="btn btn-link" href="#" (click)="$event.preventDefault();"><i class="fa fa-thumbs-o-up"></i> Lo ví, es así</a>
+                            <a class="btn btn-link" href="#" (click)="vote($event)"><i class="fa fa-thumbs-o-up"></i> Lo ví, es así <span class="votes">{{votes}}</span></a>
                             <a class="btn btn-link" href="#"  (click)="t.select('tab-comments');$event.preventDefault();"><i class="fa fa-comment-o"></i> Quiero participar</a>
 
                             <div ngbDropdown class="d-inline-block over_images">

@@ -14,6 +14,9 @@ import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { PlaceImageEditionComponent } from './place-image-edition.component';
 import { AuthenticationService } from './auth/authentication.service';
 import {TrackerService} from "./tracker.service";
+import {VoteService} from "./vote.service";
+import {LoginRequiredComponent} from './loginRequired.component';
+import { MessageComponent }         from './message.component';
 
 declare var Cesium : any;
 declare var window: any;
@@ -38,13 +41,14 @@ export class PlaceDetailComponent implements OnInit{
     description: string;
     category: Category;
     categoryName: string;
-
+    votes: number;
     categoryNames: string[];
 
     constructor(private placeService: PlaceService, private categoryService: CategoryService,
         private fb: FacebookService, private modalService: NgbModal,
         private authenticationService: AuthenticationService,
-        private tracker: TrackerService) {}
+        private tracker: TrackerService,
+        private voteService: VoteService) {}
 
     initFacebook(){
 
@@ -126,6 +130,7 @@ export class PlaceDetailComponent implements OnInit{
                         that.description = that.currentPlace.description;
                         that.category = that.currentPlace.category;
                         that.categoryName = that.currentPlace.category.name;
+                        that.loadVotes();
 
                     });
         }else{
@@ -263,5 +268,41 @@ export class PlaceDetailComponent implements OnInit{
     getCategoryByName(name: string): Category {
         return this.categories.find(x => x.name == name );
     }
+    vote(event): void{
+        event.preventDefault();
+        var user = this.authenticationService.user_profile && this.authenticationService.user_profile.user;
+        if (!user){
+            //this.tracker.emitEvent("punto", "publicar_no_registrado");
+            this.loginRequired("Para indicar que viste el lugar debes registrarte.");
+            return;
+        }
 
+        console.log("Vote " + this.currentPlace.pk);
+        this.voteService
+            .vote(this.currentPlace.pk)
+                .then( (ret) => {
+                        this.loadVotes();
+                    }
+                );;
+
+
+
+    }
+    loadVotes(): void{
+        this.voteService
+            .getVotes(this.currentPlace.pk)
+                .then((ret) => {
+                    this.votes = ret.vote_count;
+                    });
+    }
+    loginRequired(text:string){
+        const modalRef = this.modalService.open(MessageComponent);
+        modalRef.componentInstance.message = text;
+        /*const modalRef = this.modalService.open(LoginRequiredComponent);
+        modalRef.componentInstance.message = text;
+        modalRef.componentInstance.doLogin.subscribe((event:any) => {
+            this.userComponentRef.instance.login();
+        });*/
+
+    }
 }
