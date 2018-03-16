@@ -86,7 +86,8 @@ export class UserComponent implements OnInit{
         this.tracker.emitEvent("menu", "volar_al_inicio");
     }
 
-    gotoMyLocation(event: any): void{
+
+    /*gotoMyLocation(event: any): void{
         event.preventDefault();
         this.tracker.emitEvent("menu", "volar_a_mi_ubicacion");
         var that = this;
@@ -112,5 +113,5 @@ export class UserComponent implements OnInit{
         var text = "No es posible acceder a tu ubicación. El navegador no soporta geolocalización";
         const modalRef = this.modalService.open(MessageComponent);
         modalRef.componentInstance.message = text;
-    }
+    }*/
 }

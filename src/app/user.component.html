@@ -2,9 +2,6 @@
     <a class="nav-link" href="#" (click)="collapseUser($event)">{{currentUser.user.username}} <i class="fa fa-caret-down"></i></a>
     <ul class="sidebar-submenu" [hidden]="!collapsed">
         <li class="nav-item" >
-            <a class="nav-link" href="#" (click)="gotoMyLocation($event)" title="Mi ubicación">Ir a mi ubicación</a>
-        </li>
-        <li class="nav-item" >
             <a class="nav-link" href="#" (click)="goHome($event)" title="Inicio">Ir al inicio</a>
         </li>
         <li class="nav-item" >
@@ -12,7 +9,12 @@
         </li>
     </ul>
 </li>
-<li class="nav-item" *ngIf="!currentUser">
+
+<li class="nav-item" *ngIf="!currentUser" >
+    <a class="nav-link" href="#" (click)="login($event)" title="Ingresar">Ingresar</a>
+</li>
+
+<!--li class="nav-item" *ngIf="!currentUser">
     <a class="nav-link" href="#" (click)="collapseUser($event)" title="Ingresar">Registrate <i class="fa fa-caret-down"></i></a>
 
     <ul class="sidebar-submenu" [hidden]="!collapsed">
@@ -27,4 +29,4 @@
         </li>
 
     </ul>
-</li>
+</li-->

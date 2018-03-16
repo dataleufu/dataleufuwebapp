@@ -13,7 +13,7 @@ declare var Cesium : any;
 })
 export class PathComponent implements OnInit{
 
-    public collapsed = false;
+    public collapsed = true;
 
     constructor(private mapService: MapService, private tracker: TrackerService) {
         console.log("PathComponent constructor");
