@@ -36,6 +36,7 @@ export class MapComponent implements OnInit {
     selectingPoint: any;
     docElement: any;
     user: UserProfile;
+    aboutCollapsed = false;
 
     @ViewChild("messageContainer", { read: ViewContainerRef }) messageContainer: any;
     messageComponentRef: any;
@@ -252,6 +253,12 @@ export class MapComponent implements OnInit {
         else
             this.tracker.emitEvent("recorridos", "ocultar_recorridos");
     }
+
+    collapseAbout(event: any){
+        event.preventDefault();
+        this.aboutCollapsed = !this.aboutCollapsed;
+    }
+
     message(text:string){
         const modalRef = this.modalService.open(MessageComponent);
         modalRef.componentInstance.message = text;
@@ -276,5 +283,34 @@ export class MapComponent implements OnInit {
     }
     contactanosOpened():void{
         this.tracker.emitEvent("menu", "contactanos");
+    }
+
+
+    gotoMyLocation(event: any): void{
+        event.preventDefault();
+        this.tracker.emitEvent("menu", "volar_a_mi_ubicacion");
+        var that = this;
+        // Create callback for browser's geolocation
+        function fly(position: any) {
+            that.viewer.camera.flyTo({
+                destination : Cesium.Cartesian3.fromDegrees(position.coords.longitude, position.coords.latitude, 1000.0)
+            });
+        }
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(fly, function (error: any){
+                 var text = "No es posible acceder a tu ubicación. El navegador no soporta geolocalización";
+                 const modalRef = that.modalService.open(MessageComponent);
+                 modalRef.componentInstance.message = text;
+            });
+        } else {
+            this.showMyLocationError(null);
+            that.tracker.emitEvent("menu", "volar_a_mi_ubicacion_no_permitido");
+        }
+
+    }
+    showMyLocationError(error: any){
+        var text = "No es posible acceder a tu ubicación. El navegador no soporta geolocalización";
+        const modalRef = this.modalService.open(MessageComponent);
+        modalRef.componentInstance.message = text;
     }
 }
