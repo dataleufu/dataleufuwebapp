@@ -209,17 +209,12 @@ export class PlaceDetailComponent implements OnInit{
         this.handler.setInputAction(function(movement:any){
             var item = false;
             if (that.viewer.scene.mode !== Cesium.SceneMode.MORPHING) {
-                //var pickedObject = that.viewer.scene.pick(movement.endPosition);
-                var pickedObject = that.viewer.scene.pick(movement.position);
-                console.log("pick pickedObject: ");
-                console.dir(pickedObject);
-                console.log("that.viewer.scene.pickPositionSupported " + that.viewer.scene.pickPositionSupported);
-                if (that.viewer.scene.pickPositionSupported && Cesium.defined(pickedObject) ) {
-                    var cartesian = that.viewer.scene.pickPosition(movement.position);
-                    console.log("cartesian " + cartesian);
-                    that.setCurrentItem(pickedObject.id);
+                console.log("selectedEntity", that.viewer.selectedEntity);
+                if (that.viewer.selectedEntity){
+                    that.setCurrentItem(that.viewer.selectedEntity);
                         item = true;
                 }
+
             }
             if (!item){
                 that.setCurrentItem(undefined);
