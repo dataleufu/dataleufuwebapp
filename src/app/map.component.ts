@@ -296,11 +296,13 @@ export class MapComponent implements OnInit {
                 destination : Cesium.Cartesian3.fromDegrees(position.coords.longitude, position.coords.latitude, 1000.0)
             });
         }
+        console.log("navigator.geolocation", navigator.geolocation);
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(fly, function (error: any){
-                 var text = "No es posible acceder a tu ubicación. El navegador no soporta geolocalización";
+                 var text = "No es posible acceder a tu ubicación. El navegador no soporta geolocalización.";
                  const modalRef = that.modalService.open(MessageComponent);
                  modalRef.componentInstance.message = text;
+                 console.log("error", error);
             });
         } else {
             this.showMyLocationError(null);
@@ -309,8 +311,9 @@ export class MapComponent implements OnInit {
 
     }
     showMyLocationError(error: any){
-        var text = "No es posible acceder a tu ubicación. El navegador no soporta geolocalización";
+        var text = "No es posible acceder a tu ubicación. El navegador no soporta geolocalización.-";
         const modalRef = this.modalService.open(MessageComponent);
         modalRef.componentInstance.message = text;
+        console.log("error", error);
     }
 }
