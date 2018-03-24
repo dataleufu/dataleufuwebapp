@@ -95,3 +95,54 @@ export class UserProfile {
         public group: UserGroup
     ){}
 }
+
+
+export class ExifConverter {
+    valid: boolean;
+    Latitude: number;
+    Longitude: number;
+
+    constructor(attrLATITUDE: number[], attrLATITUDE_REF: string, attrLONGITUDE: number[], attrLONGITUDE_REF: string) {
+     console.log("ExifConverter constructor attrLATITUDE:", attrLATITUDE);
+     console.log("ExifConverter constructor attrLATITUDE_REF:", attrLATITUDE_REF);
+     console.log("ExifConverter constructor attrLONGITUDE: ", attrLONGITUDE);
+     console.log("ExifConverter constructor attrLONGITUDE_REF: ", attrLONGITUDE_REF);
+     this.valid = false;
+     if((attrLATITUDE !=null)
+       && (attrLATITUDE_REF !=null)
+       && (attrLONGITUDE != null)
+       && (attrLONGITUDE_REF !=null))
+     {
+      this.valid = true;
+
+      if(attrLATITUDE_REF == "N"){
+       this.Latitude = this.convertToDegree(attrLATITUDE);
+      }
+      else{
+       this.Latitude = 0 - this.convertToDegree(attrLATITUDE);
+      }
+
+      if(attrLONGITUDE_REF == "E"){
+       this.Longitude = this.convertToDegree(attrLONGITUDE);
+      }
+      else{
+       this.Longitude = 0 - this.convertToDegree(attrLONGITUDE);
+      }
+
+     }
+    };
+
+    convertToDegree(DMS:number[]): number{
+        var FloatD = DMS[0];
+        var FloatM = DMS[1];
+        var FloatS = DMS[2];
+        return FloatD + (FloatM/60) + (FloatS/3600);
+    };
+
+    isValid(): boolean
+    {
+     return this.valid;
+    }
+
+
+}

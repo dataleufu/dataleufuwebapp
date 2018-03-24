@@ -11,7 +11,8 @@ import { PlaceDetailComponent }         from './place-detail.component';
 import { LayerComponent }         from './layer.component';
 import { LayerService }         from './layer.service';
 import { PathComponent }         from './path.component';
-import {Input,ElementRef, ComponentFactory,ComponentRef, ComponentFactoryResolver, ViewContainerRef, ChangeDetectorRef,  ViewChild, TemplateRef, Output, EventEmitter} from '@angular/core'
+import {Input,ElementRef, ComponentFactory,ComponentRef, ComponentFactoryResolver, ViewContainerRef,
+    ChangeDetectorRef,  ViewChild, TemplateRef, Output, EventEmitter} from '@angular/core'
 import {UserProfile, Place, Point, GeoPlace} from './place';
 import { UserComponent }         from './user.component';
 import { MessageComponent }         from './message.component';
@@ -91,6 +92,7 @@ export class MapComponent implements OnInit {
     }
 
     gotoPlace(place: GeoPlace){
+        console.log("gotoPlace place", place);
         if (place){
             this.tracker.emitEvent("map", "goto", "goto", place.pk);
             this.detailComponentRef.instance.testPlace(place);
@@ -166,7 +168,7 @@ export class MapComponent implements OnInit {
         this.layerContainer.clear();
         const factory: any = this.resolver.resolveComponentFactory(LayerComponent);
         this.layerComponentRef = this.layerContainer.createComponent(factory);
-        this.layerComponentRef.instance.viewer = this.viewer;
+        //this.layerComponentRef.instance.viewer = this.viewer;
     }
 
     initPaths(){
@@ -190,6 +192,7 @@ export class MapComponent implements OnInit {
     }
 
     ngOnDestroy() {
+        console.log("MapComponent ngOnDestroy");
         this.messageComponentRef.destroy();
         this.detailComponentRef.destroy();
     }
@@ -204,37 +207,27 @@ export class MapComponent implements OnInit {
         }
         var that = this;
 
-        //Creo el punto
-        this.messageContainer.clear();
-        this.tracker.emitEvent("punto", "inicio_publicar");
-        const factory: any = this.resolver.resolveComponentFactory(CreatePointComponent);
+        const factory: any = this.resolver.resolveComponentFactory(PlaceFormComponent);
         this.messageComponentRef = this.messageContainer.createComponent(factory);
-        this.messageComponentRef.instance.viewer = this.viewer;
+        const component: any  = this.messageComponentRef.instance;
 
-        this.messageComponentRef.instance.ready.subscribe((event:any) => {
-
-            this.messageComponentRef.destroy()
-
-            const modalRef = this.modalService.open(PlaceFormComponent);
-            modalRef.componentInstance.longitude = this.messageComponentRef.instance.lon;
-            modalRef.componentInstance.latitude = this.messageComponentRef.instance.lat;
-            modalRef.componentInstance.callback = function(category:any){
-                that.tracker.emitEvent("punto", "publicar");
-                var layer = that.layerComponentRef.instance.getCategoryLayer(category);
-                that.layerComponentRef.instance.relaodLayer(layer);
-                that.viewer.flyTo(that.messageComponentRef.instance.entity);
-            };
-            modalRef.componentInstance.callbackCancel = function(){
-                that.viewer.entities.removeById(that.messageComponentRef.instance.entity.id);
-            };
+        component.viewer = this.viewer;
+        component.mapComponent = this;
+        component.pointCreated.subscribe((newPlace: any) => {
+            this.messageComponentRef.destroy();
+            that.tracker.emitEvent("punto", "publicar");
+            var layer = that.layerComponentRef.instance.getCategoryLayer(newPlace.category);
+            that.layerComponentRef.instance.relaodLayer(layer);
+            that.gotoPlace(newPlace);
+        });
+        component.cancelled.subscribe((event:any) => {
+            console.log("PlaceFormComponent cancelled messageComponentRef.destroy()");
+            this.messageComponentRef.destroy();
         });
 
-
-        this.messageComponentRef.instance.close.subscribe((event:any) => {
-            this.messageComponentRef.destroy()
-            });
-
     }
+
+
     collapseLayers(event: any){
         event.preventDefault();
         this.layerComponentRef.instance.collapsed = !this.layerComponentRef.instance.collapsed;
@@ -287,7 +280,8 @@ export class MapComponent implements OnInit {
 
 
     gotoMyLocation(event: any): void{
-        event.preventDefault();
+        if(event)
+            event.preventDefault();
         this.tracker.emitEvent("menu", "volar_a_mi_ubicacion");
         var that = this;
         // Create callback for browser's geolocation
