@@ -100,6 +100,7 @@ export class PlaceDetailComponent implements OnInit{
     }
     close(){
         this.visible = false;
+        this.galleryImages = [];
     }
 
     testPlace(place: Place){
@@ -136,6 +137,8 @@ export class PlaceDetailComponent implements OnInit{
         }else{
             this.currentPlace = undefined;
             this.visible = false;
+            this.galleryImages = [];
+            that.categoryName = '';
         }
 
     }
@@ -211,8 +214,11 @@ export class PlaceDetailComponent implements OnInit{
             if (that.viewer.scene.mode !== Cesium.SceneMode.MORPHING) {
                 console.log("selectedEntity", that.viewer.selectedEntity);
                 if (that.viewer.selectedEntity){
-                    that.setCurrentItem(that.viewer.selectedEntity);
+                    /*Si la entidad no tiene properties es el punto que creó el usuario, no debe mostrarse*/
+                    if (that.viewer.selectedEntity.properties){
+                        that.setCurrentItem(that.viewer.selectedEntity);
                         item = true;
+                    }
                 }
 
             }

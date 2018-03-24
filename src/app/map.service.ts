@@ -19,7 +19,7 @@ export class MapService {
         console.log("MapService init");
         this.cesium.BingMapsApi.defaultKey = 'ApTt78Y0u6795QNTrQ-9DFWdJxW8THvNVvHF1B19ayEzw1aiRXmunxndbwB_deO_';
         this.viewer =  new this.cesium.Viewer( el, {
-              baseLayerPicker: false,
+              baseLayerPicker: true,
               fullscreenButton: false,
               homeButton: false,
               sceneModePicker: false,
