@@ -1,54 +1,73 @@
-<div [hidden]="submitted">
-    <div class="modal-header">
-        <h2>Completá tu informe</h2>
-    </div>
+<div class="container-fluid place_form_container over_menu" [hidden]="submitted">
+    <div class="row ">
+        <div [hidden]="!selectingPoint" class="col-12 col-sm-12 col-md-9 mx-auto over_menu place_form_point">
+            <div class="modal-header">
+                <h2>Selecciona un punto en el mapa</h2>
 
-    <div class="modal-body">
-        <div class="container-fluid">
-                <form (ngSubmit)="onSubmit()" #placeForm="ngForm">
-                    <div class="form-group">
-                        <label for="category">Categoría</label>
-                        <select [(ngModel)]="model.category"  id="category" name="category" class="form-control" required>
-                            <option *ngFor="let cat of categories" [ngValue]="cat" >{{cat.name}}</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="description">Descripción</label>
-                        <textarea type="text" class="form-control" id="name" rows="8" maxlength="3000"
-                           required
-                           [(ngModel)]="model.description" name="description"
-                           #description="ngModel" ></textarea>
-                        <div [hidden]="description.valid || description.pristine"
-                            class="alert alert-danger">
-                        Debe completar la descripción.
+            </div>
+            <div  class="modal-body">
+                <div class="container-fluid">
+                    <p>Puedes ubicarlo en el mapa o <a href="#" (click)="flyToMyLocation($event)">volar a tu ubicación</a></p>
+                    <button type="button" (click)="pointSelected()" class="btn btn-primary" [disabled]="!latitude">Listo</button>
+                    <button type="button" (click)="cancelSelectPoint()" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <div [hidden]="selectingPoint" class="col-12 col-sm-12 col-md-9 mx-auto over_menu place_form_form">
+            <div class="modal-header">
+                <h2>Completá tu informe</h2>
+            </div>
+            <div  class="modal-body">
+                <div class="container-fluid">
+                    <form  (ngSubmit)="onSubmit()" #placeForm="ngForm">
+                        <div class="form-group">
+                            <label for="category">Categoría</label>
+                            <select [(ngModel)]="model.category"  id="category" name="category" class="form-control" required>
+                                <option *ngFor="let cat of categories" [ngValue]="cat" >{{cat.name}}</option>
+                            </select>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="description">Descripción</label>
+                            <textarea type="text" class="form-control" id="name" rows="4" maxlength="3000"
+                               required
+                               [(ngModel)]="model.description" name="description"
+                               #description="ngModel" ></textarea>
+                            <div [hidden]="description.valid || description.pristine"
+                                class="alert alert-danger">
+                            Debe completar la descripción.
+                            </div>
+                        </div>
 
-                    <image-upload
+                        <image-upload
+                          [max]="1"
+                          [headers]="[
+                            {header: 'Authorization', value: 'MyToken'}
+                          ]"
+                          [buttonCaption]="'Subí la foto'"
+                          [dropBoxMessage]="''"
+                          [extensions]="['jpg','png','gif']"
+                          (uploadFinished)="imageUploaded($event)"
+                          (removed)="imageRemoved($event)"
+                          (isPending)="disableSendButton($event)"
+                          [fileTooLargeMessage]="'Imagen muy grande!'"
+                          [maxFileSize]="7340032"
+                          [clearButtonCaption]="'Quitar'"
 
-                      [headers]="[
-                        {header: 'Authorization', value: 'MyToken'}
-                      ]"
-                      [buttonCaption]="'Subí la foto'"
-                      [dropBoxMessage]="'O arrastrá la foto aquí.'"
-                      [extensions]="['jpg','png','gif']"
-                      (uploadFinished)="imageUploaded($event)"
-                      (removed)="imageRemoved($event)"
-                      (isPending)="disableSendButton($event)"
+                        ></image-upload>
+                        <div [ngBusy]="{busy: busy, message: 'Enviando...'}"></div>
 
-                    ></image-upload>
-<div [ngBusy]="{busy: busy, message: 'Enviando...'}"></div>
-                    <hr/>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary" [disabled]="!placeForm.form.valid">Enviar</button>
-                        <button type="submit" (click)="cancel()" class="btn btn-secondary">Cancelar</button>
-                    </div>
-                </form>
-
+                        <p class="alert alert-success" *ngIf="pointMode == POINT_MODE_EXIF" >La foto está georeferenciada</p>
+                        <p class="alert alert-success" *ngIf="pointMode == POINT_MODE_SELECTION" >Ya seleccionaste el punto</p>
+                        <div class="footer form-group">
+                            <button type="submit" *ngIf="pointMode == POINT_MODE_EXIF" class="btn btn-primary" [disabled]="!validForm()">Enviar</button>
+                            <button type="button" (click)="selectPoint()"  *ngIf="pointMode == POINT_MODE_EMPTY" class="btn btn-primary" [disabled]="!validForm()">Elegir ubicación</button>
+                            <button type="button" (click)="cancel()" class="btn btn-secondary">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
 <div [hidden]="!submitted">
     <div class="modal-header">
@@ -58,9 +77,7 @@
                     <h2>¡Gracias por colaborar!</h2>
                 </div>
             </div>
-
         </div>
-
     </div>
     <div class="modal-body">
         <div class="container-fluid">

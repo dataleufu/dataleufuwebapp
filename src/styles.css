@@ -1,4 +1,4 @@
-
+[hidden] { display: none !important;}
 
 .miniview{
     z-index: 9999999999999;
@@ -183,7 +183,28 @@ section
   padding: 15px;
   }
   */
+.place_form_container{
+    position: absolute;
+    right: 0;
+    background-color: white;
+}
+.place_form_point{
+    height: 35vh; /* %-height of the viewport */
+    overflow-y: scroll
+}
+.place_form_form{
+    height: 100vh; /* %-height of the viewport */
+    overflow-y: scroll
+}
+.place_form_container .place_form_dialog{
 
+}
+.place_form_container .modal-dialog{
+    margin-top: 3px
+}
+.place_form_container .footer{
+    margin-top: 0.5rem;
+}
  /*Model 3 slider*/
 .place_card{
     background-color:WHITE;
@@ -635,4 +656,10 @@ ul.dropdown-menu {
     vertical-align: middle;
     background-color: #777;
     border-radius: 10px;
+}
+.btn-primary.disabled, .btn-primary:disabled {
+    background-color: #648a0033;
+    border-color: #648a0033;
+    color: #111;
+    font-style: italic;
 }
