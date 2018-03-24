@@ -115,11 +115,11 @@ export class PlaceFormComponent implements OnInit{
         }
     });
   }
-    pointSelected(event:any){
+    pointSelected(){
         this.onSubmit();
     }
 
-    cancelSelectPoint(event:any){
+    cancelSelectPoint(){
         this.selectingPoint = false;
         this.pointMode = this.POINT_MODE_EMPTY;
         if (this.newId)
