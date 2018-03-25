@@ -43,12 +43,68 @@ export class PlaceDetailComponent implements OnInit{
     categoryName: string;
     votes: number;
     categoryNames: string[];
+    busy: any;
 
     constructor(private placeService: PlaceService, private categoryService: CategoryService,
         private fb: FacebookService, private modalService: NgbModal,
         private authenticationService: AuthenticationService,
         private tracker: TrackerService,
         private voteService: VoteService) {}
+
+
+    ngOnInit() {
+        console.log("PlaceDetailComponent oninit");
+      // this.initFacebook();
+        var that = this;
+        this.categoryService
+            .getCategories()
+            .then(categories => {
+                this.categories = categories;
+                this.categoryNames =  categories.map(this.getFullName);
+
+            });
+
+        console.log("names " + this.categoryNames);
+        this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
+        this.handler.setInputAction(function(movement:any){
+            var item = false;
+            if (that.viewer.scene.mode !== Cesium.SceneMode.MORPHING) {
+                console.log("selectedEntity", that.viewer.selectedEntity);
+                if (that.viewer.selectedEntity){
+                    /*Si la entidad no tiene properties es el punto que creó el usuario, no debe mostrarse*/
+                    if (that.viewer.selectedEntity.properties){
+                        that.setCurrentItem(that.viewer.selectedEntity);
+                        item = true;
+                    }
+                }
+
+            }
+            if (!item){
+                that.setCurrentItem(undefined);
+            }
+
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        this.galleryOptions = [
+            {
+                width: '100%',
+                height: '480px',
+                thumbnails: false,
+                imageAnimation: NgxGalleryAnimation.Slide,
+                imageSwipe: true,
+                previewSwipe: true
+            },
+            // max-width 400
+            {
+                breakpoint: 400,
+                width: '100%',
+                height: '330px',
+                imageSwipe: true,
+                previewSwipe: true
+            }
+        ];
+        this.galleryImages = [];
+    }
+
 
     initFacebook(){
 
@@ -59,7 +115,14 @@ export class PlaceDetailComponent implements OnInit{
         };
 
         this.fb.init(initParams);
-
+        /*Mecanismo para que muestre la espera mientras carga el plugin de Facebook*/
+        let promise = new Promise((resolve, reject) => {
+                var onEnd = function(response) {
+                    resolve("ok");
+                };
+                var ret= FB.Event.subscribe('xfbml.render', onEnd);
+        });
+        this.busy = promise;
     }
 
     saveDescription(event:any): void{
@@ -195,60 +258,8 @@ export class PlaceDetailComponent implements OnInit{
 
     }
 
-    ngOnInit() {
-        console.log("PlaceDetailComponent oninit");
-      // this.initFacebook();
-        var that = this;
-        this.categoryService
-            .getCategories()
-            .then(categories => {
-                this.categories = categories;
-                this.categoryNames =  categories.map(this.getFullName);
-
-            });
-
-        console.log("names " + this.categoryNames);
-        this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
-        this.handler.setInputAction(function(movement:any){
-            var item = false;
-            if (that.viewer.scene.mode !== Cesium.SceneMode.MORPHING) {
-                console.log("selectedEntity", that.viewer.selectedEntity);
-                if (that.viewer.selectedEntity){
-                    /*Si la entidad no tiene properties es el punto que creó el usuario, no debe mostrarse*/
-                    if (that.viewer.selectedEntity.properties){
-                        that.setCurrentItem(that.viewer.selectedEntity);
-                        item = true;
-                    }
-                }
-
-            }
-            if (!item){
-                that.setCurrentItem(undefined);
-            }
-
-        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-        this.galleryOptions = [
-            {
-                width: '100%',
-                height: '480px',
-                thumbnails: false,
-                imageAnimation: NgxGalleryAnimation.Slide,
-                imageSwipe: true,
-                previewSwipe: true
-            },
-            // max-width 400
-            {
-                breakpoint: 400,
-                width: '100%',
-                height: '330px',
-                imageSwipe: true,
-                previewSwipe: true
-            }
-        ];
-        this.galleryImages = [];
-    }
-
     initGallery(){
+        console.log("initGallery", this.gallery);
         var galleryImages:NgxGalleryImage[] = [];
         if (this.currentPlace){
             var imageDescription = this.currentPlace.description;
@@ -260,6 +271,7 @@ export class PlaceDetailComponent implements OnInit{
                     description: imageDescription.substring(0, 200)});
             });
         };
+        console.log("galleryImages", galleryImages);
         return galleryImages;
 
     }
