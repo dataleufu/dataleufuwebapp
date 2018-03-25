@@ -43,7 +43,7 @@
                                         (click)="changeFotos();$event.preventDefault();">
                                         <i class="fa fa-edit"></i> Modificar fotos
                                     </a>
-                                    <ngx-gallery   [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+                                    <ngx-gallery #gallery   [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
                                 </div>
                             </ng-template>
                         </ngb-tab>
@@ -67,6 +67,7 @@
                         <ngb-tab id="tab-comments" title="Comentarios">
                             <ng-template ngbTabContent>
                                 <div class="panel">
+                                  <div [ngBusy]="{busy: busy, message: 'Cargando comentarios...'}"></div>
                                   <fb-comments [href]="currentURL"></fb-comments>
                                 </div>
                             </ng-template>
