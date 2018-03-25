@@ -20,6 +20,7 @@ import { MessageComponent }         from './message.component';
 
 declare var Cesium : any;
 declare var window: any;
+declare var FB: any;
 
 @Component({
     selector: 'place-detail',
@@ -64,7 +65,6 @@ export class PlaceDetailComponent implements OnInit{
 
             });
 
-        console.log("names " + this.categoryNames);
         this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
         this.handler.setInputAction(function(movement:any){
             var item = false;
@@ -249,7 +249,6 @@ export class PlaceDetailComponent implements OnInit{
             this.visible = false;
             modalRef.componentInstance.place = this.currentPlace;
             modalRef.componentInstance.done.subscribe((newPlace:any) => {
-                console.log("subscripto al done");
                 this.currentPlace = newPlace;
                 this.galleryImages = this.initGallery();
                 this.tracker.emitEvent("punto", "modificar_fotos", this.currentPlace.pk);
@@ -259,7 +258,6 @@ export class PlaceDetailComponent implements OnInit{
     }
 
     initGallery(){
-        console.log("initGallery", this.gallery);
         var galleryImages:NgxGalleryImage[] = [];
         if (this.currentPlace){
             var imageDescription = this.currentPlace.description;
@@ -271,7 +269,6 @@ export class PlaceDetailComponent implements OnInit{
                     description: imageDescription.substring(0, 200)});
             });
         };
-        console.log("galleryImages", galleryImages);
         return galleryImages;
 
     }
